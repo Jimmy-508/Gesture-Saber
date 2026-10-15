@@ -39,6 +39,8 @@ npm run preview
 
 新版將 getUserMedia、video.play、首個可讀影格、模型載入及實際推論分段處理。診斷按鈕顯示各階段、模式、處理影格數、音訊狀態與故障原因。前置鏡頭使用 ideal 約束，不強制裝置無法提供的幀率。辨識用 video 元素使用 inline / muted 播放，保持極低不透明度而非 display:none、負圖層或移出視窗，避免部分瀏覽器停止解碼；攝影機影像不在遊戲中可見。
 
+正式站點冷啟動檢查曾出現 Worker 載入逾時；在此環境量測模型完整下載約 49 秒、WASM 約 30 秒，超過舊版固定總時限（不是使用者平板的量測值）。現在以串流下載分別回報模型與 WASM 位元組進度，區分 HTTP 錯誤、下載停滯與下載後模型初始化。只在持續 20 秒沒有新進度時判定初始化停滯。模型以 buffer 傳入，WASM 透過暫時 Blob URL 載入，避免初始化時再次下載；Blob URL 在初始化完成或失敗後釋放。首次下載仍可能需要一段時間，不等同追蹤延遲。
+
 自動相容路徑：Worker + ImageBitmap(video) → Worker + canvas 轉 ImageBitmap → 主執行緒直接 video → 主執行緒 canvas。Worker 初始化、推論或轉換失敗只切換一次主執行緒，不重複載入或並行處理多個模型。也可在設定勾選「下次啟動直接使用相容辨識模式」。主執行緒模型載入序列化，取消時會關閉晚到的模型；取消權限請求時，晚到的串流亦立即停止。
 
 瀏覽器測試曾確認：主執行緒不能使用與 Worker 相同的 ESM WASM glue，否則會出現 ModuleFactory not set。現在 Worker 使用 module loader，文件環境使用 classic loader，兩者均經正式建置推論檢查。

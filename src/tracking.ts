@@ -1,4 +1,4 @@
-import {FallbackPipeline,cameraError,withTimeout,type Engine} from './pipeline.ts';
+import {FallbackPipeline,cameraError,withTimeout,withActivityTimeout,type Engine} from './pipeline.ts';
 import type {Point} from './gesture';
 export type TrackingResult={landmarks:Point[][];world:Point[][];handedness:{categoryName:string;score:number}[][];time:number;ms:number};
 export type Diagnostics={camera:string;model:string;pipeline:string;detail:string;mode:string;frames:number};
@@ -40,8 +40,9 @@ export class TrackingSession {
  private async makeMain():Promise<Engine<FrameSource,TrackingResult>>{
   this.worker?.terminate();this.worker=null;
   this.update({model:'載入主執行緒模型',mode:'主執行緒 · 直接 video / canvas'});
-  const {createModel}=await import('./model');const pending=createModel(this.base,this.abort.signal);
-  const model=await withTimeout(pending,30000,'主執行緒模型載入逾時').catch(e=>{this.abort.abort();throw e;});
+  const model=await withActivityTimeout(async touch=>{
+   const {createModel}=await import('./model');return createModel(this.base,this.abort.signal,message=>{touch();if(!this.stopped)this.update({model:message});});
+  },20000,'主執行緒模型載入停滯：20 秒沒有下載或初始化進度').catch(e=>{this.abort.abort();throw e;});
   if(this.stopped){model.close();throw abortError();}let accepted=true;
   return {name:'主執行緒 · video',detect:async(input,time)=>{
    if(!accepted||this.stopped)throw abortError();const start=performance.now();
@@ -57,9 +58,9 @@ export class TrackingSession {
   const w=new Worker(new URL('./tracker.worker.ts',import.meta.url),{type:'module'});this.worker=w;
   let resolveFrame:((r:TrackingResult)=>void)|null=null,rejectFrame:((e:Error)=>void)|null=null,disposed=false;
   try{
-   await withTimeout(new Promise<void>((resolve,reject)=>{
-    this.cancelWorkerInit=()=>reject(abortError());w.onmessage=({data})=>{if(data.type==='ready')resolve();else if(data.type==='error')reject(Error(data.stage+': '+data.message));};w.onerror=e=>{e.preventDefault();reject(Error(e.message||'Worker runtime error'));};w.postMessage({type:'init',base:this.base});
-   }),15000,'Worker 初始化逾時');
+   await withActivityTimeout(touch=>new Promise<void>((resolve,reject)=>{
+    this.cancelWorkerInit=()=>reject(abortError());w.onmessage=({data})=>{if(data.type==='ready')resolve();else if(data.type==='stage'){touch();if(!this.stopped)this.update({model:data.message});}else if(data.type==='error')reject(Error(data.stage+': '+data.message));};w.onerror=e=>{e.preventDefault();reject(Error(e.message||'Worker runtime error'));};w.postMessage({type:'init',base:this.base});
+   }),20000,'Worker 初始化停滯：20 秒沒有下載或初始化進度');
   }catch(e){w.terminate();if(this.worker===w)this.worker=null;throw e;}finally{this.cancelWorkerInit=null;}
   if(this.stopped){w.terminate();throw abortError();}
   w.onmessage=({data})=>{if(data.type==='result'){resolveFrame?.(data);resolveFrame=rejectFrame=null;}else if(data.type==='error'){rejectFrame?.(Error(data.stage+': '+data.message));resolveFrame=rejectFrame=null;}};

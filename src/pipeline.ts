@@ -38,3 +38,10 @@ export async function withTimeout<T>(promise:Promise<T>,ms:number,label:string):
  let timer:ReturnType<typeof setTimeout>|undefined;
  try{return await Promise.race([promise,new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(Error(label)),ms);})]);}finally{clearTimeout(timer);}
 }
+/** Initialization deadlines follow real download progress, not total model size. */
+export async function withActivityTimeout<T>(run:(touch:()=>void)=>Promise<T>,ms:number,label:string):Promise<T>{
+ let timer:ReturnType<typeof setTimeout>|undefined,rejectTimeout:(e:Error)=>void=()=>{},finished=false;
+ const timeout=new Promise<never>((_,reject)=>{rejectTimeout=reject;});
+ const touch=()=>{if(finished)return;clearTimeout(timer);timer=setTimeout(()=>rejectTimeout(Error(label)),ms);};touch();
+ try{return await Promise.race([run(touch),timeout]);}finally{finished=true;clearTimeout(timer);}
+}
