@@ -1,32 +1,32 @@
 {
-  "version": "1.2",
+  "version": "1.3",
   "sampleRate": 24000,
-  "origin": "Original deterministic offline DSP",
+  "origin": "Original build-time resonant-noise DSP; no external recordings",
   "files": {
     "hum": {
-      "bytes": 192044,
-      "seconds": 4,
-      "sha256": "b3ec9c61bbcaa368be5f8bc3797a2ec79c3c405470b45d2d08c581441b7c4dbb"
+      "bytes": 240044,
+      "seconds": 5,
+      "sha256": "dd18b5fafb84d38b76c2f41815ec0daa857b975ee80e3da72f930a2f81513ea9"
     },
     "soft": {
-      "bytes": 144044,
-      "seconds": 3,
-      "sha256": "9423fe9db82c57ff078b6fbda8bc75bba4c39329c4c9290287ba67dfa0f310b7"
+      "bytes": 192044,
+      "seconds": 4,
+      "sha256": "06e07478cc16110934c0c9aa42357d9c3fc67d3472b12fc4e8213b815b7937de"
     },
     "fast": {
-      "bytes": 144044,
-      "seconds": 3,
-      "sha256": "c4228025c9d1aa1038a4f5d34cd0d47aaff12d8039749ce4ab99852c077ad574"
+      "bytes": 192044,
+      "seconds": 4,
+      "sha256": "e944a35b95ec82769ccdc7d58273ab5f08ba41f301b2e4a3ce05e7e2f4f9de12"
     },
     "ignite": {
-      "bytes": 12044,
-      "seconds": 0.25,
-      "sha256": "8c9b818e629d831047147c72c7d7ddb7cd0a0e9e054ad3136d75a2d69e1d939c"
+      "bytes": 13484,
+      "seconds": 0.28,
+      "sha256": "03a507c58fbca287b4c77a2f35e43043b53ad00c5a223f045227147bc4b9ce5a"
     },
     "retract": {
-      "bytes": 9644,
-      "seconds": 0.2,
-      "sha256": "7e9f4e6fd0a6aa9e7f876a262cbe83763beeabde5ff102a41433695f9cb10ce5"
+      "bytes": 10604,
+      "seconds": 0.22,
+      "sha256": "fdbfce81c2e08a4d457ab4b93ef8e6fcd0b24b3df50dac8adc8b5fb1628849ad"
     }
   }
 }

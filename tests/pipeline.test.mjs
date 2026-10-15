@@ -2,6 +2,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {FallbackPipeline,cameraError,withTimeout} from '../src/pipeline.ts';
 import {TrackingSession} from '../src/tracking.ts';
+import {EnginePool} from '../src/engine-pool.ts';
 const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve=a;reject=b});return {promise,resolve,reject}};
 const engine=(name='main')=>({name,closed:0,calls:0,async detect(){this.calls++;return 42},dispose(){this.closed++}});
 test('worker initialization failure installs main exactly once',async()=>{
@@ -54,4 +55,22 @@ test('video playback failure is reported before model loading and releases acqui
  Object.defineProperty(globalThis,'navigator',{value:{mediaDevices:{getUserMedia:async()=>({getTracks:()=>[track],getVideoTracks:()=>[track]})}},configurable:true});
  globalThis.document={body:{appendChild(){}},createElement:()=>({setAttribute(){},play:async()=>{throw Error('decode failure')},pause(){},remove(){}})};
  const errors=[],reports=[];const s=new TrackingSession('/',d=>reports.push(d),()=>{},e=>errors.push(e));s.makeMain=()=>assert.fail('Model must not load before video readiness');await s.start(true);assert.match(errors[0],/無法播放或讀取影格/);assert.equal(stopped,1);assert.equal(reports.at(-1).model,'尚未載入');
+});
+
+test('two camera sessions release every track and video while reusing one healthy leased model',async()=>{
+ let stops=0,removes=0,loads=0,closed=0;const pool=new EnginePool(),reports=[];
+ Object.defineProperty(globalThis,'navigator',{value:{mediaDevices:{getUserMedia:async()=>{const track={onended:null,stop(){stops++},getSettings:()=>({width:640,height:480})};return {getTracks:()=>[track],getVideoTracks:()=>[track]}}}},configurable:true});
+ globalThis.document={body:{appendChild(){}},createElement:()=>({setAttribute(){},videoWidth:640,videoHeight:480,readyState:2,currentTime:1,play:async()=>{},pause(){},remove(){removes++}})};
+ for(let i=0;i<2;i++){
+  const session=new TrackingSession('/',d=>reports.push(d),()=>{},message=>assert.fail(message));
+  session.makeMain=async()=>{const lease=await pool.acquire('main',async()=>{loads++;return {close(){closed++}}},new AbortController().signal);return {name:'主執行緒',detect:async(_,time)=>({landmarks:[],world:[],handedness:[],time,ms:1}),dispose:lease.release,invalidate:lease.invalidate}};
+  await session.start(true);await new Promise(setImmediate);session.stop();assert.equal(closed,0);
+ }
+ assert.equal(stops,2);assert.equal(removes,2);assert.equal(loads,1);pool.clear();assert.equal(closed,1);
+});
+
+test('engine cleanup exception cannot prevent camera and video release',()=>{
+ let tracks=0,removed=0;const reports=[],session=new TrackingSession('/',d=>reports.push(d),()=>{},()=>{});
+ session.media={getTracks:()=>[{onended:null,stop(){tracks++}}]};session.video={pause(){},remove(){removed++},srcObject:{}};session.pipeline={dispose(){throw Error('native close failed')}};
+ assert.doesNotThrow(()=>session.stop());assert.equal(tracks,1);assert.equal(removed,1);assert.match(reports.at(-1).detail,/攝影機已關閉/);
 });

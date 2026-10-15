@@ -5,12 +5,13 @@ import type {Pose,Side} from './gesture';
 import {BladeState,motionSpeed} from './dynamics';
 import {MotionFilter} from './motion';
 import {TrailBuffer} from './trail';
+import {PalmPose} from './palm-pose';
 import {Metric,ResolutionBudget} from './metrics';
 export type Quality='low'|'medium'|'high';
 const SIDES:Side[]=['Left','Right'];
 const LENGTH=2.75;
 const STREAM_ATTRIBUTES=['position','age'] as const;
-type Saber={group:T.Group;blade:T.Group;target:T.Vector3;rotation:T.Quaternion;motion:MotionFilter;state:BladeState;trail:T.Mesh<T.BufferGeometry,T.ShaderMaterial>;ribbon:TrailBuffer;speed:number;measuredTip:T.Vector3;measuredTime:number;glow:T.ShaderMaterial;core:T.ShaderMaterial;light:T.PointLight};
+type Saber={group:T.Group;blade:T.Group;target:T.Vector3;rotation:T.Quaternion;motion:MotionFilter;palm:PalmPose;state:BladeState;trail:T.Mesh<T.BufferGeometry,T.ShaderMaterial>;ribbon:TrailBuffer;speed:number;measuredTip:T.Vector3;measuredTime:number;glow:T.ShaderMaterial;core:T.ShaderMaterial;light:T.PointLight};
 const glowVertex=`varying vec2 vUv;
  void main(){vUv=uv;vec3 origin=(modelMatrix*vec4(0.,0.,0.,1.)).xyz;
  vec3 axis=normalize(mat3(modelMatrix)*vec3(0.,1.,0.));vec3 view=normalize(cameraPosition-origin);
@@ -25,17 +26,18 @@ const glowFragment=`uniform vec3 color;uniform float time;uniform float power;va
  gl_FragColor=vec4(color,a);}`;
 const trailVertex=`attribute float age;varying vec2 vUv;varying float vAge;void main(){vUv=uv;vAge=age;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`;
 const trailFragment=`uniform vec3 color;varying vec2 vUv;varying float vAge;
-void main(){float edge=pow(sin(clamp(vUv.y,0.,1.)*3.14159265),.65);float a=vAge*edge*.25;gl_FragColor=vec4(color,a);}`;
+void main(){float edge=pow(sin(clamp(vUv.y,0.,1.)*3.14159265),.65);if(vUv.x>1.5)edge*=pow(max(0.,sin((vUv.x-2.)*3.14159265)),.8);float a=vAge*edge*.52;gl_FragColor=vec4(color,a);}`;
 export class SaberScene {
  renderer:T.WebGLRenderer;scene=new T.Scene();camera=new T.PerspectiveCamera(43,1,.1,80);sabers:Record<Side,Saber>;
  quality:Quality='medium';demo=false;fps=0;
  readonly stats={frame:new Metric(),cpu:new Metric(),trail:new Metric(),audio:new Metric(),age:new Metric(),smoothing:new Metric()};
  readonly budget=new ResolutionBudget();pixelRatio=1;private budgetTime=0;private cameraRight=new T.Vector3(1,0,0);
  private budgetFrames=new Metric();
+ private viewport=new T.Vector2();
  private frame=0;private last=performance.now();private sample=0;private frames=0;private observer:ResizeObserver;private environment:T.WebGLRenderTarget;
- private v=new T.Vector3();private axis=new T.Vector3();private normal=new T.Vector3();private x=new T.Vector3();private matrix=new T.Matrix4();private tip=new T.Vector3();private base=new T.Vector3();private euler=new T.Euler();
+ private tip=new T.Vector3();private base=new T.Vector3();private euler=new T.Euler();
  constructor(private host:HTMLElement,private sound:(side:Side,active:boolean,speed:number,extension:number)=>void=()=>{},autoStart=true,private clock:()=>number=()=>performance.now()){
-  this.renderer=new T.WebGLRenderer({antialias:false,powerPreference:'high-performance'});this.renderer.setClearColor(0x070b12);this.renderer.outputColorSpace=T.SRGBColorSpace;host.appendChild(this.renderer.domElement);
+  this.renderer=new T.WebGLRenderer({antialias:false,powerPreference:'high-performance',preserveDrawingBuffer:!autoStart});this.renderer.setClearColor(0x070b12);this.renderer.outputColorSpace=T.SRGBColorSpace;host.appendChild(this.renderer.domElement);
   this.camera.position.set(0,1,11);this.camera.lookAt(0,1,0);this.scene.fog=new T.FogExp2(0x070b12,.055);
   const pmrem=new T.PMREMGenerator(this.renderer),room=new RoomEnvironment();this.environment=pmrem.fromScene(room,.05);this.scene.environment=this.environment.texture;this.scene.environmentIntensity=.75;room.dispose();pmrem.dispose();
   this.scene.add(new T.HemisphereLight(0x99c5ed,0x181621,1.7));
@@ -82,16 +84,14 @@ export class SaberScene {
    const copies=parts.map(mesh=>{mesh.updateMatrix();originals.add(mesh.geometry);return mesh.geometry.clone().applyMatrix4(mesh.matrix);});
    const merged=mergeGeometries(copies);if(merged){for(const mesh of parts)group.remove(mesh);group.add(new T.Mesh(merged,mat));for(const g of originals)g.dispose();}for(const g of copies)g.dispose();
   }
-  return {group,blade,target:new T.Vector3(side*1.55,-.5,0),rotation:new T.Quaternion(),motion:new MotionFilter(),state:new BladeState(),trail,ribbon,speed:0,measuredTip:new T.Vector3(),measuredTime:NaN,glow,core,light};
+  return {group,blade,target:new T.Vector3(side*1.55,-.5,0),rotation:new T.Quaternion(),motion:new MotionFilter(),palm:new PalmPose(),state:new BladeState(),trail,ribbon,speed:0,measuredTip:new T.Vector3(),measuredTime:NaN,glow,core,light};
  }
  setQuality(q:Quality){this.quality=q;this.budget.reset();this.applyBudget();}
  private applyBudget(){this.pixelRatio=Math.min(devicePixelRatio,this.quality==='low'?1:this.quality==='medium'?1.4:1.8)*this.budget.scale;this.renderer.setPixelRatio(this.pixelRatio);for(const side of SIDES)this.sabers[side].light.visible=this.quality==='high'&&this.budget.scale>.8;this.resize();}
- private resize(){const w=this.host.clientWidth,h=this.host.clientHeight;this.renderer.setSize(w,h);this.camera.aspect=w/h;this.camera.updateProjectionMatrix();}
+ private resize(){const w=this.host.clientWidth,h=this.host.clientHeight;if(!w||!h)return;this.renderer.getSize(this.viewport);if(this.viewport.x!==w||this.viewport.y!==h)this.renderer.setSize(w,h);this.camera.aspect=w/h;this.camera.updateProjectionMatrix();}
  update(pose:Pose){
-  const s=this.sabers[pose.side],p=pose.points,o=pose.world??p;
-  const map=(i:number,v:T.Vector3)=>v.set(-o[i].x,-o[i].y,-o[i].z);
-  map(9,this.axis);map(0,this.v);this.axis.sub(this.v).normalize();map(5,this.x);map(17,this.v);this.x.sub(this.v).normalize();
-  this.normal.crossVectors(this.x,this.axis);if(this.normal.lengthSq()<.0001)return;this.normal.normalize();this.x.crossVectors(this.axis,this.normal).normalize();this.matrix.makeBasis(this.x,this.axis,this.normal);s.rotation.setFromRotationMatrix(this.matrix);
+  const s=this.sabers[pose.side],p=pose.points;
+  s.rotation.copy(s.palm.update(p,pose.world,pose.side,pose.time,this.camera.aspect));
   const cx=(p[0].x+p[5].x+p[9].x+p[17].x)/4,cy=(p[0].y+p[5].y+p[9].y+p[17].y)/4,height=2*Math.tan(T.MathUtils.degToRad(21.5))*11;
   s.target.set((.5-cx)*height*this.camera.aspect,(.5-cy)*height+1,T.MathUtils.clamp((Math.hypot(p[5].x-p[17].x,p[5].y-p[17].y)-.12)*7,-1,1));
   if(pose.time-s.measuredTime>250)s.ribbon.reset();
@@ -103,7 +103,7 @@ export class SaberScene {
   const speed=Number.isFinite(s.measuredTime)?motionSpeed(this.tip.distanceTo(s.measuredTip),elapsed):0;
   s.speed+=(speed-s.speed)*(1-Math.exp(-Math.max(0,elapsed)*18));s.measuredTip.copy(this.tip);s.measuredTime=time;
  }
- hide(){for(const side of SIDES){const s=this.sabers[side];s.state.reset();s.motion.reset();s.group.visible=false;s.ribbon.reset();s.speed=0;s.measuredTime=NaN;s.trail.geometry.setDrawRange(0,0);this.sound(side,false,0,0);}}
+ hide(){for(const side of SIDES){const s=this.sabers[side];s.state.reset();s.motion.reset();s.palm.reset();s.group.visible=false;s.ribbon.reset();s.speed=0;s.measuredTime=NaN;s.trail.geometry.setDrawRange(0,0);this.sound(side,false,0,0);}}
  private updateTrail(s:Saber,now:number){
   const maxAge=this.quality==='low'?.12:this.quality==='medium'?.18:.22;
   this.tip.set(0,.12+LENGTH*s.state.extension,0).applyQuaternion(s.group.quaternion).add(s.group.position);this.base.set(0,.16,0).applyQuaternion(s.group.quaternion).add(s.group.position);

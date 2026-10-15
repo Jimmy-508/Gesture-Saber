@@ -1,0 +1,51 @@
+# Phase 1.3 — implementation and verification
+
+Baseline: `6cd5eafa75f135296ee0a44c3288a8cf2ac6a829` (Phase 1.2). Only Gesture-Saber is changed.
+
+## Identified causes and changes
+
+The old resource reader always displayed download messages and performed fetch/body reads; it did not measure whether HTTP cache supplied those responses. The deployed model's observed headers were `Cache-Control: max-age=600`, ETag and Last-Modified. Thus repeated download UI did **not** establish repeated full network transfer. Separately, stopping every TrackingSession really did close its model and terminate its Worker, forcing initialization on every start.
+
+`prepare-assets.mjs` now hashes the model, WASM binaries and JS loaders into a single compatible resource manifest (`f594220d53c6fc89` for the current locked dependencies) and a generated JS version pin. A small manifest is revalidated once per realm; large resources use versioned, content-addressed Cache Storage, with length and SHA-256 checks on reads and downloads. A corrupt entry is evicted and refetched; unavailable/quota-limited storage falls back to verified online loading. Old resource-version caches are removed within this application's namespace. A stale JS build refuses an incompatible manifest and asks for refresh. Cached bytes supply both temporary WASM and loader Blob URLs, revoked after initialization. This also avoids ESM module-factory reuse issues when an engine really needs recreation.
+
+One page-wide pool owns at most one initialized engine, independent of camera/video. Healthy idle engines are retained for two minutes and reused across sessions; pagehide closes them. Mode switching, faults and cancellation during inference invalidate rather than retain a possibly busy engine. Initialization cancellation disposes late resources. Worker failure is remembered for that page, avoiding repeated unsupported attempts; normal user stop does not disable Worker support. Camera tracks/video/callbacks/canvas are released on every stop, even if engine cleanup throws. Main inference continues using monotonic performance timestamps across camera sessions.
+
+Worker and main require different module/classic glue and slightly different WASM binaries in this MediaPipe package. The common 7.8 MB model is reused from persistent cache during fallback; each needed WASM variant is stored once. A terminated Worker releases its entire WASM realm before main initialization.
+
+The Phase 1.1 trail connected full blade base/tip samples. Phase 1.2 added a narrow tip wake with 1.7× energy; that emphasized thin traces. Phase 1.3 restores the full swept blade surface's prominence and substitutes a faint, softly edged **full-length** cross section for the tip-only strip. There are no particles. Ring history, maximum 468 vertices per saber, live upload ranges, one mesh/material per trail and equal red/blue sampling remain. Shader intensity is increased without additional passes; projection-side thickness is local to each blade sample, not a giant camera plane. Stopped trails expire. Camera resize now avoids resetting an unchanged render buffer.
+
+The former `(-x,-y,-z)` pose conversion was a three-axis reflection followed by basis reconstruction. The new control mapping uses mirrored X, upward Y and **preserved Z**: fingers moving toward the front camera extend into scene -Z, away from the displayed player viewpoint. This is an intentional game-control mapping, not a calibrated camera extrinsic transform. Local +Y follows wrist 0 → MCP 9; index 5 / pinky 17 provide roll, with canonical left/right normal orientation, orthogonalization and a positive determinant. Normalized coordinates account for aspect and are not mixed with metric world axes. Invalid/collinear data retain a valid basis or use image-space estimates. A single abrupt depth/normal reversal is rejected; confirmed large turns have bounded angular travel, while ordinary gradual turns pass without extra filtering. Forward and backward are not hard-locked. Single-camera depth remains an estimate; physical flat-palm direction needs device confirmation. MediaPipe coordinate reference: https://ai.google.dev/edge/mediapipe/solutions/vision/hand_landmarker/web_js
+
+## Sound bank
+
+All recordings are original deterministic build-time DSP, without imported film/game samples. The prior bank was dominated by quiet low-pass noise and a simple chirp. The new bank uses a stable dark fundamental with restrained harmonics, broad damped resonances, textured multiband sweep layers, ignition attack and short baked diffuse tails. There is no runtime tremolo, speed-to-fundamental acceleration, live synthesis or convolution. Five assets total **648,220 bytes** (24 kHz mono PCM); completed decoded buffers are retained per sample rate and bank identity/version. Changing `SoundBank` descriptor URLs/version replaces the bank without new UI; both HTTP URLs and buffer keys include the version. Fixed output headroom accommodates two hands and overlapping transients without adding a live limiter.
+
+Runtime graph remains six continuous loop sources for two hands, plus at most one transition source per hand. Physical blade state triggers transitions; speed only crossfades gains at at most 30 Hz per hand. Mute, tracking-loss fade, stop/dispose and Safari synchronous user-gesture resume are preserved. Loop endpoints match; bounds/determinism are tested. These structural facts do **not** prove the preferred subjective sound; tablet speaker/headphone listening remains required.
+
+## Automated checks
+
+`npm test`: 45 passing tests; `npm run build`: assets, TypeScript `--noEmit`, production Vite build pass. Existing >500 kB Three.js/scene chunk warning remains; it is not a build failure.
+
+Coverage includes cache hit/corruption/clearing/version replacement, offline manifest recovery, unavailable storage, pinned-version mismatch, engine lease reuse/expiry/late cancellation/mode invalidation; two camera sessions with all tracks/videos released and one reused model; Worker fallback/single-flight; independent gesture/animation/audio lifecycle and bank replacement; bilateral full-length/edge-on trails; up/forward/palm-up/down/tilt/roll, gradual vertical-to-horizontal, partial invalid landmarks, normal/depth inversion, stop and reacquisition; existing adaptive interpolation/prediction/stale guards.
+
+Cache storage/camera/audio unit doubles test control flow, not physical-device behavior.
+
+## Actual browser checks
+
+Production build in desktop Chromium, no camera: actual MediaPipe Worker initialization and ImageBitmap inference pass; actual main-thread initialization and canvas inference pass; injected Worker initialization failure switches to main and infers successfully. Real Cache Storage check confirms hit without asset fetch, equal-length corrupt bytes detected by SHA-256 and repaired, and cleared cache restored. Worker and main engine lease reacquisition returns the exact same model/runtime and infers again. Reload checks show model/WASM/loader cache verification instead of downloads. Measurements and final public checks are recorded below after the deployment verification.
+
+One local production-build run measured cached-resource **engine initialization** at 532.4 ms Worker / 441.5 ms main; re-acquiring the already initialized engine took **0.2 ms / 0.1 ms**, respectively. Subsequent blank-canvas inference took 71.6 ms / 59.8 ms. Acquisition and inference are deliberately separated; these are desktop test values, not hand-recognition speed or camera startup timings on a tablet. This establishes skipped initialization, not a general FPS claim.
+
+Fixed-clock real scene/WebGL replay (not measured FPS): 24 Hz mirrored landmark inputs into 180 render steps produce **171/180 blue and 171/180 red** trail frames; demo gives the same 171/180 each, with 19 submitted draw calls. Initial frames include extension. Visual continuity and subjective appearance still need high-refresh on-device viewing.
+
+The in-app browser's ordinary requestAnimationFrame is throttled near 1 Hz in this automation environment. Such runs cannot establish tablet FPS, GPU load, end-to-end latency or perceived improvement. No tablet performance improvement is claimed.
+
+## Controlled CPU comparison
+
+`node scripts/compare-phase13.mjs` compares the saved 1.2 ring generator with 1.3 on the same Node 24.21.0 / Windows process: four alternating-order runs, 24,000 synthetic 60 Hz frames each, 4,000 warmup frames per run. Raw results: [phase13-cpu.json](phase13-cpu.json). Mean CPU cost is approximately **0.00271 → 0.00265 ms per single-saber update**, a very small desktop microbenchmark difference, not a meaningful tablet FPS claim. Both allocate **11,232 geometry-array bytes per saber**, peak at **120 live vertices** for this replay, and retain a maximum 468-vertex capacity. Thus this controlled CPU replay shows no obvious regression, while GPU fill cost from the thicker/brighter appearance is unmeasured. The actual scene still submits 19 draw calls in balanced mode; no particles, new dynamic lights, live synths or extra trail draw calls were added.
+
+## Offline scope and remaining device acceptance
+
+If the page and its runtime chunks are already loaded and the selected model/WASM/loader variant is cached, a stopped engine can restart without large resource downloads; cached manifest recovery is supported when the network is unavailable. An already initialized engine needs no resource fetch at all. A completely offline navigation/reload is **not guaranteed**, because the app shell and lazy runtime chunks have no service worker. No service worker or PWA complexity was introduced. Browser storage eviction/private-mode restrictions may require downloading again.
+
+Still required on iPad/Android: front-camera start and repeated stop/restart with the camera indicator extinguished; real left-blue/right-red labels and independent open/fist; flat palms pointing forward, palm-up/down, side-on/occlusion and natural wrist rolls without reverse bends; broad red/blue arcs through fast/slow swings and stop; speaker/headphone sound quality, volume and mute; Safari audio unlock/background return; balanced-mode FPS/P95/peaks, thermal stability and actual perceived latency. Capture the same diagnostics on the same device for a valid before/after performance comparison.

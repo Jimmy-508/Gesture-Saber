@@ -1,4 +1,4 @@
-export type Engine<T, R> = {name:string; detect(input:T,time:number):Promise<R>; dispose():void};
+export type Engine<T, R> = {name:string; detect(input:T,time:number):Promise<R>; dispose():void;invalidate?():void};
 /** Single owner: no concurrent initialization or inference; late engines are closed. */
 export class FallbackPipeline<T,R> {
  engine:Engine<T,R>|null=null;
@@ -13,7 +13,7 @@ export class FallbackPipeline<T,R> {
  private async install(pending:Promise<Engine<T,R>>){const engine=await pending;if(this.disposed){engine.dispose();throw Error('Session cancelled');}this.engine=engine;}
  private async fallback(reason:unknown){
   if(this.fallbackUsed||this.disposed)throw reason;
-  this.fallbackUsed=true;this.engine?.dispose();this.engine=null;
+  this.fallbackUsed=true;if(this.engine?.invalidate)this.engine.invalidate();else this.engine?.dispose();this.engine=null;
   this.report('Worker 管線失敗，改用主執行緒：'+String(reason));
   await this.install(this.main());
  }
@@ -22,10 +22,10 @@ export class FallbackPipeline<T,R> {
   this.busy=true;
   try{return await this.engine.detect(input,time);}catch(e){
    if(this.disposed)throw e;
-   await this.fallback(e);return null;
+   try{await this.fallback(e);return null;}catch(failure){if(this.engine?.invalidate)this.engine.invalidate();else this.engine?.dispose();this.engine=null;throw failure;}
   }finally{this.busy=false;}
  }
- dispose(){if(this.disposed)return;this.disposed=true;this.engine?.dispose();this.engine=null;}
+ dispose(){if(this.disposed)return;this.disposed=true;if(this.busy&&this.engine?.invalidate)this.engine.invalidate();else this.engine?.dispose();this.engine=null;}
 }
 export function cameraError(error:unknown,stage='permission'){
  const name=(error as {name?:string})?.name;

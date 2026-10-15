@@ -18,6 +18,15 @@ test('rotation-only and slow translation generate trails; stationary data ages t
  t.reset();for(let i=0;i<30;i++)t.update(new Vector3(i*.005,0,0),new Vector3(i*.005,2.7,0),i*16.7,1,.18,r);assert.ok(t.vertices>0,'no fixed .6 speed gate');
  const end=new Vector3(.145,2.7,0);t.update(new Vector3(.145,0,0),end,1000,1,.18,r);assert.equal(t.vertices,0);
 });
+
+test('both bands cover the full blade; edge-on sweep has thickness without a tip-only sparkler',()=>{
+ const t=new TrailBuffer(),r=new Vector3(1,0,0);
+ for(let i=0;i<15;i++)t.update(new Vector3(0,0,i*.05),new Vector3(0,2.75,i*.05),i*16.7,1,.18,r);
+ assert.ok(t.vertices>0);
+ for(let band=0;band<2;band++){const vertices=t.positions.slice(band*18,band*18+18),ys=[];for(let j=1;j<18;j+=3)ys.push(vertices[j]);assert.equal(Math.min(...ys),0);assert.equal(Math.max(...ys),2.75);}
+ const cap=t.positions.slice(18,36),xs=[];for(let j=0;j<18;j+=3)xs.push(cap[j]);assert.ok(Math.max(...xs)-Math.min(...xs)>.06);
+ assert.ok(t.positions.every(Number.isFinite));assert.ok(t.ages.every(x=>x>=0&&x<=1));assert.ok(t.vertices<=468);
+});
 test('24 Hz samples interpolate on 60 Hz frames; prediction is bounded and stops on stale data',()=>{
  const f=new MotionFilter(),q=new Quaternion();f.push(new Vector3(),q,1000,1010);f.push(new Vector3(.1,0,0),q,1042,1052);
  f.sample(1056);const first=f.position.x;f.sample(1062);assert.ok(f.position.x>first);f.sample(1074);assert.ok(f.position.x<=.22);

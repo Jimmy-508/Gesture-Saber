@@ -3,3 +3,4 @@ dist/
 *.local
 public/wasm/
 public/hand_landmarker.task
+public/model-assets.json

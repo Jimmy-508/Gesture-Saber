@@ -1,7 +1,7 @@
 import {mkdir,writeFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {synthesize,SOUND_DURATIONS} from '../src/sound-design.ts';
-const rate=24000,manifest={version:'1.2',sampleRate:rate,origin:'Original deterministic offline DSP',files:{}};
+const rate=24000,manifest={version:'1.3',sampleRate:rate,origin:'Original build-time resonant-noise DSP; no external recordings',files:{}};
 await mkdir('public/audio',{recursive:true});
 for(const name of Object.keys(SOUND_DURATIONS)){
  const samples=synthesize(name,rate),bytes=Buffer.alloc(44+samples.length*2);

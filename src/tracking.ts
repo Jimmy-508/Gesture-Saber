@@ -1,6 +1,7 @@
-import {FallbackPipeline,cameraError,withTimeout,withActivityTimeout,type Engine} from './pipeline.ts';
+import {FallbackPipeline,cameraError,withTimeout,type Engine} from './pipeline.ts';
 import type {Point} from './gesture';
 import {Metric} from './metrics.ts';
+import {mainRuntime,workerRuntime,avoidWorker,runtimeStatus} from './runtime.ts';
 export type TrackingResult={landmarks:Point[][];world:Point[][];handedness:{categoryName:string;score:number}[][];time:number;ms:number};
 export type Diagnostics={camera:string;model:string;pipeline:string;detail:string;mode:string;frames:number};
 export const initialDiagnostics:Diagnostics={camera:'尚未啟動',model:'尚未載入',pipeline:'待命',detail:'',mode:'—',frames:0};
@@ -9,7 +10,7 @@ function abortError(){return new DOMException('Session cancelled','AbortError');
 export class TrackingSession {
  private abort=new AbortController();private media:MediaStream|null=null;private video:HTMLVideoElement|null=null;
  private pipeline:FallbackPipeline<FrameSource,TrackingResult>|null=null;private timer:ReturnType<typeof setTimeout>|null=null;
- private worker:Worker|null=null;private stopped=false;private lastVideoTime=-1;private canvas:HTMLCanvasElement|null=null;private canvasMode=false;private cancelWorkerInit:(()=>void)|null=null;private lastFreshFrame=0;
+ private stopped=false;private lastVideoTime=-1;private canvas:HTMLCanvasElement|null=null;private canvasMode=false;private lastFreshFrame=0;
  private diag={...initialDiagnostics};private rate=24;
  readonly stats={capture:new Metric(),inference:new Metric(),delivery:new Metric(),interval:new Metric(),cameraInterval:new Metric()};
  private published=0;private lastResult=0;private lastCameraFrame=0;private cameraCallback=0;
@@ -45,12 +46,9 @@ export class TrackingSession {
   }catch(e){if(this.stopped)return;this.fail(stage==='model'?'辨識模型初始化失敗（Worker 與可用備援均未成功）：'+String(e):cameraError(e,stage),stage==='model'?'model':'camera');}
  }
  private async makeMain():Promise<Engine<FrameSource,TrackingResult>>{
-  this.worker?.terminate();this.worker=null;
-  this.update({model:'載入主執行緒模型',mode:'主執行緒 · 直接 video / canvas'});
-  const model=await withActivityTimeout(async touch=>{
-   const {createModel}=await import('./model');return createModel(this.base,this.abort.signal,message=>{touch();if(!this.stopped)this.update({model:message});});
-  },20000,'主執行緒模型載入停滯：20 秒沒有下載或初始化進度').catch(e=>{this.abort.abort();throw e;});
-  if(this.stopped){model.close();throw abortError();}let accepted=true;
+  this.update({model:'準備主執行緒模型',mode:'主執行緒 · 直接 video / canvas'});
+  const lease=await mainRuntime(this.base,this.abort.signal,message=>{if(!this.stopped)this.update({model:message});});
+  if(this.stopped){lease.release();throw abortError();}const model=lease.value.model;let accepted=true;
   return {name:'主執行緒 · video',detect:async(input,time)=>{
    if(!accepted||this.stopped)throw abortError();const start=performance.now(),captureBefore=this.frameCaptureMs;
    let r;try{r=model.detectForVideo(input,time);}catch(e){
@@ -59,20 +57,11 @@ export class TrackingSession {
    }
    this.stats.capture.add(this.frameCaptureMs);
    return {landmarks:r.landmarks,world:r.worldLandmarks,handedness:r.handedness,time,ms:performance.now()-start-(this.frameCaptureMs-captureBefore)};
-  },dispose:()=>{if(accepted){accepted=false;model.close();}}};
+  },dispose:()=>{if(accepted){accepted=false;lease.release();}},invalidate:()=>{accepted=false;lease.invalidate();}};
  }
  private async makeWorker():Promise<Engine<FrameSource,TrackingResult>>{
-  if(typeof Worker==='undefined'||typeof createImageBitmap==='undefined')throw Error('此瀏覽器不支援 Worker 或 ImageBitmap，使用直接 video 備援');
-  const w=new Worker(new URL('./tracker.worker.ts',import.meta.url),{type:'module'});this.worker=w;
-  let resolveFrame:((r:TrackingResult)=>void)|null=null,rejectFrame:((e:Error)=>void)|null=null,disposed=false;
-  try{
-   await withActivityTimeout(touch=>new Promise<void>((resolve,reject)=>{
-    this.cancelWorkerInit=()=>reject(abortError());w.onmessage=({data})=>{if(data.type==='ready')resolve();else if(data.type==='stage'){touch();if(!this.stopped)this.update({model:data.message});}else if(data.type==='error')reject(Error(data.stage+': '+data.message));};w.onerror=e=>{e.preventDefault();reject(Error(e.message||'Worker runtime error'));};w.postMessage({type:'init',base:this.base});
-   }),20000,'Worker 初始化停滯：20 秒沒有下載或初始化進度');
-  }catch(e){w.terminate();if(this.worker===w)this.worker=null;throw e;}finally{this.cancelWorkerInit=null;}
-  if(this.stopped){w.terminate();throw abortError();}
-  w.onmessage=({data})=>{if(data.type==='result'){resolveFrame?.(data);resolveFrame=rejectFrame=null;}else if(data.type==='error'){rejectFrame?.(Error(data.stage+': '+data.message));resolveFrame=rejectFrame=null;}};
-  w.onerror=e=>{e.preventDefault();rejectFrame?.(Error(e.message||'Worker inference error'));resolveFrame=rejectFrame=null;};
+  const lease=await workerRuntime(this.base,this.abort.signal,message=>{if(!this.stopped)this.update({model:message});});
+  if(this.stopped){lease.release();throw abortError();}let disposed=false;
   return {name:'Worker · ImageBitmap',detect:async(input,time)=>{
    const captureStart=performance.now(),captureBefore=this.frameCaptureMs;
    let bitmap:ImageBitmap;
@@ -83,8 +72,9 @@ export class TrackingSession {
    }
    if(disposed||this.stopped){bitmap.close();throw abortError();}
    this.stats.capture.add(captureBefore+performance.now()-captureStart);
-   try{return await withTimeout(new Promise<TrackingResult>((resolve,reject)=>{resolveFrame=resolve;rejectFrame=reject;w.postMessage({type:'frame',frame:bitmap,time},[bitmap]);}),3500,'Worker 推論逾時');}catch(e){bitmap.close();throw e;}
-  },dispose:()=>{if(disposed)return;disposed=true;rejectFrame?.(abortError());resolveFrame=rejectFrame=null;try{w.postMessage({type:'close'});}catch{/* A crashed worker may already be closed. */}finally{w.terminate();}if(this.worker===w)this.worker=null;}};
+   return lease.value.detect(bitmap,time);
+  },dispose:()=>{if(disposed)return;disposed=true;lease.release();},invalidate:()=>{disposed=true;if(!this.stopped)avoidWorker();lease.invalidate();}};
+
  }
  private async bitmap(input:FrameSource){
   let abandoned=false;const pending=createImageBitmap(input);
@@ -119,10 +109,10 @@ export class TrackingSession {
  }
  stop(report=true){
   if(this.stopped)return;this.stopped=true;this.abort.abort();if(this.timer)clearTimeout(this.timer);
-  this.pipeline?.dispose();this.pipeline=null;this.cancelWorkerInit?.();this.cancelWorkerInit=null;this.worker?.terminate();this.worker=null;
+  let releaseError='';try{this.pipeline?.dispose();}catch(e){releaseError='引擎釋放異常，但攝影機已關閉：'+String(e);}finally{this.pipeline=null;}
   this.media?.getTracks().forEach(t=>{t.onended=null;t.stop();});this.media=null;
   if(this.video){if(this.cameraCallback)this.video.cancelVideoFrameCallback?.(this.cameraCallback);this.video.pause();this.video.srcObject=null;this.video.remove();this.video=null;}
   if(this.canvas){this.canvas.width=this.canvas.height=0;this.canvas=null;}
-  if(report)this.update({camera:'已釋放',model:'已釋放',pipeline:'已停止'});
+  if(report)this.update({camera:'已釋放',model:runtimeStatus(),pipeline:'已停止（攝影機已釋放）',...(releaseError?{detail:releaseError}:{})});
  }
 }

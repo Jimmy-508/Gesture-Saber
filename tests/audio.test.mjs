@@ -1,6 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {SaberAudio} from '../src/audio.ts';
+import {DEFAULT_BANK} from '../src/sound-bank.ts';
 class Param{value=0;targets=[];cancelScheduledValues(){}setTargetAtTime(v){this.targets.push(v);this.value=v}}
 class Node{gain=new Param();pan=new Param();starts=0;stops=0;disconnected=false;loop=false;connect(){}disconnect(){this.disconnected=true}start(){this.starts++}stop(){this.stops++}}
 class Context{static current;nodes=[];sampleRate=24000;currentTime=1;state='suspended';destination={};closed=0;decodes=0;constructor(){Context.current=this}node(){const n=new Node();this.nodes.push(n);return n}createGain(){return this.node()}createStereoPanner(){return this.node()}createBufferSource(){return this.node()}async decodeAudioData(){this.decodes++;return {duration:3}}async resume(){this.state='running'}async close(){this.closed++;this.state='closed'}}
@@ -13,6 +14,13 @@ test('six continuous buffer sources; no sources created by 300 movement updates;
  a.configure(false,.4);assert.equal(a.master.gain.value,0);a.stop();for(const v of Object.values(a.voices))for(const g of v.gains)assert.equal(g.gain.value,0);
  a.dispose();a.dispose();assert.equal(ctx.closed,1);assert.ok(ctx.nodes.every(n=>n.disconnected));for(const source of ctx.nodes.filter(n=>n.starts))assert.equal(source.stops,1);
  const b=new SaberAudio();await b.unlock();assert.equal(Context.current.decodes,0,'completed buffers are reused across sessions');b.dispose();
+});
+
+test('replaceable bank version invalidates decoded buffers and HTTP URLs; mute and tracking loss fade independently',async()=>{
+ setup();const urls=[];globalThis.fetch=async url=>{urls.push(String(url));return {ok:true,arrayBuffer:async()=>new ArrayBuffer(44)}};
+ const a=new SaberAudio({...DEFAULT_BANK,id:'custom',version:'custom-1'});await a.unlock();assert.equal(Context.current.decodes,5);assert.ok(urls.every(u=>u.includes('bank=custom-1')));
+ a.update('Left',true,12,1);a.update('Right',true,0,1);Context.current.currentTime+=1;a.update('Left',false,0,0);assert.ok(a.voices.Left.gains.every(g=>g.gain.value===0));assert.ok(a.voices.Right.gains[0].gain.value>0);a.dispose();
+ const b=new SaberAudio({...DEFAULT_BANK,id:'custom',version:'custom-2'});await b.unlock();assert.equal(Context.current.decodes,5);b.dispose();
 });
 test('muted instance does not initialize audio; late preload is discarded on disposal',async()=>{
  setup();const muted=new SaberAudio();muted.configure(false,.2);await muted.unlock();assert.equal(muted.context,null);muted.dispose();

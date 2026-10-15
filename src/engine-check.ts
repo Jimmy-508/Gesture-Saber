@@ -1,5 +1,7 @@
 import {createModel} from './model';
 import {withTimeout,withActivityTimeout,FallbackPipeline} from './pipeline';
+import {loadAssetManifest,readAsset,CACHE_PREFIX} from './assets';
+import {workerRuntime,mainRuntime} from './runtime';
 const button=document.querySelector<HTMLButtonElement>('#run')!,output=document.querySelector<HTMLPreElement>('#result')!;
 button.onclick=async()=>{
  button.disabled=true;output.textContent='';const write=(line:string)=>{output.textContent+=line+'\n';};
@@ -19,4 +21,26 @@ button.onclick=async()=>{
   const pipeline=new FallbackPipeline<HTMLCanvasElement,number>(async()=>{throw Error('Injected unsupported Worker');},async()=>({name:'main',detect:async frame=>mainModel.detectForVideo(frame,performance.now()).landmarks.length,dispose:()=>{}}),write);
   await pipeline.init();await pipeline.detect(canvas,performance.now());pipeline.dispose();write('PASS：Worker 初始化失敗 → 主執行緒備援推論');
  }catch(e){write('FAIL：主執行緒 '+String(e));}finally{model?.close();canvas.width=canvas.height=0;button.disabled=false;write('DONE：測試資源已釋放');}
+};
+const cacheButton=document.querySelector<HTMLButtonElement>('#cache')!,cacheOutput=document.querySelector<HTMLPreElement>('#cache-result')!;
+cacheButton.onclick=async()=>{
+ cacheButton.disabled=button.disabled=true;cacheOutput.textContent='';const write=(s:string)=>{cacheOutput.textContent+=s+'\n';};
+ const base=new URL(import.meta.env.BASE_URL,location.origin).href,abort=new AbortController(),canvas=document.createElement('canvas');canvas.width=640;canvas.height=480;
+ let cleanup=()=>{},temporary='';
+ try{
+  const manifest=await loadAssetManifest(base,write),spec=manifest.files['hand_landmarker.task'],url=base+'hand_landmarker.task';temporary=CACHE_PREFIX+manifest.version+'-qa';await caches.delete(temporary);
+  const stages:string[]=[],report=(s:string)=>{stages.push(s);write(s);};
+  const read=()=>readAsset(url,'模型測試',abort.signal,report,spec,manifest.version+'-qa');
+  await read();stages.length=0;await read();if(stages.some(s=>s.startsWith('下載')))throw Error('快取命中仍下載');write('PASS：真實 Cache Storage 命中，不呼叫資源 fetch');
+  const cache=await caches.open(temporary);await cache.put(url+'?sha256='+spec.sha256,new Response(new Uint8Array(spec.bytes)));stages.length=0;await read();if(!stages.some(s=>s.includes('快取損壞')))throw Error('未偵測同長度損壞');write('PASS：SHA-256 偵測損壞並重新取得資源');
+  await caches.delete(temporary);stages.length=0;await read();if(!stages.some(s=>s.startsWith('下載')))throw Error('清除後未取得資源');write('PASS：快取清除後自動恢復');
+  for(const mode of ['worker','main'] as const){
+   const acquire=()=>mode==='worker'?workerRuntime(base,abort.signal,write):mainRuntime(base,abort.signal,write);
+   const start=performance.now(),a=await acquire();cleanup=a.invalidate;const first=a.value;write(`${mode} 冷引擎初始化 ${(performance.now()-start).toFixed(1)} ms（資源可已快取）`);
+   if('model' in a.value)a.value.model.detectForVideo(canvas,performance.now());else await a.value.detect(await createImageBitmap(canvas),performance.now());a.release();
+   const resume=performance.now(),b=await acquire(),acquireMs=performance.now()-resume;cleanup=b.invalidate;if(b.value!==first)throw Error('引擎未重用');const inference=performance.now();
+   if('model' in b.value)b.value.model.detectForVideo(canvas,performance.now());else await b.value.detect(await createImageBitmap(canvas),performance.now());
+   write(`PASS：${mode} 同一引擎重用；取得 ${acquireMs.toFixed(1)} ms，空白推論 ${(performance.now()-inference).toFixed(1)} ms`);b.invalidate();cleanup=()=>{};
+  }
+ }catch(e){write('FAIL：'+String(e));}finally{cleanup();abort.abort();if(temporary)await caches.delete(temporary);canvas.width=canvas.height=0;cacheButton.disabled=button.disabled=false;write('DONE：QA 快取、模型、Worker 已釋放');}
 };

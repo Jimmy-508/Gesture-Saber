@@ -1,0 +1,97 @@
+{
+  "environment": {
+    "node": "v24.21.0",
+    "platform": "win32"
+  },
+  "method": "Same process; four alternating-order runs, 24000 simulated 60 Hz frames per version/run, first 4000 warmup. Batch CPU timing only; no GPU/camera/audio device/tablet FPS measurement.",
+  "runs": [
+    {
+      "before": {
+        "meanMs": 0.0028260099999999995,
+        "p95BatchMs": 0.004026600000000002,
+        "peakVertices": 120,
+        "allocatedGeometryBytes": 11232
+      },
+      "after": {
+        "meanMs": 0.002703775000000001,
+        "p95BatchMs": 0.0030533500000000232,
+        "peakVertices": 120,
+        "allocatedGeometryBytes": 11232
+      }
+    },
+    {
+      "after": {
+        "meanMs": 0.002624109999999999,
+        "p95BatchMs": 0.0027683999999999855,
+        "peakVertices": 120,
+        "allocatedGeometryBytes": 11232
+      },
+      "before": {
+        "meanMs": 0.0026125249999999997,
+        "p95BatchMs": 0.0027579000000000063,
+        "peakVertices": 120,
+        "allocatedGeometryBytes": 11232
+      }
+    },
+    {
+      "before": {
+        "meanMs": 0.002698840000000007,
+        "p95BatchMs": 0.0028611999999999965,
+        "peakVertices": 120,
+        "allocatedGeometryBytes": 11232
+      },
+      "after": {
+        "meanMs": 0.0026100199999999915,
+        "p95BatchMs": 0.0027298000000000114,
+        "peakVertices": 120,
+        "allocatedGeometryBytes": 11232
+      }
+    },
+    {
+      "after": {
+        "meanMs": 0.002662965000000003,
+        "p95BatchMs": 0.002918299999999988,
+        "peakVertices": 120,
+        "allocatedGeometryBytes": 11232
+      },
+      "before": {
+        "meanMs": 0.002692850000000005,
+        "p95BatchMs": 0.0028201500000000126,
+        "peakVertices": 120,
+        "allocatedGeometryBytes": 11232
+      }
+    }
+  ],
+  "sounds": {
+    "hum": {
+      "samples": 120000,
+      "peak": 0.6458744406700134,
+      "rms": 0.2124463163400433,
+      "seam": 0
+    },
+    "soft": {
+      "samples": 96000,
+      "peak": 0.7610793113708496,
+      "rms": 0.2510308887320008,
+      "seam": 0
+    },
+    "fast": {
+      "samples": 96000,
+      "peak": 0.9455260634422302,
+      "rms": 0.44060385684296444,
+      "seam": 0
+    },
+    "ignite": {
+      "samples": 6720,
+      "peak": 0.9411962032318115,
+      "rms": 0.35537161353061086,
+      "seam": 0
+    },
+    "retract": {
+      "samples": 5280,
+      "peak": 0.8681561946868896,
+      "rms": 0.30631037386665694,
+      "seam": 0
+    }
+  }
+}

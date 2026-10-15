@@ -1,5 +1,5 @@
 import {SaberScene} from './scene';
-import {SaberScene as PreviousScene} from '../benchmarks/phase11-scene';
+import {SaberScene as PreviousScene} from '../benchmarks/phase12-scene';
 import {Metric} from './metrics';
 import type {Pose,Point} from './gesture';
 const host=document.querySelector<HTMLDivElement>('#view')!,out=document.querySelector<HTMLPreElement>('#result')!,button=document.querySelector<HTMLButtonElement>('#compare')!,demoButton=document.querySelector<HTMLButtonElement>('#demo')!;
@@ -26,10 +26,10 @@ async function measure(Version:typeof SaberScene|typeof PreviousScene,label:stri
  await new Promise<void>(resolve=>{const timer=setInterval(()=>{if(performance.now()-start>=6000){clearInterval(timer);resolve();}},100);});
  if(producer)clearInterval(producer);const pixelRatio=scene.renderer.getPixelRatio();scene.dispose();const interval=frame.snapshot();return {label,viewport:[host.clientWidth,host.clientHeight],pixelRatio,input:'synthetic target 24 Hz mirrored landmarks',actualInputHz:inputs/((performance.now()-start)/1000),demo,valid:!hidden&&interval.mean<40,fps:interval.mean?1000/interval.mean:0,frameMs:interval,cpuFrameMs:cpu.snapshot(),drawCalls:calls.snapshot(),trailFrames:{left:seenLeft,right:seenRight,total:frames},gpuMs:'not measured'};
 }
-button.onclick=async()=>{fixedScene?.dispose();fixedScene=null;host.style.width=host.clientWidth+'px';button.disabled=demoButton.disabled=true;out.textContent='1.1 量測中…';try{const before=await measure(PreviousScene,'1.1');out.textContent=JSON.stringify(before,null,2)+'\n1.2 量測中…';const after=await measure(SaberScene,'1.2');out.textContent=JSON.stringify({before,after,warning:'Controlled rendering replay only. Not real camera, audio or tablet performance.'},null,2);}finally{button.disabled=demoButton.disabled=false;}};
-demoButton.onclick=async()=>{button.disabled=demoButton.disabled=true;out.textContent='雙劍展示檢查中…';try{out.textContent=JSON.stringify(await measure(SaberScene,'1.2 demo',true),null,2);}finally{button.disabled=demoButton.disabled=false;}};
+button.onclick=async()=>{fixedScene?.dispose();fixedScene=null;host.style.width=host.clientWidth+'px';button.disabled=demoButton.disabled=true;out.textContent='1.2 量測中…';try{const before=await measure(PreviousScene,'1.2');out.textContent=JSON.stringify(before,null,2)+'\n1.3 量測中…';const after=await measure(SaberScene,'1.3');out.textContent=JSON.stringify({before,after,warning:'Controlled rendering replay only. Not real camera, audio or tablet performance.'},null,2);}finally{button.disabled=demoButton.disabled=false;}};
+demoButton.onclick=async()=>{button.disabled=demoButton.disabled=true;out.textContent='雙劍展示檢查中…';try{out.textContent=JSON.stringify(await measure(SaberScene,'1.3 demo',true),null,2);}finally{button.disabled=demoButton.disabled=false;}};
 document.querySelector<HTMLButtonElement>('#fixed')!.onclick=()=>{
- fixedScene?.dispose();fixedScene=null;const results=[];
+ fixedScene?.dispose();fixedScene=null;const results=[];let heldTime=0;
  for(const demo of [false,true]){
   let now=0;const scene=new SaberScene(host,undefined,false,()=>now);scene.setQuality('medium');scene.demo=demo;let left=0,right=0,input=0;
   const origin=now;
@@ -39,8 +39,10 @@ document.querySelector<HTMLButtonElement>('#fixed')!.onclick=()=>{
    scene.renderFrame(now);if(scene.sabers.Left.ribbon.vertices)left++;if(scene.sabers.Right.ribbon.vertices)right++;
   }
   results.push({mode:demo?'demo':'tracking landmark replay',frames:180,leftTrailFrames:left,rightTrailFrames:right,drawCalls:scene.renderer.info.render.calls,pass:left>100&&right>100});
-  if(demo)fixedScene=scene;else scene.dispose();
+  if(demo){fixedScene=scene;heldTime=now;}else scene.dispose();
  }
  out.textContent=JSON.stringify({method:'Fixed simulation steps through the real scene pipeline, not actual FPS or camera validation',results},null,2);
+ // Present the held test-clock frame during a browser paint, after layout observers settle.
+ requestAnimationFrame(()=>requestAnimationFrame(()=>fixedScene?.renderFrame(heldTime)));
 };
 window.addEventListener('pagehide',()=>fixedScene?.dispose());

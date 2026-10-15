@@ -1,16 +1,20 @@
 import type {Side} from './gesture';
 import {soundForSpeed} from './dynamics.ts';
+import {DEFAULT_BANK,type SoundBank} from './sound-bank.ts';
 type Bank=Record<'hum'|'soft'|'fast'|'ignite'|'retract',AudioBuffer>;
 type Voice={sources:AudioBufferSourceNode[];gains:GainNode[];pan:StereoPannerNode;active:boolean;lastUpdate:number;transient:AudioBufferSourceNode|null};
-const banks=new Map<number,Bank>();
+const banks=new Map<string,Bank>();
+const HEADROOM=.32; // Two hands, a transient and loop crossfades can overlap; no live limiter needed.
 export class SaberAudio {
  private context:AudioContext|null=null;private master:GainNode|null=null;private voices:Partial<Record<Side,Voice>>={};private bank:Bank|null=null;
  private abort=new AbortController();private loading:Promise<void>|null=null;private disposed=false;
  enabled=true;volume=.3;status='等待操作啟用';parameterWrites=0;
+ private descriptor:SoundBank;
+ constructor(bank:SoundBank=DEFAULT_BANK){this.descriptor=bank;}
  async unlock(){
   if(this.disposed||!this.enabled)return;
   try{
-   if(!this.context){const Context=window.AudioContext||(window as unknown as {webkitAudioContext:typeof AudioContext}).webkitAudioContext;if(!Context)throw Error('Web Audio 不受支援');this.context=new Context();this.master=this.context.createGain();this.master.gain.value=this.volume;this.master.connect(this.context.destination);}
+   if(!this.context){const Context=window.AudioContext||(window as unknown as {webkitAudioContext:typeof AudioContext}).webkitAudioContext;if(!Context)throw Error('Web Audio 不受支援');this.context=new Context();this.master=this.context.createGain();this.master.gain.value=this.volume*HEADROOM;this.master.connect(this.context.destination);}
    const ctx=this.context;
    // Resume synchronously from the user gesture, before fetch/decode promises.
    const resume=ctx.resume();
@@ -20,11 +24,12 @@ export class SaberAudio {
   }catch(e){if(!this.disposed){this.loading=null;this.status='音效載入失敗，可點擊音效開關重試：'+String(e);}}
  }
  private async prepare(ctx:AudioContext){
-  let bank=banks.get(ctx.sampleRate);
+  const descriptor=this.descriptor,key=JSON.stringify([ctx.sampleRate,descriptor.id,descriptor.version,descriptor.files]);
+  let bank=banks.get(key);
   if(!bank){
    this.status='載入預製能量音效';const names=['hum','soft','fast','ignite','retract'] as const;
-   const buffers=await Promise.all(names.map(async name=>{const response=await fetch(new URL(`audio/${name}.wav`,new URL(import.meta.env?.BASE_URL??'/Gesture-Saber/',location.origin)),{signal:this.abort.signal});if(!response.ok)throw Error(name+' HTTP '+response.status);return ctx.decodeAudioData(await response.arrayBuffer());}));
-   if(this.disposed)return;bank=Object.fromEntries(names.map((name,i)=>[name,buffers[i]])) as Bank;banks.set(ctx.sampleRate,bank);
+   const buffers=await Promise.all(names.map(async name=>{const url=new URL(descriptor.files[name],new URL(import.meta.env?.BASE_URL??'/Gesture-Saber/',location.origin));url.searchParams.set('bank',descriptor.version);const response=await fetch(url,{signal:this.abort.signal});if(!response.ok)throw Error(name+' HTTP '+response.status);return ctx.decodeAudioData(await response.arrayBuffer());}));
+   if(this.disposed)return;bank=Object.fromEntries(names.map((name,i)=>[name,buffers[i]])) as Bank;banks.set(key,bank);
   }
   if(this.disposed)return;this.bank=bank;this.voices.Left=this.createVoice(ctx,-.4);this.voices.Right=this.createVoice(ctx,.4);
  }
@@ -48,7 +53,7 @@ export class SaberAudio {
   this.target(v.gains[0].gain,mix.hum*level,now);this.target(v.gains[1].gain,mix.soft*level,now);this.target(v.gains[2].gain,mix.fast*level,now);
   // Broad-band crossfades carry motion; no speed-controlled fundamental-frequency ramp.
  }
- configure(enabled:boolean,volume:number){this.enabled=enabled;this.volume=Math.max(0,Math.min(1,volume));if(this.master&&this.context)this.target(this.master.gain,enabled?this.volume:0,this.context.currentTime);if(!enabled)this.status='已靜音';}
+ configure(enabled:boolean,volume:number){this.enabled=enabled;this.volume=Math.max(0,Math.min(1,volume));if(this.master&&this.context)this.target(this.master.gain,enabled?this.volume*HEADROOM:0,this.context.currentTime);if(!enabled)this.status='已靜音';}
  stop(){if(!this.context)return;for(const v of Object.values(this.voices)){v.active=false;for(const gain of v.gains)this.target(gain.gain,0,this.context.currentTime);if(v.transient){v.transient.onended=null;v.transient.stop();v.transient.disconnect();v.transient=null;}}this.status=this.enabled?'待命':'已靜音';}
  dispose(){if(this.disposed)return;this.disposed=true;this.abort.abort();this.stop();for(const v of Object.values(this.voices)){for(const source of v.sources){source.stop();source.disconnect();}for(const gain of v.gains)gain.disconnect();v.pan.disconnect();}this.master?.disconnect();void this.context?.close();this.voices={};this.context=null;this.master=null;this.bank=null;}
 }
