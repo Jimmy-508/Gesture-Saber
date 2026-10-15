@@ -1,3 +1,4 @@
+// Historical Phase 1.3 fixture for scripts/compare-phase13.mjs, never imported by gameplay/build.
 export type SoundName='hum'|'soft'|'fast'|'ignite'|'retract';
 export const SOUND_DURATIONS:Record<SoundName,number>={hum:5,soft:4,fast:4,ignite:.28,retract:.22};
 /** Original build-only resonant noise. No imported recordings or live oscillators. */

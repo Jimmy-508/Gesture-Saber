@@ -6,7 +6,7 @@ export class MotionFilter {
  private lastP=new Vector3();private lastQ=new Quaternion();private velocity=new Vector3();private deltaQ=new Quaternion();private turn=new Quaternion();private deltaAngle=0;private predictedQ=new Quaternion();private predictedP=new Vector3();
  lastSample=-Infinity;arrival=-Infinity;private period=42;private transition=20;private angular=0;private predictedAngle=0;
  speed=0;lagMs=0;
- push(p:Vector3,q:Quaternion,time:number,arrived:number){
+ push(p:Vector3,q:Quaternion,time:number,arrived:number,predictRotation=true){
   if(time<=this.lastSample)return;
   // Advance the previous segment before replacing it. Equal-rate input/render must not stall at t=0.
   if(Number.isFinite(this.lastSample))this.sample(arrived);
@@ -17,7 +17,7 @@ export class MotionFilter {
    this.period=MathUtils.clamp(gap,16,140);this.speed=Math.min(24,(distance+angle*2.75)/seconds);
    const alpha=1-Math.exp(-seconds*(35+this.speed*12));this.targetP.lerp(p,alpha);this.targetQ.slerp(q,alpha);
    this.velocity.subVectors(p,this.lastP).divideScalar(seconds).clampLength(0,14);
-   this.angular=angle<.002?0:Math.min(9,angle/seconds);this.deltaAngle=angle;this.deltaQ.copy(this.lastQ).invert().multiply(q);
+   this.angular=!predictRotation||angle<.002?0:Math.min(9,angle/seconds);this.deltaAngle=angle;this.deltaQ.copy(this.lastQ).invert().multiply(q);
    if(distance<.002)this.velocity.set(0,0,0);
   }
   this.startP.copy(this.position);this.startQ.copy(this.rotation);this.lastP.copy(p);this.lastQ.copy(q);

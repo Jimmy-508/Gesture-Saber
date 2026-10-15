@@ -1,6 +1,6 @@
 export type Point = {x:number;y:number;z:number};
 export type Side = 'Left'|'Right';
-export type Pose = {side:Side; points:Point[]; world?:Point[]; open:boolean; time:number};
+export type Pose = {side:Side; points:Point[]; world?:Point[]; open:boolean; time:number;imageAspect?:number};
 const distance=(a:Point,b:Point)=>Math.hypot(a.x-b.x,a.y-b.y,a.z-b.z);
 // Joint angles are rotation invariant; thumb is deliberately optional.
 export function extendedFingers(p:Point[]):number {

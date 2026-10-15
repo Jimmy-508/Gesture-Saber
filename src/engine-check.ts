@@ -2,7 +2,10 @@ import {createModel} from './model';
 import {withTimeout,withActivityTimeout,FallbackPipeline} from './pipeline';
 import {loadAssetManifest,readAsset,CACHE_PREFIX} from './assets';
 import {workerRuntime,mainRuntime} from './runtime';
+import {checkAudioPeak} from './audio-check';
 const button=document.querySelector<HTMLButtonElement>('#run')!,output=document.querySelector<HTMLPreElement>('#result')!;
+const soundButton=document.querySelector<HTMLButtonElement>('#sound')!,soundOutput=document.querySelector<HTMLPreElement>('#sound-result')!;
+soundButton.onclick=async()=>{soundButton.disabled=true;soundOutput.textContent='原始合成音效峰值檢查中…';try{soundOutput.textContent=JSON.stringify(await checkAudioPeak(),null,2);}catch(e){soundOutput.textContent='FAIL：'+String(e);}finally{soundButton.disabled=false;}};
 button.onclick=async()=>{
  button.disabled=true;output.textContent='';const write=(line:string)=>{output.textContent+=line+'\n';};
  const base=new URL(import.meta.env.BASE_URL,location.origin).href,canvas=document.createElement('canvas');canvas.width=640;canvas.height=480;canvas.getContext('2d')!.fillRect(0,0,640,480);

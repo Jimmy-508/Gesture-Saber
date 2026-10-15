@@ -1,30 +1,26 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {SaberAudio} from '../src/audio.ts';
-import {DEFAULT_BANK} from '../src/sound-bank.ts';
-class Param{value=0;targets=[];cancelScheduledValues(){}setTargetAtTime(v){this.targets.push(v);this.value=v}}
-class Node{gain=new Param();pan=new Param();starts=0;stops=0;disconnected=false;loop=false;connect(){}disconnect(){this.disconnected=true}start(){this.starts++}stop(){this.stops++}}
-class Context{static current;nodes=[];sampleRate=24000;currentTime=1;state='suspended';destination={};closed=0;decodes=0;constructor(){Context.current=this}node(){const n=new Node();this.nodes.push(n);return n}createGain(){return this.node()}createStereoPanner(){return this.node()}createBufferSource(){return this.node()}async decodeAudioData(){this.decodes++;return {duration:3}}async resume(){this.state='running'}async close(){this.closed++;this.state='closed'}}
-function setup(){globalThis.window={AudioContext:Context};globalThis.location={origin:'https://test.example'};globalThis.fetch=async()=>({ok:true,arrayBuffer:async()=>new ArrayBuffer(44)});}
-test('six continuous buffer sources; no sources created by 300 movement updates; independent ignition and disposal',async()=>{
- setup();const a=new SaberAudio();await a.unlock();const ctx=Context.current;assert.equal(ctx.nodes.filter(n=>n.loop&&n.starts).length,6);assert.equal(ctx.decodes,5);
- a.update('Left',true,0,1);const right=a.voices.Right;assert.equal(right.active,false);a.update('Right',true,18,1);assert.equal(right.active,true);
- const count=ctx.nodes.length;for(let i=0;i<300;i++){ctx.currentTime+=1/60;a.update('Left',true,i%24,1);}assert.equal(ctx.nodes.length,count);assert.ok(a.parameterWrites<=3*151+6);
- a.update('Left',false,0,.5);assert.equal(a.voices.Left.active,false);assert.equal(right.active,true);
- a.configure(false,.4);assert.equal(a.master.gain.value,0);a.stop();for(const v of Object.values(a.voices))for(const g of v.gains)assert.equal(g.gain.value,0);
- a.dispose();a.dispose();assert.equal(ctx.closed,1);assert.ok(ctx.nodes.every(n=>n.disconnected));for(const source of ctx.nodes.filter(n=>n.starts))assert.equal(source.stops,1);
- const b=new SaberAudio();await b.unlock();assert.equal(Context.current.decodes,0,'completed buffers are reused across sessions');b.dispose();
+import {SaberAudio as Phase11Audio} from '../benchmarks/phase11-audio.ts';
+class Param {value=0;events=[];cancelScheduledValues(t){this.events.push(['cancel',t])}setTargetAtTime(v,t,c){this.value=v;this.events.push(['target',v,t,c])}setValueAtTime(v,t){this.value=v;this.events.push(['set',v,t])}exponentialRampToValueAtTime(v,t){this.value=v;this.events.push(['ramp',v,t])}}
+class Node {frequency=new Param();gain=new Param();Q=new Param();pan=new Param();type='';connections=[];starts=0;stops=0;disconnected=false;connect(n){this.connections.push(n.id??'destination')}disconnect(){this.disconnected=true}start(){this.starts++}stop(){this.stops++}}
+class Context {static current;nodes=[];sampleRate=24000;currentTime=1;state='suspended';destination={};closed=0;buffers=0;constructor(){Context.current=this}node(kind){const n=new Node();n.kind=kind;n.id=this.nodes.length;this.nodes.push(n);return n}createGain(){return this.node('gain')}createStereoPanner(){return this.node('pan')}createOscillator(){return this.node('osc')}createBiquadFilter(){return this.node('filter')}createBufferSource(){return this.node('buffer')}createBuffer(_,length){this.buffers++;const samples=new Float32Array(length);return {getChannelData:()=>samples}}async resume(){this.state='running'}async close(){this.closed++;this.state='closed'}}
+function setup(){globalThis.window={AudioContext:Context};globalThis.fetch=()=>assert.fail('Phase 1.1 audio does not download/decode sound assets');}
+function seeded(){let seed=123;return ()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296}}
+function snapshot(ctx){return ctx.nodes.map(n=>({kind:n.kind,type:n.type,connections:n.connections,frequency:n.frequency,Q:n.Q,gain:n.gain,pan:n.pan,loop:n.loop,noise:n.buffer?[...n.buffer.getChannelData(0).slice(0,32)]:undefined}));}
+async function trace(Version){setup();const saved=Math.random;Math.random=seeded();const audio=new Version();try{await audio.unlock();}finally{Math.random=saved;}const ctx=Context.current;
+ for(const [time,side,on,speed,extension] of [[1,'Left',true,0,.5],[1.1,'Right',true,2,1],[1.2,'Left',true,24,1],[1.3,'Right',false,0,.4],[1.4,'Left',false,0,0]]){ctx.currentTime=time;audio.update(side,on,speed,extension);}audio.configure(false,.4);audio.stop();const result=snapshot(ctx);audio.dispose();return result;}
+test('restored graph, noise, oscillator/filter settings, ignition/retraction envelopes and speed automation exactly match Phase 1.1',async()=>{assert.deepEqual(await trace(SaberAudio),await trace(Phase11Audio));});
+test('independent voices reuse all eight sources across motion and transitions; disposal closes everything exactly once',async()=>{
+ setup();const a=new SaberAudio();await a.unlock();const ctx=Context.current,count=ctx.nodes.length;assert.equal(ctx.nodes.filter(n=>n.starts).length,8);assert.equal(ctx.buffers,2);
+ a.update('Left',true,0,1);assert.equal(a.voices.Left.active,true);assert.equal(a.voices.Right.active,false);a.update('Right',true,24,1);a.update('Left',false,0,0);assert.equal(a.voices.Right.active,true);
+ for(let i=0;i<600;i++){ctx.currentTime+=1/60;a.update('Left',i%120<60,i%25,1);}assert.equal(ctx.nodes.length,count);assert.equal(ctx.buffers,2);
+ a.configure(false,.8);assert.equal(a.master.gain.value,0);a.stop();for(const v of Object.values(a.voices))for(const g of [v.hum,v.wind,v.transient])assert.equal(g.gain.value,0);
+ a.dispose();a.dispose();assert.equal(ctx.closed,1);assert.ok(ctx.nodes.every(n=>n.disconnected));for(const n of ctx.nodes.filter(n=>n.starts))assert.equal(n.stops,1);
+ const b=new SaberAudio();await b.unlock();assert.equal(Context.current.nodes.filter(n=>n.starts).length,8);b.dispose();
 });
-
-test('replaceable bank version invalidates decoded buffers and HTTP URLs; mute and tracking loss fade independently',async()=>{
- setup();const urls=[];globalThis.fetch=async url=>{urls.push(String(url));return {ok:true,arrayBuffer:async()=>new ArrayBuffer(44)}};
- const a=new SaberAudio({...DEFAULT_BANK,id:'custom',version:'custom-1'});await a.unlock();assert.equal(Context.current.decodes,5);assert.ok(urls.every(u=>u.includes('bank=custom-1')));
- a.update('Left',true,12,1);a.update('Right',true,0,1);Context.current.currentTime+=1;a.update('Left',false,0,0);assert.ok(a.voices.Left.gains.every(g=>g.gain.value===0));assert.ok(a.voices.Right.gains[0].gain.value>0);a.dispose();
- const b=new SaberAudio({...DEFAULT_BANK,id:'custom',version:'custom-2'});await b.unlock();assert.equal(Context.current.decodes,5);b.dispose();
-});
-test('muted instance does not initialize audio; late preload is discarded on disposal',async()=>{
+test('mute skips context creation; disposed instance cannot be revived by a late Safari resume',async()=>{
  setup();const muted=new SaberAudio();muted.configure(false,.2);await muted.unlock();assert.equal(muted.context,null);muted.dispose();
- class OtherContext extends Context{sampleRate=32000}window.AudioContext=OtherContext;
- globalThis.fetch=(_,options)=>new Promise((_,reject)=>options.signal.addEventListener('abort',()=>reject(new DOMException('cancelled','AbortError')),{once:true}));const a=new SaberAudio();const pending=a.unlock();a.dispose();await pending;
- assert.equal(a.context,null);assert.equal(a.abort.signal.aborted,true);
+ let resume;class Delayed extends Context {resume(){return new Promise(r=>resume=r)}}window.AudioContext=Delayed;
+ const a=new SaberAudio(),pending=a.unlock();a.dispose();resume();await pending;assert.equal(a.context,null);assert.equal(Context.current.closed,1);assert.notEqual(a.status,'已啟用');await a.unlock();assert.equal(a.context,null);
 });

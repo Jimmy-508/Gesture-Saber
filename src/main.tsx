@@ -4,11 +4,14 @@ import {SaberScene,type Quality} from './scene';
 import {GestureGate,extendedFingers,type Side} from './gesture';
 import {TrackingSession,initialDiagnostics,type Diagnostics,type TrackingResult} from './tracking';
 import {SaberAudio} from './audio';
+import {HandAssignment} from './hand-assignment';
 import type {Summary} from './metrics';
 import './style.css';
 type Status='idle'|'loading'|'running'|'paused'|'error';
 function App(){
  const host=useRef<HTMLDivElement>(null),scene=useRef<SaberScene|null>(null),session=useRef<TrackingSession|null>(null),audio=useRef<SaberAudio|null>(null),generation=useRef(0);
+ const assignment=useRef(new HandAssignment());
+ const [poseInfo,setPoseInfo]=useState({Left:'尚未觀測',Right:'尚未觀測',identity:'等待手部'});
  const gates=useRef({Left:new GestureGate(),Right:new GestureGate()}),samples=useRef({time:0,count:0});
  const handLabels=useRef({Left:'未偵測',Right:'未偵測'}),latestMs=useRef(0),started=useRef(false),showMetrics=useRef(false);
  const [perf,setPerf]=useState<Record<string,Summary>>({}),[renderInfo,setRenderInfo]=useState({ratio:1,calls:0,leftTrail:0,rightTrail:0});
@@ -17,7 +20,7 @@ function App(){
  const [diagnostics,setDiagnostics]=useState(false),[diag,setDiag]=useState<Diagnostics>({...initialDiagnostics}),[forceMain,setForceMain]=useState(false),[sound,setSound]=useState(true),[volume,setVolume]=useState(.3),[audioStatus,setAudioStatus]=useState('等待操作啟用');
  showMetrics.current=diagnostics;
  function stop(next:Status='idle'){
-  generation.current++;session.current?.stop();session.current=null;scene.current?.hide();if(scene.current)scene.current.demo=false;
+  generation.current++;assignment.current.reset();session.current?.stop();session.current=null;scene.current?.hide();if(scene.current)scene.current.demo=false;
   audio.current?.dispose();audio.current=null;setAudioStatus('已停止');gates.current={Left:new GestureGate(),Right:new GestureGate()};handLabels.current={Left:'未偵測',Right:'未偵測'};started.current=false;latestMs.current=0;setHands(handLabels.current);setHz(0);setStatus(next);
  }
  function unlockAudio(){
@@ -27,7 +30,7 @@ function App(){
   try{scene.current=new SaberScene(host.current!,(side,active,speed,extension)=>audio.current?.update(side,active,speed,extension));}catch{setStatus('error');setError('無法建立 WebGL 場景。請使用支援 WebGL 的瀏覽器。');}
   const interval=setInterval(()=>{
    setFps(scene.current?.fps??0);setMs(Math.round(latestMs.current));setHands(handLabels.current);setAudioStatus(audio.current?.status??'等待操作啟用');
-   if(showMetrics.current){const all:Record<string,Summary>={};for(const [key,value] of Object.entries(scene.current?.stats??{}))all[key]=value.snapshot();for(const [key,value] of Object.entries(session.current?.stats??{}))all[key]=value.snapshot();setPerf(all);setRenderInfo({ratio:scene.current?.pixelRatio??1,calls:scene.current?.renderer.info.render.calls??0,leftTrail:scene.current?.sabers.Left.ribbon.vertices??0,rightTrail:scene.current?.sabers.Right.ribbon.vertices??0});}
+   if(showMetrics.current){const describe=(side:Side)=>{if(scene.current?.demo)return '展示模式：未使用手部姿態';const p=scene.current?.sabers[side].palm;return p?`方向 ${p.direction.x.toFixed(2)}, ${p.direction.y.toFixed(2)}, ${p.direction.z.toFixed(2)} · Δ ${p.deltaDegrees.toFixed(1)}° · ${p.status}`:'尚未觀測';};setPoseInfo({Left:describe('Left'),Right:describe('Right'),identity:assignment.current.status});const all:Record<string,Summary>={};for(const [key,value] of Object.entries(scene.current?.stats??{}))all[key]=value.snapshot();for(const [key,value] of Object.entries(session.current?.stats??{}))all[key]=value.snapshot();setPerf(all);setRenderInfo({ratio:scene.current?.pixelRatio??1,calls:scene.current?.renderer.info.render.calls??0,leftTrail:scene.current?.sabers.Left.ribbon.vertices??0,rightTrail:scene.current?.sabers.Right.ribbon.vertices??0});}
   },500);
   const pause=()=>{stop('paused');setDemo(false);};const visibility=()=>{if(document.hidden)pause();};
   document.addEventListener('visibilitychange',visibility);window.addEventListener('pagehide',pause);
@@ -36,12 +39,10 @@ function App(){
  useEffect(()=>{scene.current?.setQuality(quality);session.current?.setRate(quality==='low'?18:quality==='medium'?24:30);},[quality]);
  useEffect(()=>{audio.current?.configure(sound,volume);},[sound,volume]);
  function receive(data:TrackingResult){
-  if(!started.current){started.current=true;setStatus('running');}latestMs.current=data.ms;const labels={Left:'未偵測',Right:'未偵測'},seen=new Set<Side>();
-  for(let i=0;i<data.landmarks.length;i++){
-   const hand=data.handedness[i]?.[0];if(!hand||hand.score<.55)continue;
-   const side:Side=hand.categoryName==='Left'?'Right':'Left';if(seen.has(side))continue;seen.add(side);
+  if(!started.current){started.current=true;setStatus('running');}latestMs.current=data.ms;const labels={Left:'未偵測',Right:'未偵測'};
+  for(const {side,index:i} of assignment.current.assign(data)){
    const p=data.landmarks[i],count=extendedFingers(data.world[i]?.length===21?data.world[i]:p),open=gates.current[side].update(count,data.time);
-   scene.current?.update({side,points:p,world:data.world[i],open,time:data.time});labels[side]=open?'光劍啟動':count<=1?'握拳收劍':'張掌啟動';
+   scene.current?.update({side,points:p,world:data.world[i],open,time:data.time,imageAspect:data.aspect});labels[side]=open?'光劍啟動':count<=1?'握拳收劍':'張掌啟動';
   }
   // Keep gate state over a short occlusion; BladeState independently retracts after 260 ms.
   handLabels.current=labels;samples.current.count++;const elapsed=performance.now()-samples.current.time;
@@ -57,11 +58,11 @@ function App(){
  const active=status==='running',loading=status==='loading';
  return <main>
   <div ref={host} className="scene" aria-label="雙光劍 3D 實驗室"/><div className="vignette"/>
-  <header><a className="brand" href="./"><span className="brand-icon">╱╲</span><span>GESTURE<span className="brand-light"> SABER</span><small>雙光劍自由揮劍實驗室</small></span></a><div className="header-right"><span className="phase">PHASE 01.3 <b> / </b> ENERGY IN MOTION</span><button className="icon-button" aria-label={sound?'關閉音效':'開啟音效'} onClick={()=>changeSound(!sound)}>{sound?'♫':'♪'}</button><button className="icon-button" aria-label="開啟設定" onClick={()=>setSettings(true)}>⚙</button></div></header>
+  <header><a className="brand" href="./"><span className="brand-icon">╱╲</span><span>GESTURE<span className="brand-light"> SABER</span><small>雙光劍自由揮劍實驗室</small></span></a><div className="header-right"><span className="phase">PHASE 01.3.1 <b> / </b> ENERGY IN MOTION</span><button className="icon-button" aria-label={sound?'關閉音效':'開啟音效'} onClick={()=>changeSound(!sound)}>{sound?'♫':'♪'}</button><button className="icon-button" aria-label="開啟設定" onClick={()=>setSettings(true)}>⚙</button></div></header>
   <aside className="telemetry"><div><span className={'dot '+(active?'live':'')}/>{active?'追蹤運作中':loading?diag.camera.startsWith('可讀')?'攝影機已開啟 · 辨識初始化中':'等待攝影機':demo?'視覺與合成音效展示':status==='paused'?'已暫停 · 點擊重新啟動':'攝影機待命'}</div><small>{fps} FPS <span>／</span> {hz} Hz 追蹤 <span>／</span> {ms} ms 辨識</small><button className="text-button diagnostic-toggle" onClick={()=>setDiagnostics(!diagnostics)} aria-expanded={diagnostics}>診斷資訊 {diagnostics?'−':'+'}</button></aside>
-  {diagnostics&&<aside className="diagnostics" aria-label="追蹤診斷"><strong>PIPELINE DIAGNOSTICS · 1.3</strong><dl>
+  {diagnostics&&<aside className="diagnostics" aria-label="追蹤診斷"><strong>PIPELINE DIAGNOSTICS · 1.3.1</strong><dl>
    <dt>攝影機</dt><dd>{diag.camera}</dd><dt>模型</dt><dd>{diag.model}</dd><dt>辨識模式</dt><dd>{diag.mode}</dd><dt>已處理影格</dt><dd>{diag.frames}</dd><dt>渲染 FPS</dt><dd>{perf.frame?.mean?(1000/perf.frame.mean).toFixed(1):fps}</dd><dt>追蹤 Hz</dt><dd>{perf.interval?.mean?(1000/perf.interval.mean).toFixed(1):hz}</dd><dt>攝影機解碼</dt><dd>{perf.cameraInterval?.mean?`${(1000/perf.cameraInterval.mean).toFixed(1)} Hz`:'瀏覽器未提供樣本'}</dd>
-   <dt>解碼幀間隔</dt><dd>{format('cameraInterval')}</dd><dt>追蹤間隔</dt><dd>{format('interval')}</dd><dt>擷取／轉換</dt><dd>{format('capture')}</dd><dt>推論</dt><dd>{format('inference')}</dd><dt>結果送達延遲</dt><dd>{format('delivery')}</dd><dt>資料→畫面估計</dt><dd>{format('age')}</dd><dt>平滑落後估計</dt><dd>{format('smoothing')}</dd><dt>渲染幀間隔</dt><dd>{format('frame')}</dd><dt>CPU 幀工作</dt><dd>{format('cpu')}</dd><dt>單劍光軌 CPU</dt><dd>{format('trail')}</dd><dt>單劍音訊 CPU</dt><dd>{format('audio')}</dd><dt>光軌頂點 藍／紅</dt><dd>{renderInfo.leftTrail} / {renderInfo.rightTrail}</dd><dt>實際像素比</dt><dd>{renderInfo.ratio.toFixed(2)}× · {renderInfo.calls} draw calls</dd><dt>音訊</dt><dd>{audioStatus}</dd></dl>
+   <dt>解碼幀間隔</dt><dd>{format('cameraInterval')}</dd><dt>追蹤間隔</dt><dd>{format('interval')}</dd><dt>擷取／轉換</dt><dd>{format('capture')}</dd><dt>推論</dt><dd>{format('inference')}</dd><dt>結果送達延遲</dt><dd>{format('delivery')}</dd><dt>資料→畫面估計</dt><dd>{format('age')}</dd><dt>平滑落後估計</dt><dd>{format('smoothing')}</dd><dt>渲染幀間隔</dt><dd>{format('frame')}</dd><dt>CPU 幀工作</dt><dd>{format('cpu')}</dd><dt>單劍光軌 CPU</dt><dd>{format('trail')}</dd><dt>單劍音訊 CPU</dt><dd>{format('audio')}</dd><dt>光軌頂點 藍／紅</dt><dd>{renderInfo.leftTrail} / {renderInfo.rightTrail}</dd><dt>實際像素比</dt><dd>{renderInfo.ratio.toFixed(2)}× · {renderInfo.calls} draw calls</dd><dt>左手姿態</dt><dd>{poseInfo.Left}</dd><dt>右手姿態</dt><dd>{poseInfo.Right}</dd><dt>身分配對</dt><dd>{poseInfo.identity}</dd><dt>音訊</dt><dd>{audioStatus} · Phase 1.1 原始合成</dd></dl>
    <p>{diag.detail||'啟動攝影機後會顯示實際追蹤資料；展示模式不代表實機追蹤。'}</p><small>時間依序為平均 / P95 / 峰值（最近最多 240 筆）。每 500 ms 更新。資料延遲從取樣時計算，非完整攝影機到螢幕延遲。CPU 提交時間不代表 GPU 執行時間；GPU 未直接量測。</small></aside>}
   {!active&&!loading&&!demo&&<section className="welcome"><div className="eyebrow">YOUR HANDS. YOUR SABERS.</div><h1>雙手，啟動原力。</h1><p>不需要 VR。張開手掌，點亮你的光劍。<br/>感受每次揮動的能量與聲音。</p><div className="instructions"><span><i>✳</i> 張掌啟動</span><span><i>◉</i> 握拳收劍</span><span><i>↗</i> 揮動能量</span></div><button className="primary" onClick={start}>◉ <span>{status==='paused'?'重新啟動攝影機':'開始攝影機'}</span><span>↗</span></button><small className="privacy">影像僅在裝置上辨識，不錄影、不上傳。</small><button className="text-button" onClick={toggleDemo}>體驗光劍與動態音效 →</button></section>}
   {loading&&<section className="loading"><div className="loader"/><h2>{diag.camera.startsWith('可讀')?'攝影機已開啟':'正在開啟攝影機'}</h2><p>{diag.camera.startsWith('可讀')?diag.model:'請允許前置鏡頭權限；影像不會顯示在遊戲畫面。'}</p><button className="text-button" onClick={()=>stop()}>取消並釋放攝影機</button></section>}

@@ -2,7 +2,7 @@ import {FallbackPipeline,cameraError,withTimeout,type Engine} from './pipeline.t
 import type {Point} from './gesture';
 import {Metric} from './metrics.ts';
 import {mainRuntime,workerRuntime,avoidWorker,runtimeStatus} from './runtime.ts';
-export type TrackingResult={landmarks:Point[][];world:Point[][];handedness:{categoryName:string;score:number}[][];time:number;ms:number};
+export type TrackingResult={landmarks:Point[][];world:Point[][];handedness:{categoryName:string;score:number}[][];time:number;ms:number;aspect?:number};
 export type Diagnostics={camera:string;model:string;pipeline:string;detail:string;mode:string;frames:number};
 export const initialDiagnostics:Diagnostics={camera:'尚未啟動',model:'尚未載入',pipeline:'待命',detail:'',mode:'—',frames:0};
 type FrameSource=HTMLVideoElement|HTMLCanvasElement;
@@ -97,7 +97,7 @@ export class TrackingSession {
     if(!r)this.lastFreshFrame=performance.now(); // Model fallback time is not evidence of a frozen camera.
     const name=this.pipeline.engine?.name??'備援中';
     this.update({model:'已就緒',pipeline:'追蹤中',mode:this.canvasMode?(name.startsWith('Worker')?'Worker · canvas → ImageBitmap':'主執行緒 · canvas'):name,frames:this.diag.frames+(r?1:0)},false);
-    if(r){cost=r.ms;const arrived=performance.now();this.stats.inference.add(r.ms);this.stats.delivery.add(Math.max(0,arrived-r.time));if(this.lastResult)this.stats.interval.add(arrived-this.lastResult);this.lastResult=arrived;this.result(r);}
+    if(r){r.aspect=v.videoWidth/v.videoHeight;cost=r.ms;const arrived=performance.now();this.stats.inference.add(r.ms);this.stats.delivery.add(Math.max(0,arrived-r.time));if(this.lastResult)this.stats.interval.add(arrived-this.lastResult);this.lastResult=arrived;this.result(r);}
    }
   }catch(e){if(!this.stopped)this.fail('影格推論失敗（已嘗試可用備援）：'+String(e),'pipeline');return;}
   const main=this.pipeline.engine?.name.startsWith('主執行緒');

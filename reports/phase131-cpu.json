@@ -1,0 +1,49 @@
+{
+  "environment": {
+    "node": "v24.21.0",
+    "platform": "win32"
+  },
+  "method": "Alternating-order desktop CPU microbenchmark. Precomputed full anatomical hands at 24 Hz; 16800 inputs/version/run, first 2400 warmup. Includes new temporal assignment, bilateral pose and MotionFilter; excludes camera, MediaPipe, audio and GPU. Not a tablet latency or FPS measurement.",
+  "runs": [
+    {
+      "before": {
+        "meanMsPerDualHandInput": 0.003509722222222222,
+        "peakBatchMeanMs": 0.006752416666666647
+      },
+      "after": {
+        "meanMsPerDualHandInput": 0.006887409722222226,
+        "peakBatchMeanMs": 0.011480333333333353
+      }
+    },
+    {
+      "after": {
+        "meanMsPerDualHandInput": 0.00607222222222223,
+        "peakBatchMeanMs": 0.011165666666666709
+      },
+      "before": {
+        "meanMsPerDualHandInput": 0.003047277777777772,
+        "peakBatchMeanMs": 0.004749666666666694
+      }
+    },
+    {
+      "before": {
+        "meanMsPerDualHandInput": 0.002272611111111118,
+        "peakBatchMeanMs": 0.0027535833333333436
+      },
+      "after": {
+        "meanMsPerDualHandInput": 0.004732951388888903,
+        "peakBatchMeanMs": 0.006899250000000071
+      }
+    },
+    {
+      "after": {
+        "meanMsPerDualHandInput": 0.004551784722222247,
+        "peakBatchMeanMs": 0.005232666666666716
+      },
+      "before": {
+        "meanMsPerDualHandInput": 0.002209499999999989,
+        "peakBatchMeanMs": 0.0027880833333333993
+      }
+    }
+  ]
+}

@@ -24,11 +24,11 @@ test('gradual vertical to flat, edge-on and independent wrist rotations remain c
  }
  assert.ok(left.direction.z<-.999);
 });
-test('single-frame depth inversion is rejected; sustained genuine turn recovers, occlusion/stop/reacquisition stay finite',()=>{
+test('ambiguous flat-depth inversion stays rejected; occlusion/stop/reacquisition stay finite',()=>{
  const pose=new PalmPose(),q=new Quaternion().setFromEuler(new Euler(-Math.PI/2,0,0)),f=hand(q,'Left');pose.update(f.points,f.world,'Left',1000);
  const bad=hand(new Quaternion().setFromEuler(new Euler(Math.PI/2,0,0)),'Left');pose.update(bad.points,bad.world,'Left',1042);assert.ok(pose.direction.z<-.99);
  pose.update(f.points,f.world,'Left',1084);assert.ok(pose.direction.z<-.99);
- for(let i=0;i<10;i++)pose.update(bad.points,bad.world,'Left',1126+i*42);assert.ok(pose.direction.z>.99,'forward/back are not locked');
+ for(let i=0;i<10;i++)pose.update(bad.points,bad.world,'Left',1126+i*42);assert.ok(pose.direction.z<-.99,'repeated depth-only estimates do not validate a reversal');
  const occluded=hand(new Quaternion(),'Left');occluded.world[9]={x:NaN,y:NaN,z:NaN};occluded.points[9]={x:NaN,y:NaN,z:NaN};
  pose.update(occluded.points,occluded.world,'Left',1600);assert.ok(Number.isFinite(pose.rotation.w));
  for(let i=0;i<10;i++)pose.update(f.points,f.world,'Left',1700+i*42);const stopped=pose.rotation.clone();pose.update(f.points,f.world,'Left',2200);assert.ok(pose.rotation.angleTo(stopped)<1e-6);
