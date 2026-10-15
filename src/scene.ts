@@ -1,7 +1,7 @@
 import * as T from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
-import type {Pose,Side} from './gesture';
+import {reliablePalm,type Pose,type Side} from './gesture';
 import {BladeState,motionSpeed} from './dynamics';
 import {MotionFilter} from './motion';
 import {TrailBuffer} from './trail';
@@ -92,13 +92,14 @@ export class SaberScene {
  private resize(){const w=this.host.clientWidth,h=this.host.clientHeight;if(!w||!h)return;this.renderer.getSize(this.viewport);if(this.viewport.x!==w||this.viewport.y!==h)this.renderer.setSize(w,h);this.camera.aspect=w/h;this.camera.updateProjectionMatrix();}
  update(pose:Pose){
   const s=this.sabers[pose.side],p=pose.points;
+  if(!reliablePalm(p)){this.lost(pose.side,pose.time,'掌部關鍵點不可靠');return;}
   s.rotation.copy(s.palm.update(p,pose.world,pose.side,pose.time,pose.imageAspect??4/3));
   const cx=(p[0].x+p[5].x+p[9].x+p[17].x)/4,cy=(p[0].y+p[5].y+p[9].y+p[17].y)/4,height=2*Math.tan(T.MathUtils.degToRad(21.5))*11;
   s.target.set((.5-cx)*height*this.camera.aspect,(.5-cy)*height+1,T.MathUtils.clamp((Math.hypot(p[5].x-p[17].x,p[5].y-p[17].y)-.12)*7,-1,1));
   if(pose.time-s.measuredTime>250)s.ribbon.reset();
-  this.measure(s,pose.time);s.motion.push(s.target,s.rotation,pose.time,this.clock(),s.palm.reliable);if(pose.gesture)s.state.observeGesture(pose.gesture,pose.time);else s.state.observe(pose.open,pose.time);
+  this.measure(s,pose.time);s.motion.push(s.target,s.rotation,pose.time,this.clock(),s.palm.reliable);s.state.observe(true,pose.time);
  }
- lost(side:Side,time:number,reason:string){const s=this.sabers[side];s.state.observeGesture({kind:'LOST',count:s.state.evidence.count,confidence:0,reason},time);s.motion.freeze();s.speed=0;s.measuredTime=NaN;}
+ lost(side:Side,time:number,reason:string){const s=this.sabers[side];s.state.markLost(reason);s.motion.freeze();s.speed=0;s.measuredTime=NaN;}
  private measure(s:Saber,time:number){
   this.tip.set(0,LENGTH+.12,0).applyQuaternion(s.rotation).add(s.target);
   const elapsed=Number.isFinite(s.measuredTime)?(time-s.measuredTime)/1000:0;

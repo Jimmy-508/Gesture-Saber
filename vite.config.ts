@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
  plugins:[react()],base:'/Gesture-Saber/',worker:{format:'es'},
  build:{rolldownOptions:{
-  input:{gestureCheck:'tests/gesture-check.html',main:'index.html',engineCheck:'tests/engine-check.html',performance:'tests/performance.html'},
+  input:{uiCheck:'tests/ui-check.html',gestureCheck:'tests/gesture-check.html',main:'index.html',engineCheck:'tests/engine-check.html',performance:'tests/performance.html'},
   output:{codeSplitting:{groups:[{debugName:'runtime and framework bundles',name(id){
    const path=id.replaceAll('\\','/');
    if(path.includes('node_modules/three'))return 'three';

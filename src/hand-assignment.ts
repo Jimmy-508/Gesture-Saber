@@ -1,4 +1,4 @@
-import type {Point,Side} from './gesture';
+import {reliablePalm,type Point,type Side} from './gesture.ts';
 type Track={x:number;y:number;vx:number;vy:number;time:number};
 type Detection={landmarks:Point[][];handedness:{categoryName:string;score:number}[][];time:number};
 type Candidate={index:number;x:number;y:number;width:number;side:Side;score:number};
@@ -14,7 +14,7 @@ export class HandAssignment {
   const candidates:Candidate[]=[];
   for(let index=0;index<Math.min(2,data.landmarks.length);index++){
    const p=data.landmarks[index],label=data.handedness[index]?.[0];
-   if(!label||label.score<.55||!['Left','Right'].includes(label.categoryName)||![0,5,9,17].every(i=>p[i]&&Number.isFinite(p[i].x)&&Number.isFinite(p[i].y)))continue;
+   if(!label||!Number.isFinite(label.score)||label.score<.55||!['Left','Right'].includes(label.categoryName)||!reliablePalm(p))continue;
    candidates.push({index,x:(p[0].x+p[5].x+p[9].x+p[17].x)/4,y:(p[0].y+p[5].y+p[9].y+p[17].y)/4,width:Math.hypot(p[5].x-p[17].x,p[5].y-p[17].y),side:label.categoryName==='Left'?'Right':'Left',score:label.score});
   }
   if(!candidates.length){this.status=data.landmarks.length?'關鍵點或手別信心不足：拒用結果':'MediaPipe 未偵測手部';return [];}

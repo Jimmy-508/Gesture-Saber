@@ -24,3 +24,13 @@ test('mute skips context creation; disposed instance cannot be revived by a late
  let resume;class Delayed extends Context {resume(){return new Promise(r=>resume=r)}}window.AudioContext=Delayed;
  const a=new SaberAudio(),pending=a.unlock();a.dispose();resume();await pending;assert.equal(a.context,null);assert.equal(Context.current.closed,1);assert.notEqual(a.status,'已啟用');await a.unlock();assert.equal(a.context,null);
 });
+
+
+test('tracking-driven ignition, short occlusion, departure and reacquisition trigger only actual state edges in original audio',async()=>{
+ const {BladeState}=await import('../src/dynamics.ts');setup();const audio=new SaberAudio();await audio.unlock();const ctx=Context.current,s=new BladeState();const sweep=audio.voices.Left.sweep.frequency;
+ const frame=t=>{ctx.currentTime=t/1000;const extension=s.step(t,.02);audio.update('Left',s.active,0,extension);};
+ s.observe(true,1000);frame(1000);for(let t=1020;t<=1100;t+=20){s.observe(true,t);frame(t);}s.markLost('short');frame(1160);s.observe(true,1200);frame(1200);
+ assert.equal(sweep.events.filter(e=>e[0]==='ramp').length,1);assert.equal(audio.voices.Right.active,false);
+ s.markLost('long');for(let t=1220;t<=1660;t+=20)frame(t);assert.equal(sweep.events.filter(e=>e[0]==='ramp').length,2);
+ s.observe(true,1700);frame(1700);assert.equal(sweep.events.filter(e=>e[0]==='ramp').length,3);assert.equal(ctx.buffers,2);audio.dispose();assert.equal(ctx.closed,1);
+});

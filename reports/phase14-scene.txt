@@ -1,0 +1,42 @@
+{
+  "checks": [
+    "PASS 握拳單手即啟動，無需張掌",
+    "PASS 張掌握拳切換、旋腕與轉平掌不影響雙劍啟動",
+    "PASS 短 LOST 凍結姿態且保持啟動",
+    "PASS 短遮擋不重複播放啟閉音效",
+    "PASS 持續 LOST 收劍隱藏，另一手獨立運作",
+    "PASS 遺失後光帶自然衰減",
+    "PASS 握拳重新入鏡即重新伸出",
+    "PASS 左手音訊依追蹤生命週期僅觸發三次轉換",
+    "PASS 釋放場景幾何"
+  ],
+  "left": "TRACKED · 中斷 0 ms · 啟動 · 可靠手部追蹤",
+  "right": "TRACKED · 中斷 0 ms · 啟動 · 可靠手部追蹤",
+  "audioEdges": [
+    {
+      "side": "Left",
+      "active": true
+    },
+    {
+      "side": "Right",
+      "active": true
+    },
+    {
+      "side": "Left",
+      "active": false
+    },
+    {
+      "side": "Left",
+      "active": true
+    },
+    {
+      "side": "Left",
+      "active": false
+    },
+    {
+      "side": "Right",
+      "active": false
+    }
+  ],
+  "model": "合成關鍵點與真正 WebGL 場景；非攝影機實機驗收"
+}
