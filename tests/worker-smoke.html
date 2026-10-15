@@ -1,0 +1,14 @@
+<!doctype html><html lang="en"><title>MediaPipe worker smoke test</title><body><h1>MediaPipe worker smoke test</h1><pre id="result">Loading model…</pre><script type="module">
+const output=document.querySelector('#result');
+const worker=new Worker(new URL('../src/tracker.worker.ts',import.meta.url),{type:'module'});
+const timeout=setTimeout(()=>{output.textContent='FAIL: timeout';worker.terminate()},45000);
+worker.onerror=event=>{clearTimeout(timeout);output.textContent='FAIL: '+event.message;worker.terminate()};
+worker.onmessage=async ({data})=>{
+ if(data.type==='ready'){
+  const canvas=document.createElement('canvas');canvas.width=640;canvas.height=480;
+  const ctx=canvas.getContext('2d');ctx.fillStyle='#101820';ctx.fillRect(0,0,640,480);
+  const frame=await createImageBitmap(canvas);worker.postMessage({type:'frame',frame,time:performance.now()},[frame]);
+ }else{clearTimeout(timeout);output.textContent=data.type==='result'?'PASS: model and WASM loaded; blank-frame inference returned '+data.landmarks.length+' hands in '+Math.round(data.ms)+' ms.':'FAIL: '+data.message;worker.terminate();}
+};
+worker.postMessage({type:'init',base:new URL(import.meta.env.BASE_URL,location.origin).href});
+</script></body></html>
