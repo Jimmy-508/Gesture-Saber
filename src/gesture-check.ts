@@ -15,6 +15,7 @@ document.querySelector<HTMLButtonElement>('#run')!.onclick=()=>{
   now+=20;feed('Left',0,true);scene.renderFrame(now);check(scene.sabers.Left.state.active&&!scene.sabers.Right.state.active,'握拳單手即啟動，無需張掌');
   for(let i=0;i<30;i++){now+=20;feed('Left',i/29*Math.PI/2,i%2===0);const h=anatomicalHand('Right',new Quaternion().setFromEuler(new Euler(i/29*Math.PI/2,0,0)));scene.update({...h,open:false,time:now,imageAspect:h.aspect});scene.renderFrame(now);}
   check(scene.sabers.Left.state.active&&scene.sabers.Right.state.active,'張掌握拳切換、旋腕與轉平掌不影響雙劍啟動');
+  for(const missing of [5,9,17]){now+=20;const h=anatomicalHand('Left',new Quaternion().setFromEuler(new Euler(Math.PI/2,0,0)));h.points[missing]={x:NaN,y:NaN,z:NaN};h.world[missing]={x:NaN,y:NaN,z:NaN};const matched=assignment.assign(detections([h],now));check(matched.length===1,'部分掌部 '+missing+' 仍可歷史配對');scene.update({...h,open:true,time:now,imageAspect:h.aspect});scene.renderFrame(now);check(scene.sabers.Left.state.active&&Number.isFinite(scene.sabers.Left.group.position.x),'部分掌部 '+missing+' 姿態備援及顯示有限');now+=20;feed('Left',Math.PI/2);scene.renderFrame(now);}
   scene.lost('Left',now,'注入遮擋');const held=scene.sabers.Left.group.position.clone();
   now+=60;feed('Right');scene.renderFrame(now);check(scene.sabers.Left.state.active&&held.distanceTo(scene.sabers.Left.group.position)<1e-8,'短 LOST 凍結姿態且保持啟動');
   now+=30;feed('Left');scene.renderFrame(now);check(audioEdges.filter(e=>e.side==='Left').length===1,'短遮擋不重複播放啟閉音效');
