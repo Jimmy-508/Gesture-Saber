@@ -11,7 +11,7 @@ export type Quality='low'|'medium'|'high';
 const SIDES:Side[]=['Left','Right'];
 const LENGTH=2.75;
 const STREAM_ATTRIBUTES=['position','age'] as const;
-type Saber={group:T.Group;blade:T.Group;target:T.Vector3;rotation:T.Quaternion;motion:MotionFilter;palm:PalmPose;state:BladeState;trail:T.Mesh<T.BufferGeometry,T.ShaderMaterial>;ribbon:TrailBuffer;speed:number;measuredTip:T.Vector3;measuredTime:number;glow:T.ShaderMaterial;core:T.ShaderMaterial;light:T.PointLight};
+type Saber={hiltMaterials:T.Material[];group:T.Group;blade:T.Group;target:T.Vector3;rotation:T.Quaternion;motion:MotionFilter;palm:PalmPose;state:BladeState;trail:T.Mesh<T.BufferGeometry,T.ShaderMaterial>;ribbon:TrailBuffer;speed:number;measuredTip:T.Vector3;measuredTime:number;glow:T.ShaderMaterial;core:T.ShaderMaterial;light:T.PointLight};
 const glowVertex=`varying vec2 vUv;
  void main(){vUv=uv;vec3 origin=(modelMatrix*vec4(0.,0.,0.,1.)).xyz;
  vec3 axis=normalize(mat3(modelMatrix)*vec3(0.,1.,0.));vec3 view=normalize(cameraPosition-origin);
@@ -51,6 +51,7 @@ export class SaberScene {
  private makeSaber(color:number,side:number):Saber{
   const group=new T.Group(),blade=new T.Group();group.add(blade);this.scene.add(group);
   const steel=new T.MeshStandardMaterial({color:0xb1becb,metalness:1,roughness:.24}),titanium=new T.MeshStandardMaterial({color:0x44525d,metalness:.92,roughness:.38}),rubber=new T.MeshStandardMaterial({color:0x080d13,metalness:.15,roughness:.82}),accent=new T.MeshBasicMaterial({color});
+  const hiltMaterials=[steel,titanium,rubber,accent];for(const material of hiltMaterials)material.transparent=true;
   const add=(geometry:T.BufferGeometry,material:T.Material,y:number)=>{const mesh=new T.Mesh(geometry,material);mesh.position.y=y;group.add(mesh);return mesh;};
   const lathe=(profile:number[][],mat:T.Material,y=0)=>add(new T.LatheGeometry(profile.map(p=>new T.Vector2(p[0],p[1])),24),mat,y);
   // Machined emitter, recessed collar, segmented dark grip and beveled pommel.
@@ -84,7 +85,7 @@ export class SaberScene {
    const copies=parts.map(mesh=>{mesh.updateMatrix();originals.add(mesh.geometry);return mesh.geometry.clone().applyMatrix4(mesh.matrix);});
    const merged=mergeGeometries(copies);if(merged){for(const mesh of parts)group.remove(mesh);group.add(new T.Mesh(merged,mat));for(const g of originals)g.dispose();}for(const g of copies)g.dispose();
   }
-  return {group,blade,target:new T.Vector3(side*1.55,-.5,0),rotation:new T.Quaternion(),motion:new MotionFilter(),palm:new PalmPose(),state:new BladeState(),trail,ribbon,speed:0,measuredTip:new T.Vector3(),measuredTime:NaN,glow,core,light};
+  return {hiltMaterials,group,blade,target:new T.Vector3(side*1.55,-.5,0),rotation:new T.Quaternion(),motion:new MotionFilter(),palm:new PalmPose(),state:new BladeState(),trail,ribbon,speed:0,measuredTip:new T.Vector3(),measuredTime:NaN,glow,core,light};
  }
  setQuality(q:Quality){this.quality=q;this.budget.reset();this.applyBudget();}
  private applyBudget(){this.pixelRatio=Math.min(devicePixelRatio,this.quality==='low'?1:this.quality==='medium'?1.4:1.8)*this.budget.scale;this.renderer.setPixelRatio(this.pixelRatio);for(const side of SIDES)this.sabers[side].light.visible=this.quality==='high'&&this.budget.scale>.8;this.resize();}
@@ -95,8 +96,9 @@ export class SaberScene {
   const cx=(p[0].x+p[5].x+p[9].x+p[17].x)/4,cy=(p[0].y+p[5].y+p[9].y+p[17].y)/4,height=2*Math.tan(T.MathUtils.degToRad(21.5))*11;
   s.target.set((.5-cx)*height*this.camera.aspect,(.5-cy)*height+1,T.MathUtils.clamp((Math.hypot(p[5].x-p[17].x,p[5].y-p[17].y)-.12)*7,-1,1));
   if(pose.time-s.measuredTime>250)s.ribbon.reset();
-  this.measure(s,pose.time);s.motion.push(s.target,s.rotation,pose.time,this.clock(),s.palm.reliable);s.state.observe(pose.open,pose.time);
+  this.measure(s,pose.time);s.motion.push(s.target,s.rotation,pose.time,this.clock(),s.palm.reliable);if(pose.gesture)s.state.observeGesture(pose.gesture,pose.time);else s.state.observe(pose.open,pose.time);
  }
+ lost(side:Side,time:number,reason:string){const s=this.sabers[side];s.state.observeGesture({kind:'LOST',count:s.state.evidence.count,confidence:0,reason},time);s.motion.freeze();s.speed=0;s.measuredTime=NaN;}
  private measure(s:Saber,time:number){
   this.tip.set(0,LENGTH+.12,0).applyQuaternion(s.rotation).add(s.target);
   const elapsed=Number.isFinite(s.measuredTime)?(time-s.measuredTime)/1000:0;
@@ -107,7 +109,7 @@ export class SaberScene {
  private updateTrail(s:Saber,now:number){
   const maxAge=this.quality==='low'?.12:this.quality==='medium'?.18:.22;
   this.tip.set(0,.12+LENGTH*s.state.extension,0).applyQuaternion(s.group.quaternion).add(s.group.position);this.base.set(0,.16,0).applyQuaternion(s.group.quaternion).add(s.group.position);
-  s.ribbon.update(this.base,this.tip,now,s.state.extension,maxAge,this.cameraRight);
+  s.ribbon.update(this.base,this.tip,now,s.state.extension,maxAge,this.cameraRight,!s.state.lost&&now-s.state.lastSeen<180);
   const previous=s.trail.geometry.drawRange.count;s.trail.geometry.setDrawRange(0,s.ribbon.vertices);
   if(s.ribbon.vertices||previous){for(const name of STREAM_ATTRIBUTES){const a=s.trail.geometry.attributes[name] as T.BufferAttribute;a.clearUpdateRanges();a.addUpdateRange(0,s.ribbon.vertices*(name==='position'?3:1));a.needsUpdate=true;}}
  }
@@ -123,11 +125,12 @@ export class SaberScene {
   for(const side of SIDES){
    const s=this.sabers[side];
    if(this.demo){const t=now*.0012,fit=Math.min(1,this.camera.aspect/1.4);s.target.set((i?1:-1)*(1.5+Math.sin(t*1.7)*.6)*fit,-.6+Math.cos(t)*.3,0);s.rotation.setFromEuler(this.euler.set(.2,Math.sin(t)*.4,(i?-1:1)*(.3+Math.sin(t*1.7)*.65)*fit));this.measure(s,now);s.motion.push(s.target,s.rotation,now,now);s.state.observe(Math.floor(now/5500)%3!==2,now);}
-   const extension=s.state.step(now,dt),tracked=now-s.state.lastSeen<420,wasVisible=s.group.visible;s.group.visible=tracked;
-   if(tracked){s.motion.sample(now);s.group.position.copy(s.motion.position);s.group.quaternion.copy(s.motion.rotation);if(!this.demo){this.stats.age.add(Math.max(0,now-s.measuredTime));this.stats.smoothing.add(s.motion.lagMs);}}
+   const extension=s.state.step(now,dt),tracked=s.state.visible(now);s.group.visible=tracked;
+   if(tracked){if(!s.state.lost&&now-s.state.lastSeen<180)s.motion.sample(now);else s.motion.freeze();s.group.position.copy(s.motion.position);s.group.quaternion.copy(s.motion.rotation);if(!this.demo){this.stats.age.add(Math.max(0,now-s.measuredTime));this.stats.smoothing.add(s.motion.lagMs);}}
+   for(const material of s.hiltMaterials)material.opacity=Math.min(1,Math.max(0,(420-(now-s.state.lastSeen))/160));
    s.blade.scale.y=Math.max(.001,extension);s.blade.visible=extension>.001;
    s.glow.uniforms.time.value=s.core.uniforms.time.value=now/1000;if(s.light.visible)s.light.intensity=extension*1.8;
-   const audioStart=performance.now(),speed=s.speed*Math.exp(-Math.max(0,now-s.measuredTime-80)/100);this.sound(side,s.state.active,speed,extension);this.stats.audio.add(performance.now()-audioStart);
+   const audioStart=performance.now(),speed=Number.isFinite(s.measuredTime)?s.speed*Math.exp(-Math.max(0,now-s.measuredTime-80)/100):0;this.sound(side,s.state.active,speed,extension);this.stats.audio.add(performance.now()-audioStart);
    const trailStart=performance.now();if(tracked)this.updateTrail(s,now);else{s.ribbon.reset();s.trail.geometry.setDrawRange(0,0);}this.stats.trail.add(performance.now()-trailStart);i++;
   }
   this.renderer.render(this.scene,this.camera);

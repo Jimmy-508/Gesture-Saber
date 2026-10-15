@@ -11,13 +11,13 @@ export class TrailBuffer {
  vertices=0;energy=0;
  constructor(){for(let i=0;i<TRAIL_SAMPLES-1;i++)for(let band=0;band<2;band++){const u=band*2;this.uvs.set([u,0,u,1,u+1,1,u,0,u+1,1,u+1,0],(i*2+band)*12);}}
  reset(){this.count=this.vertices=0;this.energy=0;this.lastTime=-Infinity;}
- update(base:Vector3,tip:Vector3,now:number,extension:number,maxAge:number,right:Vector3){
+ update(base:Vector3,tip:Vector3,now:number,extension:number,maxAge:number,right:Vector3,emit=true){
   const o=this.head*6,h=this.history,elapsed=(now-this.lastTime)/1000;
   const distance=this.count?Math.hypot(tip.x-h[o+3],tip.y-h[o+4],tip.z-h[o+5]):0;
   const baseDistance=this.count?Math.hypot(base.x-h[o],base.y-h[o+1],base.z-h[o+2]):0;
   if(distance>1.8||baseDistance>1.8||elapsed>.3){this.count=0;}
   // Continuous displacement-to-energy curve, not a fixed hand-speed admission threshold.
-  if(extension>.8&&(!this.count||Math.max(distance,baseDistance)>.004)){
+  if(emit&&extension>.8&&(!this.count||Math.max(distance,baseDistance)>.004)){
    const speed=this.count?Math.max(distance,baseDistance)/Math.max(.004,elapsed):0;
    this.energy=1-Math.exp(-speed/3.2);
    const next=this.count?(this.head+1)%TRAIL_SAMPLES:0;this.head=next;const n=next*6;

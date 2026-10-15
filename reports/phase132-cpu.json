@@ -1,0 +1,15 @@
+{
+  "environment": "v24.21.0",
+  "scope": "Node CPU microbenchmark only, 200 x 500 calls; not tablet FPS or camera latency",
+  "previousRawCounter": {
+    "meanMs": 0.0008748859999999967,
+    "p95Ms": 0.0011875999999999749,
+    "peakBatchMeanMs": 0.002095399999999984
+  },
+  "currentClassifier": {
+    "meanMs": 0.004663727000000003,
+    "p95Ms": 0.005649599999999964,
+    "peakBatchMeanMs": 0.008421600000000012
+  },
+  "callsPerSecondAt24HzTwoHands": 48
+}

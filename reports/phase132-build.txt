@@ -1,0 +1,28 @@
+MediaPipe model and WASM assets ready (served locally).
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 51 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/tests/gesture-check.html                     0.76 kB │ gzip:   0.49 kB
+dist/tests/performance.html                       1.22 kB │ gzip:   0.87 kB
+dist/index.html                                   1.30 kB │ gzip:   0.50 kB
+dist/tests/engine-check.html                      1.62 kB │ gzip:   0.83 kB
+dist/assets/tracker.worker-DV81sukE.js          158.70 kB
+dist/assets/main-DClzaMhz.css                     8.41 kB │ gzip:   2.77 kB
+dist/assets/rolldown-runtime-4tVxZq34.js          0.23 kB │ gzip:   0.19 kB
+dist/assets/modulepreload-polyfill-P2Xu9kJm.js    0.67 kB │ gzip:   0.38 kB
+dist/assets/gesture-BhdKnXIP.js                   1.56 kB │ gzip:   0.96 kB
+dist/assets/pipeline-B5HXHh7W.js                  2.28 kB │ gzip:   1.06 kB
+dist/assets/gestureCheck-LIfcWKEK.js              2.61 kB │ gzip:   1.46 kB
+dist/assets/audio-BsIJ3CMl.js                     3.29 kB │ gzip:   1.50 kB
+dist/assets/runtime-C0RM3_Zs.js                   3.61 kB │ gzip:   1.69 kB
+dist/assets/model-Dc0O6iJr.js                     4.24 kB │ gzip:   2.17 kB
+dist/assets/engineCheck-TgoNoRdS.js               5.80 kB │ gzip:   2.68 kB
+dist/assets/performance-Zl2cLo9W.js              18.22 kB │ gzip:   7.06 kB
+dist/assets/main-BRodvo89.js                     23.44 kB │ gzip:   8.81 kB
+dist/assets/mediapipe-D-nf_0VX.js               155.33 kB │ gzip:  46.13 kB
+dist/assets/react-Dax7iIDm.js                   218.71 kB │ gzip:  68.25 kB
+dist/assets/saber-BKp3acjD.js                   571.78 kB │ gzip: 144.97 kB
+
+✓ built in 531ms

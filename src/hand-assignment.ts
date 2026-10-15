@@ -17,7 +17,7 @@ export class HandAssignment {
    if(!label||label.score<.55||!['Left','Right'].includes(label.categoryName)||![0,5,9,17].every(i=>p[i]&&Number.isFinite(p[i].x)&&Number.isFinite(p[i].y)))continue;
    candidates.push({index,x:(p[0].x+p[5].x+p[9].x+p[17].x)/4,y:(p[0].y+p[5].y+p[9].y+p[17].y)/4,width:Math.hypot(p[5].x-p[17].x,p[5].y-p[17].y),side:label.categoryName==='Left'?'Right':'Left',score:label.score});
   }
-  if(!candidates.length){this.status='未偵測：短暫保留身分';return [];}
+  if(!candidates.length){this.status=data.landmarks.length?'關鍵點或手別信心不足：拒用結果':'MediaPipe 未偵測手部';return [];}
   if(candidates.length===2&&Math.hypot(candidates[0].x-candidates[1].x,candidates[0].y-candidates[1].y)<Math.max(.045,Math.min(candidates[0].width,candidates[1].width)*.45)){
    this.status='重疊／重複辨識：暫留原身分';return [];
   }
@@ -36,7 +36,7 @@ export class HandAssignment {
    const total=(l<0?1.7:cost('Left',candidates[l]))+(r<0?1.7:cost('Right',candidates[r]));
    if(total<bestCost){bestCost=total;best=[];if(l>=0)best.push({side:'Left',index:l});if(r>=0)best.push({side:'Right',index:r});}
   }
-  this.status=best.some(a=>candidates[a.index].side!==a.side)?'依時序維持手部身分':'依手別與時序配對';
+  this.status=!best.length?'候選與既有身分不相符：拒用結果':best.some(a=>candidates[a.index].side!==a.side)?'依時序維持手部身分':'依手別與時序配對';
   return best.map(a=>{
    const c=candidates[a.index],old=this.tracks[a.side],dt=old?(data.time-old.time)/1000:0;
    const vx=old&&dt>0&&dt<.25?Math.max(-3,Math.min(3,(c.x-old.x)/dt)):0,vy=old&&dt>0&&dt<.25?Math.max(-3,Math.min(3,(c.y-old.y)/dt)):0;
