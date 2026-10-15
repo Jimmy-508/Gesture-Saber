@@ -14,7 +14,7 @@ export function extendedFingers(p:Point[]):number {
 export class GestureGate {
  active=false; candidate=false; since=0; last=0;
  update(count:number,time:number){
-  if(time-this.last>200){this.active=false;this.since=time;this.candidate=false;}
+  if(time-this.last>300){this.active=false;this.since=time;this.candidate=false;}
   this.last=time;
   const next=count>=3?true:count<=1?false:this.active;
   if(next!==this.candidate){this.candidate=next;this.since=time;}

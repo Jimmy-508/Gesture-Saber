@@ -1,92 +1,67 @@
-import React,{useEffect,useRef,useState} from 'react';
+import {useEffect,useRef,useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import {SaberScene,type Quality} from './scene';
-import {GestureGate,extendedFingers,type Side,type Point} from './gesture';
+import {GestureGate,extendedFingers,type Side} from './gesture';
+import {TrackingSession,initialDiagnostics,type Diagnostics,type TrackingResult} from './tracking';
+import {SaberAudio} from './audio';
 import './style.css';
 type Status='idle'|'loading'|'running'|'paused'|'error';
 function App(){
- const host=useRef<HTMLDivElement>(null),scene=useRef<SaberScene|null>(null),worker=useRef<Worker|null>(null),video=useRef<HTMLVideoElement|null>(null),stream=useRef<MediaStream|null>(null);
- const generation=useRef(0),timer=useRef<ReturnType<typeof setTimeout>|null>(null),busy=useRef(false),running=useRef(false),lastFrame=useRef(-1),rate=useRef(24),lastResult=useRef(0),readyTimer=useRef<ReturnType<typeof setTimeout>|null>(null);
- const gates=useRef({Left:new GestureGate(),Right:new GestureGate()});
+ const host=useRef<HTMLDivElement>(null),scene=useRef<SaberScene|null>(null),session=useRef<TrackingSession|null>(null),audio=useRef<SaberAudio|null>(null),generation=useRef(0);
+ const gates=useRef({Left:new GestureGate(),Right:new GestureGate()}),samples=useRef({time:0,count:0});
  const [status,setStatus]=useState<Status>('idle'),[error,setError]=useState(''),[settings,setSettings]=useState(false),[quality,setQuality]=useState<Quality>('medium'),[demo,setDemo]=useState(false),[fps,setFps]=useState(0),[ms,setMs]=useState(0),[hz,setHz]=useState(0),[hands,setHands]=useState({Left:'未偵測',Right:'未偵測'});
- const samples=useRef({time:0,count:0});
+ const [diagnostics,setDiagnostics]=useState(false),[diag,setDiag]=useState<Diagnostics>({...initialDiagnostics}),[forceMain,setForceMain]=useState(false),[sound,setSound]=useState(true),[volume,setVolume]=useState(.3),[audioStatus,setAudioStatus]=useState('等待操作啟用');
  function stop(next:Status='idle'){
-  generation.current++;running.current=false;if(timer.current)clearTimeout(timer.current);if(readyTimer.current)clearTimeout(readyTimer.current);
-  worker.current?.terminate();worker.current=null;stream.current?.getTracks().forEach(t=>t.stop());stream.current=null;
-  if(video.current){video.current.pause();video.current.srcObject=null;video.current.remove();video.current=null;}
-  busy.current=false;lastFrame.current=-1;scene.current?.hide();gates.current={Left:new GestureGate(),Right:new GestureGate()};setHands({Left:'未偵測',Right:'未偵測'});setHz(0);setStatus(next);
+  generation.current++;session.current?.stop();session.current=null;scene.current?.hide();if(scene.current)scene.current.demo=false;
+  audio.current?.dispose();audio.current=null;setAudioStatus('已停止');gates.current={Left:new GestureGate(),Right:new GestureGate()};setHands({Left:'未偵測',Right:'未偵測'});setHz(0);setStatus(next);
  }
- function fail(message:string){stop('error');setError(message);}
+ function unlockAudio(){
+  if(!audio.current)audio.current=new SaberAudio();audio.current.configure(sound,volume);void audio.current.unlock().then(()=>setAudioStatus(audio.current?.status??'已停止'));
+ }
  useEffect(()=>{
-  try{scene.current=new SaberScene(host.current!);}catch{setStatus('error');setError('無法建立 WebGL 場景。請開啟瀏覽器硬體加速，或改用支援 WebGL 的瀏覽器。');}
-  const interval=setInterval(()=>{setFps(scene.current?.fps??0);if(running.current&&performance.now()-lastResult.current>220){scene.current?.hide();setHands({Left:'未偵測',Right:'未偵測'});}if(running.current&&performance.now()-lastResult.current>10000)fail('手部辨識逾時，請重新啟動攝影機。');},300);
-  const visibility=()=>{if(document.hidden&&(running.current||worker.current)){stop('paused');setDemo(false);if(scene.current)scene.current.demo=false;}};
-  document.addEventListener('visibilitychange',visibility);
-  const pagehide=()=>stop('paused');window.addEventListener('pagehide',pagehide);
-  return()=>{clearInterval(interval);document.removeEventListener('visibilitychange',visibility);window.removeEventListener('pagehide',pagehide);stop();scene.current?.dispose();};
+  try{scene.current=new SaberScene(host.current!,(...args)=>audio.current?.update(...args));}catch{setStatus('error');setError('無法建立 WebGL 場景。請使用支援 WebGL 的瀏覽器。');}
+  const interval=setInterval(()=>{setFps(scene.current?.fps??0);setAudioStatus(audio.current?.status??'等待操作啟用');},500);
+  const pause=()=>{stop('paused');setDemo(false);};const visibility=()=>{if(document.hidden)pause();};
+  document.addEventListener('visibilitychange',visibility);window.addEventListener('pagehide',pause);
+  return()=>{clearInterval(interval);document.removeEventListener('visibilitychange',visibility);window.removeEventListener('pagehide',pause);stop();scene.current?.dispose();};
  },[]);
- useEffect(()=>{scene.current?.setQuality(quality);rate.current=quality==='low'?18:quality==='medium'?24:30;},[quality]);
- async function start(){
-  if(!scene.current)return;
-  stop();setDemo(false);scene.current.demo=false;setError('');setStatus('loading');const session=generation.current;
-  if(!window.isSecureContext||!navigator.mediaDevices?.getUserMedia){fail('攝影機需要 HTTPS 或 localhost，以及支援攝影機的瀏覽器。');return;}
-  try{
-   const media=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:'user',width:{ideal:640},height:{ideal:480},frameRate:{ideal:30,max:30}}});
-   if(session!==generation.current){media.getTracks().forEach(t=>t.stop());return;}
-   stream.current=media;const v=document.createElement('video');v.muted=true;v.autoplay=true;v.playsInline=true;v.setAttribute('playsinline','');v.setAttribute('aria-hidden','true');v.className='tracking-video';document.body.appendChild(v);v.srcObject=media;video.current=v;
-   media.getVideoTracks()[0].onended=()=>{if(session===generation.current)fail('攝影機已中斷，請重新啟動。');};
-   await v.play();if(session!==generation.current)return;
-   const w=new Worker(new URL('./tracker.worker.ts',import.meta.url),{type:'module'});worker.current=w;
-   readyTimer.current=setTimeout(()=>{if(session===generation.current)fail('模型載入逾時，請檢查連線後重試。');},45000);
-   w.onerror=()=>{if(session===generation.current)fail('辨識引擎無法啟動。請更新瀏覽器後重試。');};
-   w.onmessage=({data})=>{
-    if(session!==generation.current)return;
-    if(data.type==='error'){fail('辨識失敗，請重新啟動。'+data.message);return;}
-    if(data.type==='ready'){
-     if(readyTimer.current)clearTimeout(readyTimer.current);running.current=true;lastResult.current=performance.now();samples.current={time:performance.now(),count:0};setStatus('running');capture();
-    }
-    if(data.type==='result'){
-     busy.current=false;lastResult.current=performance.now();setMs(Math.round(data.ms));
-     const labels={Left:'未偵測',Right:'未偵測'},seen=new Set<Side>();
-     for(let i=0;i<data.landmarks.length;i++){
-      // MediaPipe handedness assumes mirrored input. Video is raw; swap labels.
-      const side:Side=data.handedness[i][0].categoryName==='Left'?'Right':'Left';
-      if(seen.has(side)||data.handedness[i][0].score<.55)continue;seen.add(side);
-      const p=data.landmarks[i] as Point[],count=extendedFingers(data.world[i]?.length===21?data.world[i]:p),open=gates.current[side].update(count,data.time);
-      scene.current?.update({side,points:p,world:data.world[i],open,time:data.time});labels[side]=open?'光劍啟動':count<=1?'握拳收劍':'張掌啟動';
-     }
-     for(const side of ['Left','Right'] as Side[])if(!seen.has(side)){gates.current[side]=new GestureGate();if(scene.current)scene.current.sabers[side].active=false;}
-     setHands(labels);samples.current.count++;const elapsed=performance.now()-samples.current.time;
-     if(elapsed>1000){setHz(Math.round(samples.current.count*1000/elapsed));samples.current={time:performance.now(),count:0};}
-    }
-   };
-   const base=new URL(import.meta.env.BASE_URL,location.href).href;
-   w.postMessage({type:'init',base});
-   async function capture(){
-    if(session!==generation.current||!running.current)return;
-    const started=performance.now();
-    if(!busy.current&&v.readyState>=2&&v.currentTime!==lastFrame.current){
-     busy.current=true;lastFrame.current=v.currentTime;
-     try{const bitmap=await createImageBitmap(v);if(session!==generation.current){bitmap.close();return;}w.postMessage({type:'frame',frame:bitmap,time:performance.now()},[bitmap]);}
-     catch{if(session===generation.current)fail('無法讀取攝影機影格。請使用最新版 Safari 或 Chrome。');return;}
-    }
-    timer.current=setTimeout(capture,Math.max(8,1000/rate.current-(performance.now()-started)));
-   }
-  }catch(e){if(session!==generation.current)return;const name=(e as DOMException).name;fail(name==='NotAllowedError'?'攝影機權限被拒絕。請在網址列的網站設定中允許攝影機，再重試。':name==='NotFoundError'?'找不到可用的攝影機。':name==='NotReadableError'?'攝影機被其他應用程式使用，請關閉後重試。':'無法開啟攝影機：'+String(e));}
+ useEffect(()=>{scene.current?.setQuality(quality);session.current?.setRate(quality==='low'?18:quality==='medium'?24:30);},[quality]);
+ useEffect(()=>{audio.current?.configure(sound,volume);},[sound,volume]);
+ function receive(data:TrackingResult){
+  setStatus('running');setMs(Math.round(data.ms));const labels={Left:'未偵測',Right:'未偵測'},seen=new Set<Side>();
+  for(let i=0;i<data.landmarks.length;i++){
+   const hand=data.handedness[i]?.[0];if(!hand||hand.score<.55)continue;
+   const side:Side=hand.categoryName==='Left'?'Right':'Left';if(seen.has(side))continue;seen.add(side);
+   const p=data.landmarks[i],count=extendedFingers(data.world[i]?.length===21?data.world[i]:p),open=gates.current[side].update(count,data.time);
+   scene.current?.update({side,points:p,world:data.world[i],open,time:data.time});labels[side]=open?'光劍啟動':count<=1?'握拳收劍':'張掌啟動';
+  }
+  // Keep gate state over a short occlusion; BladeState independently retracts after 260 ms.
+  setHands(labels);samples.current.count++;const elapsed=performance.now()-samples.current.time;
+  if(elapsed>1000){setHz(Math.round(samples.current.count*1000/elapsed));samples.current={time:performance.now(),count:0};}
  }
- function toggleDemo(){stop();const next=!demo;setDemo(next);if(scene.current)scene.current.demo=next;}
+ function start(){
+  if(!scene.current)return;stop();unlockAudio();setDemo(false);setError('');setStatus('loading');setDiag({...initialDiagnostics});samples.current={time:performance.now(),count:0};const id=generation.current;
+  const next=new TrackingSession(new URL(import.meta.env.BASE_URL,location.origin).href,d=>{if(id===generation.current)setDiag(d);},r=>{if(id===generation.current)receive(r);},message=>{if(id!==generation.current)return;setStatus('error');setError(message);scene.current?.hide();audio.current?.dispose();audio.current=null;});
+  session.current=next;next.setRate(quality==='low'?18:quality==='medium'?24:30);void next.start(forceMain);
+ }
+ function toggleDemo(){stop();const next=!demo;setDemo(next);setError('');if(next)unlockAudio();if(scene.current)scene.current.demo=next;}
+ function changeSound(enabled:boolean){setSound(enabled);if(!audio.current)audio.current=new SaberAudio();audio.current.configure(enabled,volume);if(enabled)void audio.current.unlock().then(()=>setAudioStatus(audio.current?.status??'已停止'));else setAudioStatus('已靜音');}
  const active=status==='running',loading=status==='loading';
  return <main>
-  <div ref={host} className="scene" aria-label="雙光劍 3D 實驗室"/>
-  <div className="vignette"/>
-  <header><a className="brand" href="./"><span className="brand-icon">╱╲</span><span>GESTURE<span className="brand-light"> SABER</span><small>雙光劍自由揮劍實驗室</small></span></a><div className="header-right"><span className="phase">PHASE 01 <b> / </b> FREE PLAY</span><button className="icon-button" aria-label="開啟設定" onClick={()=>setSettings(true)}>⚙</button></div></header>
-  <aside className="telemetry"><div><span className={'dot '+(active?'live':'')}/>{active?'追蹤運作中':loading?'啟動辨識引擎':demo?'視覺展示 · 非追蹤':status==='paused'?'已暫停 · 點擊重新啟動':'攝影機待命'}</div><small>{fps} FPS <span>／</span> {hz} Hz 追蹤 <span>／</span> {ms} ms 辨識</small></aside>
-  {!active&&!loading&&!demo&&<section className="welcome"><div className="eyebrow">YOUR HANDS. YOUR SABERS.</div><h1>雙手，啟動原力。</h1><p>不需要 VR。張開手掌，點亮你的光劍。<br/>在眼前的空間，自由揮動。</p><div className="instructions"><span><i>✳</i> 張掌啟動</span><span><i>◉</i> 握拳收劍</span><span><i>↗</i> 揮動留下光軌</span></div><button className="primary" onClick={start}>◉ <span>{status==='paused'?'重新啟動攝影機':'開始攝影機'}</span> <span>↗</span></button><small className="privacy">影像僅在裝置上辨識，不錄影、不上傳。</small><button className="text-button" onClick={toggleDemo}>先看看光劍效果 →</button></section>}
-  {loading&&<section className="loading"><div className="loader"/><h2>正在連接你的雙手</h2><p>首次啟動需要載入手部辨識模型</p><button className="text-button" onClick={()=>stop()}>取消</button></section>}
+  <div ref={host} className="scene" aria-label="雙光劍 3D 實驗室"/><div className="vignette"/>
+  <header><a className="brand" href="./"><span className="brand-icon">╱╲</span><span>GESTURE<span className="brand-light"> SABER</span><small>雙光劍自由揮劍實驗室</small></span></a><div className="header-right"><span className="phase">PHASE 01.1 <b> / </b> ENERGY IN MOTION</span><button className="icon-button" aria-label={sound?'關閉音效':'開啟音效'} onClick={()=>changeSound(!sound)}>{sound?'♫':'♪'}</button><button className="icon-button" aria-label="開啟設定" onClick={()=>setSettings(true)}>⚙</button></div></header>
+  <aside className="telemetry"><div><span className={'dot '+(active?'live':'')}/>{active?'追蹤運作中':loading?diag.camera.startsWith('可讀')?'攝影機已開啟 · 辨識初始化中':'等待攝影機':demo?'視覺與合成音效展示':status==='paused'?'已暫停 · 點擊重新啟動':'攝影機待命'}</div><small>{fps} FPS <span>／</span> {hz} Hz 追蹤 <span>／</span> {ms} ms 辨識</small><button className="text-button diagnostic-toggle" onClick={()=>setDiagnostics(!diagnostics)} aria-expanded={diagnostics}>診斷資訊 {diagnostics?'−':'+'}</button></aside>
+  {diagnostics&&<aside className="diagnostics" aria-label="追蹤診斷"><strong>PIPELINE DIAGNOSTICS · 1.1</strong><dl><dt>攝影機</dt><dd>{diag.camera}</dd><dt>模型</dt><dd>{diag.model}</dd><dt>追蹤管線</dt><dd>{diag.pipeline}</dd><dt>辨識模式</dt><dd>{diag.mode}</dd><dt>已處理影格</dt><dd>{diag.frames}</dd><dt>音訊</dt><dd>{audioStatus}</dd></dl><p>{diag.detail||'啟動攝影機後，這裡會顯示實際執行階段。'}</p><small>只有影像可讀後才載入模型。備援不需要更改瀏覽器安全設定。</small></aside>}
+  {!active&&!loading&&!demo&&<section className="welcome"><div className="eyebrow">YOUR HANDS. YOUR SABERS.</div><h1>雙手，啟動原力。</h1><p>不需要 VR。張開手掌，點亮你的光劍。<br/>感受每次揮動的能量與聲音。</p><div className="instructions"><span><i>✳</i> 張掌啟動</span><span><i>◉</i> 握拳收劍</span><span><i>↗</i> 揮動能量</span></div><button className="primary" onClick={start}>◉ <span>{status==='paused'?'重新啟動攝影機':'開始攝影機'}</span><span>↗</span></button><small className="privacy">影像僅在裝置上辨識，不錄影、不上傳。</small><button className="text-button" onClick={toggleDemo}>體驗光劍與動態音效 →</button></section>}
+  {loading&&<section className="loading"><div className="loader"/><h2>{diag.camera.startsWith('可讀')?'攝影機已開啟':'正在開啟攝影機'}</h2><p>{diag.camera.startsWith('可讀')?diag.model:'請允許前置鏡頭權限；影像不會顯示在遊戲畫面。'}</p><button className="text-button" onClick={()=>stop()}>取消並釋放攝影機</button></section>}
   {error&&<div className="error" role="alert">{error}</div>}
-  {(active||demo)&&<div className="session-controls"><span>{demo?'視覺展示':'將雙手放在鏡頭前，張開手掌'}</span>{demo&&<button className="primary small" onClick={start}>開始攝影機</button>}<button className="secondary" onClick={()=>{stop();setDemo(false);if(scene.current)scene.current.demo=false;}}>結束{demo?'展示':'追蹤'}</button></div>}
-  <footer><div className="hand left"><span className="hand-symbol">L</span><div>左手 <small>BLUE SABER</small><p>{demo?'展示中':hands.Left}</p></div></div><div className="footer-center"><span>FREE SWING LAB</span><small>建議橫向操作 · 與鏡頭保持約一臂距離</small></div><div className="hand right"><div>右手 <small>RED SABER</small><p>{demo?'展示中':hands.Right}</p></div><span className="hand-symbol">R</span></div></footer>
-  {settings&&<div className="modal-backdrop" onClick={()=>setSettings(false)}><section className="settings" role="dialog" aria-modal="true" aria-labelledby="settings-title" onClick={e=>e.stopPropagation()}><button autoFocus className="close icon-button" onClick={()=>setSettings(false)} aria-label="關閉設定">×</button><div className="eyebrow">LAB CONFIGURATION</div><h2 id="settings-title">實驗室設定</h2><label htmlFor="quality">畫面品質</label><select id="quality" value={quality} onChange={e=>setQuality(e.target.value as Quality)}><option value="low">省電 · 18 Hz 追蹤 / 1× 像素</option><option value="medium">平衡 · 24 Hz 追蹤 / 1.5× 像素</option><option value="high">精緻 · 30 Hz 追蹤 / 2× 像素</option></select><p>追蹤與畫面獨立更新。若平板發熱或操作卡頓，請切換省電模式。</p><button className="secondary" onClick={()=>{document.documentElement.requestFullscreen?.().catch(()=>{});}}>進入全螢幕</button><h3>操作小提示</h3><p>保持環境明亮，讓兩隻手完整入鏡。張開至少三根手指啟動；握拳收劍。手掌離開鏡頭會自動隱藏光劍。</p><p>切換分頁後會關閉攝影機，返回後請重新啟動。iPad 可使用 Safari「加入主畫面」以取得較完整的畫面。</p><button className="primary" onClick={()=>setSettings(false)}>完成設定</button></section></div>}
+  {(active||demo)&&<div className="session-controls"><span>{demo?'光劍與音效展示 · 非追蹤':'將雙手放在鏡頭前，張開手掌'}</span>{demo&&<button className="primary small" onClick={start}>開始攝影機</button>}<button className="secondary" onClick={()=>{stop();setDemo(false);}}>結束{demo?'展示':'追蹤'}</button></div>}
+  <footer><div className="hand left"><span className="hand-symbol">L</span><div>左手 <small>BLUE SABER</small><p>{demo?'展示中':hands.Left}</p></div></div><div className="footer-center"><span>ENERGY IN MOTION</span><small>建議橫向操作 · 與鏡頭保持約一臂距離</small></div><div className="hand right"><div>右手 <small>RED SABER</small><p>{demo?'展示中':hands.Right}</p></div><span className="hand-symbol">R</span></div></footer>
+  {settings&&<div className="modal-backdrop" onClick={()=>setSettings(false)}><section className="settings" role="dialog" aria-modal="true" aria-labelledby="settings-title" onClick={e=>e.stopPropagation()} onKeyDown={e=>{if(e.key==='Escape')setSettings(false);}}><button autoFocus className="close icon-button" onClick={()=>setSettings(false)} aria-label="關閉設定">×</button><div className="eyebrow">LAB CONFIGURATION</div><h2 id="settings-title">實驗室設定</h2>
+   <label htmlFor="quality">畫面品質</label><select id="quality" value={quality} onChange={e=>setQuality(e.target.value as Quality)}><option value="low">省電 · 18 Hz 目標追蹤 / 1× 像素</option><option value="medium">平衡 · 24 Hz 目標追蹤 / 1.4× 像素</option><option value="high">精緻 · 30 Hz 目標追蹤 / 1.8× 像素</option></select><p>實際追蹤頻率依裝置效能調整。主執行緒備援會讓出畫面更新時間。</p>
+   <label className="check-row"><input type="checkbox" checked={sound} onChange={e=>changeSound(e.target.checked)}/>原創合成光劍音效</label><label htmlFor="volume">音量 {Math.round(volume*100)}%</label><input id="volume" type="range" min="0" max="1" step=".01" value={volume} onChange={e=>setVolume(Number(e.target.value))}/><p>{audioStatus} · 在 iPad 上請點擊開啟音效，並確認系統音量。</p>
+   <label className="check-row"><input type="checkbox" checked={diagnostics} onChange={e=>setDiagnostics(e.target.checked)}/>顯示攝影機與辨識診斷</label><label className="check-row"><input type="checkbox" checked={forceMain} onChange={e=>setForceMain(e.target.checked)}/>下次啟動直接使用相容辨識模式</label><p>預設自動嘗試 Worker，失敗後切換備援。若特定平板一直無法追蹤，可勾選相容模式後重新啟動。</p>
+   <button className="secondary" onClick={()=>{document.documentElement.requestFullscreen?.().catch(()=>{});}}>進入全螢幕</button><h3>操作小提示</h3><p>環境保持明亮，兩隻手完整入鏡。張掌啟動；握拳收劍。短暫遮擋有緩衝，持續離鏡會收劍。切換分頁會關閉攝影機及音訊，返回後重新啟動。</p><button className="primary" onClick={()=>setSettings(false)}>完成設定</button></section></div>}
  </main>;
 }
 createRoot(document.getElementById('root')!).render(<App/>);
