@@ -121,7 +121,7 @@ export class SaberScene {
   let i=0;
   for(const side of SIDES){
    const s=this.sabers[side];
-   if(this.demo){const t=now*.0009+i*1.5;s.target.set((i?1:-1)*1.5+Math.sin(t*1.7)*.7,-.6+Math.cos(t)*.3,0);s.rotation.setFromEuler(this.euler.set(.2,Math.sin(t)*.4,(i?-1:1)*(.3+Math.sin(t*1.7)*.65)));this.measure(s,now);s.state.observe(Math.floor(now/5500)%3!==2,now);}
+   if(this.demo){const t=now*.0009+i*1.5,fit=Math.min(1,this.camera.aspect/1.4);s.target.set(((i?1:-1)*1.5+Math.sin(t*1.7)*.7)*fit,-.6+Math.cos(t)*.3,0);s.rotation.setFromEuler(this.euler.set(.2,Math.sin(t)*.4,(i?-1:1)*(.3+Math.sin(t*1.7)*.65)*fit));this.measure(s,now);s.state.observe(Math.floor(now/5500)%3!==2,now);}
    const extension=s.state.step(now,dt),tracked=now-s.state.lastSeen<420,wasVisible=s.group.visible;s.group.visible=tracked;
    if(tracked){const snap=now-s.measuredTime>400||!wasVisible;if(snap){s.group.position.copy(s.target);s.group.quaternion.copy(s.rotation);}else{s.group.position.lerp(s.target,1-Math.exp(-dt*27));s.group.quaternion.slerp(s.rotation,1-Math.exp(-dt*24));}}
    s.blade.scale.y=Math.max(.001,extension);s.blade.visible=extension>.001;
