@@ -1,5 +1,6 @@
 import {FallbackPipeline,cameraError,withTimeout,withActivityTimeout,type Engine} from './pipeline.ts';
 import type {Point} from './gesture';
+import {Metric} from './metrics.ts';
 export type TrackingResult={landmarks:Point[][];world:Point[][];handedness:{categoryName:string;score:number}[][];time:number;ms:number};
 export type Diagnostics={camera:string;model:string;pipeline:string;detail:string;mode:string;frames:number};
 export const initialDiagnostics:Diagnostics={camera:'尚未啟動',model:'尚未載入',pipeline:'待命',detail:'',mode:'—',frames:0};
@@ -10,9 +11,12 @@ export class TrackingSession {
  private pipeline:FallbackPipeline<FrameSource,TrackingResult>|null=null;private timer:ReturnType<typeof setTimeout>|null=null;
  private worker:Worker|null=null;private stopped=false;private lastVideoTime=-1;private canvas:HTMLCanvasElement|null=null;private canvasMode=false;private cancelWorkerInit:(()=>void)|null=null;private lastFreshFrame=0;
  private diag={...initialDiagnostics};private rate=24;
+ readonly stats={capture:new Metric(),inference:new Metric(),delivery:new Metric(),interval:new Metric(),cameraInterval:new Metric()};
+ private published=0;private lastResult=0;private lastCameraFrame=0;private cameraCallback=0;
+ private frameCaptureMs=0;
  private base:string;private report:(d:Diagnostics)=>void;private result:(r:TrackingResult)=>void;private failure:(message:string)=>void;
  constructor(base:string,report:(d:Diagnostics)=>void,result:(r:TrackingResult)=>void,failure:(message:string)=>void){this.base=base;this.report=report;this.result=result;this.failure=failure;}
- private update(patch:Partial<Diagnostics>){this.diag={...this.diag,...patch};this.report(this.diag);}
+ private update(patch:Partial<Diagnostics>,force=true){Object.assign(this.diag,patch);const now=performance.now();if(force||now-this.published>=500){this.report({...this.diag});this.published=now;}}
  setRate(rate:number){this.rate=rate;}
  async start(forceMain=false){
   let stage='permission';
@@ -30,6 +34,9 @@ export class TrackingSession {
     const check=()=>{if(this.stopped){reject(abortError());return;}if(v.readyState>=2&&v.videoWidth>0){resolve();return;}this.timer=setTimeout(check,40);};check();
    }),12000,'等待攝影機首個影格逾時');
    if(this.stopped)return;
+   if(typeof v.requestVideoFrameCallback==='function'){
+    const decoded=(time:number)=>{if(this.stopped)return;if(this.lastCameraFrame)this.stats.cameraInterval.add(time-this.lastCameraFrame);this.lastCameraFrame=time;this.cameraCallback=v.requestVideoFrameCallback(decoded);};this.cameraCallback=v.requestVideoFrameCallback(decoded);
+   }
    const info=media.getVideoTracks()[0].getSettings();this.update({camera:`可讀影格 ${info.width??v.videoWidth}×${info.height??v.videoHeight}`,model:'載入中',pipeline:'初始化',detail:'攝影機階段已通過'});
    stage='model';
    this.pipeline=new FallbackPipeline(()=>this.makeWorker(),()=>this.makeMain(),detail=>this.update({pipeline:'切換主執行緒備援',detail}));
@@ -45,12 +52,13 @@ export class TrackingSession {
   },20000,'主執行緒模型載入停滯：20 秒沒有下載或初始化進度').catch(e=>{this.abort.abort();throw e;});
   if(this.stopped){model.close();throw abortError();}let accepted=true;
   return {name:'主執行緒 · video',detect:async(input,time)=>{
-   if(!accepted||this.stopped)throw abortError();const start=performance.now();
+   if(!accepted||this.stopped)throw abortError();const start=performance.now(),captureBefore=this.frameCaptureMs;
    let r;try{r=model.detectForVideo(input,time);}catch(e){
     if(input instanceof HTMLCanvasElement)throw e;
     const c=this.drawCanvas(input);this.update({detail:'直接 video 推論失敗，切換 2D canvas 影格'});this.canvasMode=true;r=model.detectForVideo(c,time+.001);
    }
-   return {landmarks:r.landmarks,world:r.worldLandmarks,handedness:r.handedness,time,ms:performance.now()-start};
+   this.stats.capture.add(this.frameCaptureMs);
+   return {landmarks:r.landmarks,world:r.worldLandmarks,handedness:r.handedness,time,ms:performance.now()-start-(this.frameCaptureMs-captureBefore)};
   },dispose:()=>{if(accepted){accepted=false;model.close();}}};
  }
  private async makeWorker():Promise<Engine<FrameSource,TrackingResult>>{
@@ -66,6 +74,7 @@ export class TrackingSession {
   w.onmessage=({data})=>{if(data.type==='result'){resolveFrame?.(data);resolveFrame=rejectFrame=null;}else if(data.type==='error'){rejectFrame?.(Error(data.stage+': '+data.message));resolveFrame=rejectFrame=null;}};
   w.onerror=e=>{e.preventDefault();rejectFrame?.(Error(e.message||'Worker inference error'));resolveFrame=rejectFrame=null;};
   return {name:'Worker · ImageBitmap',detect:async(input,time)=>{
+   const captureStart=performance.now(),captureBefore=this.frameCaptureMs;
    let bitmap:ImageBitmap;
    try{bitmap=await this.bitmap(input);}catch(e){
     if(disposed||this.stopped)throw abortError();
@@ -73,6 +82,7 @@ export class TrackingSession {
     this.update({detail:'createImageBitmap(video) 失敗，改用 canvas → ImageBitmap'});this.canvasMode=true;bitmap=await this.bitmap(this.drawCanvas(input));
    }
    if(disposed||this.stopped){bitmap.close();throw abortError();}
+   this.stats.capture.add(captureBefore+performance.now()-captureStart);
    try{return await withTimeout(new Promise<TrackingResult>((resolve,reject)=>{resolveFrame=resolve;rejectFrame=reject;w.postMessage({type:'frame',frame:bitmap,time},[bitmap]);}),3500,'Worker 推論逾時');}catch(e){bitmap.close();throw e;}
   },dispose:()=>{if(disposed)return;disposed=true;rejectFrame?.(abortError());resolveFrame=rejectFrame=null;try{w.postMessage({type:'close'});}catch{/* A crashed worker may already be closed. */}finally{w.terminate();}if(this.worker===w)this.worker=null;}};
  }
@@ -84,7 +94,7 @@ export class TrackingSession {
  private drawCanvas(v:HTMLVideoElement){
   if(!this.canvas)this.canvas=document.createElement('canvas');const c=this.canvas;
   const w=Math.min(640,v.videoWidth),h=Math.round(w*v.videoHeight/v.videoWidth);if(c.width!==w||c.height!==h){c.width=w;c.height=h;}
-  const ctx=c.getContext('2d',{alpha:false});if(!ctx)throw Error('無法建立相容的 2D 影格');ctx.drawImage(v,0,0,w,h);return c;
+  const started=performance.now(),ctx=c.getContext('2d',{alpha:false});if(!ctx)throw Error('無法建立相容的 2D 影格');ctx.drawImage(v,0,0,w,h);this.frameCaptureMs+=performance.now()-started;return c;
  }
  private async loop(){
   if(this.stopped||!this.video||!this.pipeline)return;
@@ -93,10 +103,11 @@ export class TrackingSession {
    const v=this.video;
    if(started-this.lastFreshFrame>10000){this.fail('攝影機影格停止更新。請確認頁面位於前景並重新啟動。','camera');return;}
    if(v.readyState>=2&&v.currentTime!==this.lastVideoTime){
-    this.lastFreshFrame=started;this.lastVideoTime=v.currentTime;const r=await this.pipeline.detect(this.canvasMode?this.drawCanvas(v):v,started);if(this.stopped)return;
+    this.lastFreshFrame=started;this.lastVideoTime=v.currentTime;this.frameCaptureMs=0;const r=await this.pipeline.detect(this.canvasMode?this.drawCanvas(v):v,started);if(this.stopped)return;
+    if(!r)this.lastFreshFrame=performance.now(); // Model fallback time is not evidence of a frozen camera.
     const name=this.pipeline.engine?.name??'備援中';
-    this.update({model:'已就緒',pipeline:'追蹤中',mode:this.canvasMode?(name.startsWith('Worker')?'Worker · canvas → ImageBitmap':'主執行緒 · canvas'):name,frames:this.diag.frames+(r?1:0)});
-    if(r){cost=r.ms;this.result(r);}
+    this.update({model:'已就緒',pipeline:'追蹤中',mode:this.canvasMode?(name.startsWith('Worker')?'Worker · canvas → ImageBitmap':'主執行緒 · canvas'):name,frames:this.diag.frames+(r?1:0)},false);
+    if(r){cost=r.ms;const arrived=performance.now();this.stats.inference.add(r.ms);this.stats.delivery.add(Math.max(0,arrived-r.time));if(this.lastResult)this.stats.interval.add(arrived-this.lastResult);this.lastResult=arrived;this.result(r);}
    }
   }catch(e){if(!this.stopped)this.fail('影格推論失敗（已嘗試可用備援）：'+String(e),'pipeline');return;}
   const main=this.pipeline.engine?.name.startsWith('主執行緒');
@@ -110,7 +121,7 @@ export class TrackingSession {
   if(this.stopped)return;this.stopped=true;this.abort.abort();if(this.timer)clearTimeout(this.timer);
   this.pipeline?.dispose();this.pipeline=null;this.cancelWorkerInit?.();this.cancelWorkerInit=null;this.worker?.terminate();this.worker=null;
   this.media?.getTracks().forEach(t=>{t.onended=null;t.stop();});this.media=null;
-  if(this.video){this.video.pause();this.video.srcObject=null;this.video.remove();this.video=null;}
+  if(this.video){if(this.cameraCallback)this.video.cancelVideoFrameCallback?.(this.cameraCallback);this.video.pause();this.video.srcObject=null;this.video.remove();this.video=null;}
   if(this.canvas){this.canvas.width=this.canvas.height=0;this.canvas=null;}
   if(report)this.update({camera:'已釋放',model:'已釋放',pipeline:'已停止'});
  }

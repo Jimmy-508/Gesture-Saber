@@ -1,11 +1,11 @@
 {
   "name": "gesture-saber",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Camera-controlled dual lightsaber free-swing laboratory",
   "private": true,
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "assets": "node scripts/prepare-assets.mjs",
+    "assets": "node scripts/prepare-assets.mjs && node scripts/generate-audio.mjs",
     "predev": "npm run assets",
     "test": "node --test tests/*.test.mjs",
     "build": "npm run assets && tsc --noEmit && vite build",

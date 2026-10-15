@@ -10,8 +10,7 @@ test('short tracking loss retains blade; extended loss retracts and reset is imm
  const s=new BladeState();s.observe(true,1000);s.step(1000,.1);s.step(1080,.1);assert.equal(s.step(1200,.02),1);assert.equal(s.active,true);s.step(1300,.06);assert.equal(s.active,false);assert.ok(s.extension>0);s.step(1360,.06);assert.equal(s.extension,0);s.reset();assert.equal(s.extension,0);
 });
 test('measured motion ignores stale samples and clamps spikes',()=>{assert.equal(motionSpeed(1,.1),10);assert.equal(motionSpeed(100,.01),24);assert.equal(motionSpeed(10,1),0);assert.equal(motionSpeed(10,0),0)});
-test('speed continuously increases pitch, hum gain, cutoff and wind with bounded output',()=>{
+test('motion crossfades layers with bounded pitch rather than ramping a motor fundamental',()=>{
  const still=soundForSpeed(0),slow=soundForSpeed(2),fast=soundForSpeed(20);
- for(const key of ['pitch','gain','cutoff','wind']){assert.ok(still[key]<slow[key]);assert.ok(slow[key]<fast[key]);}
- assert.equal(still.wind,0);assert.deepEqual(soundForSpeed(10000),soundForSpeed(24));assert.deepEqual(soundForSpeed(NaN),still);
+ assert.equal(still.soft,0);assert.equal(still.fast,0);assert.ok(slow.soft>0);assert.ok(fast.fast>slow.fast);assert.equal(still.hum,fast.hum);assert.ok(fast.rate/still.rate<1.04);assert.deepEqual(soundForSpeed(10000),soundForSpeed(24));assert.deepEqual(soundForSpeed(NaN),still);
 });

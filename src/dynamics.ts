@@ -1,7 +1,8 @@
 const clamp=(n:number,a:number,b:number)=>Math.max(a,Math.min(b,n));
 export function soundForSpeed(speed:number){
  const s=clamp(Number.isFinite(speed)?speed:0,0,24),energy=1-Math.exp(-s/8);
- return {pitch:62+energy*115,gain:.045+energy*.10,cutoff:260+energy*2900,wind:Math.pow(energy,1.8)*.16};
+ const moving=1-Math.exp(-Math.max(0,s-.12)/5),blend=clamp((s-3)/11,0,1);
+ return {hum:.34,soft:moving*Math.cos(blend*Math.PI/2)*.72,fast:moving*Math.sin(blend*Math.PI/2)*.85,rate:1+energy*.035};
 }
 export class BladeState {
  extension=0;active=false;lastSeen=-Infinity;requested=false;

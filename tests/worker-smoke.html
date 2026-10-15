@@ -4,6 +4,7 @@ const worker=new Worker(new URL('../src/tracker.worker.ts',import.meta.url),{typ
 const timeout=setTimeout(()=>{output.textContent='FAIL: timeout';worker.terminate()},45000);
 worker.onerror=event=>{clearTimeout(timeout);output.textContent='FAIL: '+event.message;worker.terminate()};
 worker.onmessage=async ({data})=>{
+ if(data.type==='stage'){output.textContent=data.message;return;}
  if(data.type==='ready'){
   const canvas=document.createElement('canvas');canvas.width=640;canvas.height=480;
   const ctx=canvas.getContext('2d');ctx.fillStyle='#101820';ctx.fillRect(0,0,640,480);

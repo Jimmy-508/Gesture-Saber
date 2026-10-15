@@ -1,0 +1,26 @@
+{
+  "environment": {
+    "node": "v24.21.0",
+    "platform": "win32"
+  },
+  "method": "10 s synthetic 60 Hz updates; 24 Hz position samples. Audio nodes are counting substitutes, not real DSP or tablet measurements.",
+  "audio": {
+    "before": {
+      "seconds": 10,
+      "frames": 600,
+      "parameterTargets": 7200,
+      "cpuMs": 1.409400000000005
+    },
+    "after": {
+      "seconds": 10,
+      "frames": 600,
+      "parameterTargets": 1260,
+      "cpuMs": 0.9422000000000139
+    }
+  },
+  "motion": {
+    "beforeMeanPositionError": 0.08768377186208627,
+    "afterMeanPositionError": 0.035406147408034105,
+    "unit": "synthetic world units; not real input latency"
+  }
+}

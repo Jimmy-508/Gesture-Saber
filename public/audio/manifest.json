@@ -1,0 +1,32 @@
+{
+  "version": "1.2",
+  "sampleRate": 24000,
+  "origin": "Original deterministic offline DSP",
+  "files": {
+    "hum": {
+      "bytes": 192044,
+      "seconds": 4,
+      "sha256": "b3ec9c61bbcaa368be5f8bc3797a2ec79c3c405470b45d2d08c581441b7c4dbb"
+    },
+    "soft": {
+      "bytes": 144044,
+      "seconds": 3,
+      "sha256": "9423fe9db82c57ff078b6fbda8bc75bba4c39329c4c9290287ba67dfa0f310b7"
+    },
+    "fast": {
+      "bytes": 144044,
+      "seconds": 3,
+      "sha256": "c4228025c9d1aa1038a4f5d34cd0d47aaff12d8039749ce4ab99852c077ad574"
+    },
+    "ignite": {
+      "bytes": 12044,
+      "seconds": 0.25,
+      "sha256": "8c9b818e629d831047147c72c7d7ddb7cd0a0e9e054ad3136d75a2d69e1d939c"
+    },
+    "retract": {
+      "bytes": 9644,
+      "seconds": 0.2,
+      "sha256": "7e9f4e6fd0a6aa9e7f876a262cbe83763beeabde5ff102a41433695f9cb10ce5"
+    }
+  }
+}
