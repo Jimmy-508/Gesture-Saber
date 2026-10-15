@@ -38,7 +38,17 @@ One local production-build run measured cached-resource **engine initialization*
 
 Fixed-clock real scene/WebGL replay (not measured FPS): 24 Hz mirrored landmark inputs into 180 render steps produce **171/180 blue and 171/180 red** trail frames; demo gives the same 171/180 each, with 19 submitted draw calls. Initial frames include extension. Visual continuity and subjective appearance still need high-refresh on-device viewing.
 
-The in-app browser's ordinary requestAnimationFrame is throttled near 1 Hz in this automation environment. Such runs cannot establish tablet FPS, GPU load, end-to-end latency or perceived improvement. No tablet performance improvement is claimed.
+Early in-app-browser requestAnimationFrame runs were throttled near 1 Hz; those were invalid. A later unthrottled comparison on the same 1266×468 viewport and 1.14 pixel ratio passed the replay's validity check. After two seconds warmup per version, four seconds measured:
+
+| Desktop Chromium synthetic replay | Phase 1.2 | Phase 1.3 |
+| --- | ---: | ---: |
+| Actual input Hz | 24.12 | 24.28 |
+| Render FPS | 59.99 | 60.00 |
+| Frame interval mean / P95 / peak ms | 16.67 / 19.3 / 28.0 | 16.67 / 17.0 / 19.1 |
+| CPU submit mean / P95 / peak ms | 0.917 / 1.5 / 2.0 | 0.835 / 1.3 / 1.7 |
+| Draw calls | 19 | 19 |
+
+Raw observed page output: [phase13-browser.json](phase13-browser.json). Both hands had trails in every measured frame. This single sequential desktop replay shows no obvious rendering regression; its small differences are not proof of a repeatable gain. There is **no camera, MediaPipe or audio** in this scene comparison. GPU execution, tablet FPS, end-to-end latency and perceived improvement remain unmeasured. No tablet performance improvement is claimed. Fixed-clock QA retains its drawing buffer and presents a held frame only for screenshots; normal gameplay keeps the efficient default buffer policy.
 
 ## Controlled CPU comparison
 
