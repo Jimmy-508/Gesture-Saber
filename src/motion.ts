@@ -10,8 +10,8 @@ export class MotionFilter {
   if(time<=this.lastSample)return;
   // Advance the previous segment before replacing it. Equal-rate input/render must not stall at t=0.
   if(Number.isFinite(this.lastSample))this.sample(arrived);
-  const gap=time-this.lastSample;
-  if((gap>250&&!this.frozen)||!Number.isFinite(this.lastSample)||p.distanceTo(this.lastP)>2.5){this.position.copy(p);this.rotation.copy(q);this.targetP.copy(p);this.targetQ.copy(q);this.velocity.set(0,0,0);this.angular=0;this.speed=0;}
+  const gap=time-this.lastSample,recovering=this.frozen||gap>250||p.distanceTo(this.lastP)>2.5;
+  if(!Number.isFinite(this.lastSample)){this.position.copy(p);this.rotation.copy(q);this.targetP.copy(p);this.targetQ.copy(q);this.velocity.set(0,0,0);this.angular=0;this.speed=0;}
   else{
    const seconds=gap/1000,distance=p.distanceTo(this.lastP),angle=q.angleTo(this.lastQ);
    this.period=MathUtils.clamp(gap,16,140);this.speed=Math.min(24,(distance+angle*2.75)/seconds);
@@ -21,7 +21,7 @@ export class MotionFilter {
    if(distance<.002)this.velocity.set(0,0,0);
   }
   this.startP.copy(this.position);this.startQ.copy(this.rotation);this.lastP.copy(p);this.lastQ.copy(q);
-  this.frozen=false;this.lastSample=time;this.arrival=arrived;this.transition=MathUtils.clamp(this.period*.65/(1+this.speed*.22),8,32);
+  this.frozen=false;this.lastSample=time;this.arrival=arrived;this.transition=recovering?32:MathUtils.clamp(this.period*.65/(1+this.speed*.22),8,32);
  }
  sample(now:number){
   if(!Number.isFinite(this.lastSample))return;

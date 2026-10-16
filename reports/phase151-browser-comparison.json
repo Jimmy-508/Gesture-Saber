@@ -1,0 +1,551 @@
+{
+  "scope": "Controlled synthetic dual-hand browser comparison; CPU submission, not GPU time. RAF intervals invalid when throttled. No tablet or real tracking claim.",
+  "audio": {
+    "rows": [
+      {
+        "version": "1.5",
+        "initMs": 6.899999976158142,
+        "reuseMs": 0.10000002384185791,
+        "continuousAutomationCalls": 4320,
+        "cpuMs": {
+          "mean": 0.015555555456214482,
+          "p95": 0.09999999403953552,
+          "peak": 0.19999998807907104
+        }
+      },
+      {
+        "version": "1.5.1",
+        "initMs": 6.5999999940395355,
+        "reuseMs": 0.09999999403953552,
+        "continuousAutomationCalls": 3680,
+        "cpuMs": {
+          "mean": 0.013888888888888888,
+          "p95": 0.09999999403953552,
+          "peak": 0.20000001788139343
+        }
+      }
+    ],
+    "maxDifference": 1.4901161193847656e-8,
+    "rmsDifference": 1.1054433242789474e-9,
+    "peak": 0.09490048140287399,
+    "pass": true
+  },
+  "rows": [
+    {
+      "version": "1.5",
+      "drop": -1,
+      "sound": false,
+      "initMs": 80.2999999821186,
+      "compileMs": 17.600000023841858,
+      "cpuFrameMs": {
+        "mean": 0.27222222139437996,
+        "p95": 0.4000000059604645,
+        "peak": 11.200000017881393
+      },
+      "frameIntervalMs": {
+        "mean": 593.1416666681567,
+        "p95": 1016.6000000238419,
+        "peak": 1016.6000000238419
+      },
+      "frameTimingValid": false,
+      "positionTargetError": {
+        "mean": 0.05346053952481961,
+        "p95": 0.12597767347888933,
+        "peak": 0.2671870831008689
+      },
+      "angleTargetError": {
+        "mean": 0.020932058078899397,
+        "p95": 0.045608890628450555,
+        "peak": 0.08285170996404906
+      },
+      "renderStep": {
+        "mean": 0.04992665971578101,
+        "p95": 0.19083742092320596,
+        "peak": 0.3561272815335739
+      },
+      "renderJumps": 0,
+      "inputGapMs": {
+        "mean": 41.78403755868544,
+        "p95": 50,
+        "peak": 50
+      },
+      "drawCalls": 19,
+      "geometryBefore": 19,
+      "geometryAfter": 0,
+      "continuousAutomationCalls": 0
+    },
+    {
+      "version": "1.5",
+      "drop": -1,
+      "sound": true,
+      "initMs": 96.30000001192093,
+      "compileMs": 36.900000005960464,
+      "cpuFrameMs": {
+        "mean": 0.33000000052981904,
+        "p95": 0.4000000059604645,
+        "peak": 15.5
+      },
+      "frameIntervalMs": {
+        "mean": 996.2916666666666,
+        "p95": 1018.9000000059605,
+        "peak": 1018.9000000059605
+      },
+      "frameTimingValid": false,
+      "positionTargetError": {
+        "mean": 0.05346053952481961,
+        "p95": 0.12597767347888933,
+        "peak": 0.2671870831008689
+      },
+      "angleTargetError": {
+        "mean": 0.020932058078899397,
+        "p95": 0.045608890628450555,
+        "peak": 0.08285170996404906
+      },
+      "renderStep": {
+        "mean": 0.04992665971578101,
+        "p95": 0.19083742092320596,
+        "peak": 0.3561272815335739
+      },
+      "renderJumps": 0,
+      "inputGapMs": {
+        "mean": 41.78403755868544,
+        "p95": 50,
+        "peak": 50
+      },
+      "drawCalls": 19,
+      "geometryBefore": 19,
+      "geometryAfter": 0,
+      "continuousAutomationCalls": 4644
+    },
+    {
+      "version": "1.5.1",
+      "drop": -1,
+      "sound": false,
+      "initMs": 152.2000000178814,
+      "compileMs": 25,
+      "cpuFrameMs": {
+        "mean": 0.2627777781751421,
+        "p95": 0.30000001192092896,
+        "peak": 10.200000017881393
+      },
+      "frameIntervalMs": {
+        "mean": 991.3833333328366,
+        "p95": 1018,
+        "peak": 1018
+      },
+      "frameTimingValid": false,
+      "positionTargetError": {
+        "mean": 0.05346053952481961,
+        "p95": 0.12597767347888933,
+        "peak": 0.2671870831008689
+      },
+      "angleTargetError": {
+        "mean": 0.020932058078899397,
+        "p95": 0.045608890628450555,
+        "peak": 0.08285170996404906
+      },
+      "renderStep": {
+        "mean": 0.04992665971578101,
+        "p95": 0.19083742092320596,
+        "peak": 0.3561272815335739
+      },
+      "renderJumps": 0,
+      "inputGapMs": {
+        "mean": 41.78403755868544,
+        "p95": 50,
+        "peak": 50
+      },
+      "drawCalls": 19,
+      "geometryBefore": 19,
+      "geometryAfter": 0,
+      "continuousAutomationCalls": 0
+    },
+    {
+      "version": "1.5.1",
+      "drop": -1,
+      "sound": true,
+      "initMs": 67,
+      "compileMs": 16.899999976158142,
+      "cpuFrameMs": {
+        "mean": 0.2683333330684238,
+        "p95": 0.30000001192092896,
+        "peak": 11.299999982118607
+      },
+      "frameIntervalMs": {
+        "mean": 994.9583333333334,
+        "p95": 1017,
+        "peak": 1017
+      },
+      "frameTimingValid": false,
+      "positionTargetError": {
+        "mean": 0.05346053952481961,
+        "p95": 0.12597767347888933,
+        "peak": 0.2671870831008689
+      },
+      "angleTargetError": {
+        "mean": 0.020932058078899397,
+        "p95": 0.045608890628450555,
+        "peak": 0.08285170996404906
+      },
+      "renderStep": {
+        "mean": 0.04992665971578101,
+        "p95": 0.19083742092320596,
+        "peak": 0.3561272815335739
+      },
+      "renderJumps": 0,
+      "inputGapMs": {
+        "mean": 41.78403755868544,
+        "p95": 50,
+        "peak": 50
+      },
+      "drawCalls": 19,
+      "geometryBefore": 19,
+      "geometryAfter": 0,
+      "continuousAutomationCalls": 4428
+    },
+    {
+      "version": "1.5",
+      "drop": 0,
+      "sound": false,
+      "initMs": 65.60000002384186,
+      "compileMs": 19.799999982118607,
+      "cpuFrameMs": {
+        "mean": 0.1977777777446641,
+        "p95": 0.20000001788139343,
+        "peak": 8.199999988079071
+      },
+      "frameIntervalMs": {
+        "mean": 999.2333333343267,
+        "p95": 1016.7999999821186,
+        "peak": 1016.7999999821186
+      },
+      "frameTimingValid": false,
+      "positionTargetError": {
+        "mean": 0.055650088409893904,
+        "p95": 0.14202196111928192,
+        "peak": 0.28966787887365264
+      },
+      "angleTargetError": {
+        "mean": 0.021814034308908492,
+        "p95": 0.04829520227556347,
+        "peak": 0.10855613263014229
+      },
+      "renderStep": {
+        "mean": 0.04911895216667279,
+        "p95": 0.19686301114696833,
+        "peak": 0.29878448243992073
+      },
+      "renderJumps": 0,
+      "inputGapMs": {
+        "mean": 45.25641025641026,
+        "p95": 83.33333333333326,
+        "peak": 83.33333333333348
+      },
+      "drawCalls": 19,
+      "geometryBefore": 19,
+      "geometryAfter": 0,
+      "continuousAutomationCalls": 0
+    },
+    {
+      "version": "1.5",
+      "drop": 0,
+      "sound": true,
+      "initMs": 79.40000000596046,
+      "compileMs": 15.400000005960464,
+      "cpuFrameMs": {
+        "mean": 0.20388888898822996,
+        "p95": 0.20000001788139343,
+        "peak": 8.099999994039536
+      },
+      "frameIntervalMs": {
+        "mean": 997.2583333328366,
+        "p95": 1018.5,
+        "peak": 1018.5
+      },
+      "frameTimingValid": false,
+      "positionTargetError": {
+        "mean": 0.055650088409893904,
+        "p95": 0.14202196111928192,
+        "peak": 0.28966787887365264
+      },
+      "angleTargetError": {
+        "mean": 0.021814034308908492,
+        "p95": 0.04829520227556347,
+        "peak": 0.10855613263014229
+      },
+      "renderStep": {
+        "mean": 0.04911895216667279,
+        "p95": 0.19686301114696833,
+        "peak": 0.29878448243992073
+      },
+      "renderJumps": 0,
+      "inputGapMs": {
+        "mean": 45.25641025641026,
+        "p95": 83.33333333333326,
+        "peak": 83.33333333333348
+      },
+      "drawCalls": 19,
+      "geometryBefore": 19,
+      "geometryAfter": 0,
+      "continuousAutomationCalls": 4644
+    },
+    {
+      "version": "1.5.1",
+      "drop": 0,
+      "sound": false,
+      "initMs": 133.59999999403954,
+      "compileMs": 19.69999998807907,
+      "cpuFrameMs": {
+        "mean": 0.2588888883590698,
+        "p95": 0.4000000059604645,
+        "peak": 7.9000000059604645
+      },
+      "frameIntervalMs": {
+        "mean": 989.6166666671634,
+        "p95": 1017.6999999880791,
+        "peak": 1017.6999999880791
+      },
+      "frameTimingValid": false,
+      "positionTargetError": {
+        "mean": 0.0573516660324118,
+        "p95": 0.14785122178898014,
+        "peak": 0.36696398358045246
+      },
+      "angleTargetError": {
+        "mean": 0.022508731699793012,
+        "p95": 0.04829520227556347,
+        "peak": 0.1349093671269254
+      },
+      "renderStep": {
+        "mean": 0.05273354305809175,
+        "p95": 0.20190866796677404,
+        "peak": 0.36241671463971636
+      },
+      "renderJumps": 0,
+      "inputGapMs": {
+        "mean": 45.25641025641026,
+        "p95": 83.33333333333326,
+        "peak": 83.33333333333348
+      },
+      "drawCalls": 19,
+      "geometryBefore": 19,
+      "geometryAfter": 0,
+      "continuousAutomationCalls": 0
+    },
+    {
+      "version": "1.5.1",
+      "drop": 0,
+      "sound": true,
+      "initMs": 105.5,
+      "compileMs": 41.30000001192093,
+      "cpuFrameMs": {
+        "mean": 0.21777777754598193,
+        "p95": 0.30000001192092896,
+        "peak": 7.800000011920929
+      },
+      "frameIntervalMs": {
+        "mean": 991.7249999990066,
+        "p95": 1016.9000000059605,
+        "peak": 1016.9000000059605
+      },
+      "frameTimingValid": false,
+      "positionTargetError": {
+        "mean": 0.0573516660324118,
+        "p95": 0.14785122178898014,
+        "peak": 0.36696398358045246
+      },
+      "angleTargetError": {
+        "mean": 0.022508731699793012,
+        "p95": 0.04829520227556347,
+        "peak": 0.1349093671269254
+      },
+      "renderStep": {
+        "mean": 0.05273354305809175,
+        "p95": 0.20190866796677404,
+        "peak": 0.36241671463971636
+      },
+      "renderJumps": 0,
+      "inputGapMs": {
+        "mean": 45.25641025641026,
+        "p95": 83.33333333333326,
+        "peak": 83.33333333333348
+      },
+      "drawCalls": 19,
+      "geometryBefore": 19,
+      "geometryAfter": 0,
+      "continuousAutomationCalls": 4428
+    },
+    {
+      "version": "1.5",
+      "drop": 1,
+      "sound": false,
+      "initMs": 61.69999998807907,
+      "compileMs": 18.80000001192093,
+      "cpuFrameMs": {
+        "mean": 0.20722222162617576,
+        "p95": 0.30000001192092896,
+        "peak": 8.5
+      },
+      "frameIntervalMs": {
+        "mean": 1000.8083333323399,
+        "p95": 1017.7000000178814,
+        "peak": 1017.7000000178814
+      },
+      "frameTimingValid": false,
+      "positionTargetError": {
+        "mean": 0.05625424239718264,
+        "p95": 0.13846600618795712,
+        "peak": 0.34869848624516964
+      },
+      "angleTargetError": {
+        "mean": 0.021865352808034796,
+        "p95": 0.048561750520725824,
+        "peak": 0.10900879318118234
+      },
+      "renderStep": {
+        "mean": 0.04938818975799671,
+        "p95": 0.19940440338370274,
+        "peak": 0.41065887131546186
+      },
+      "renderJumps": 0,
+      "inputGapMs": {
+        "mean": 45.25641025641026,
+        "p95": 83.33333333333326,
+        "peak": 83.33333333333348
+      },
+      "drawCalls": 12,
+      "geometryBefore": 19,
+      "geometryAfter": 0,
+      "continuousAutomationCalls": 0
+    },
+    {
+      "version": "1.5",
+      "drop": 1,
+      "sound": true,
+      "initMs": 71.30000001192093,
+      "compileMs": 36.29999998211861,
+      "cpuFrameMs": {
+        "mean": 0.20999999990065893,
+        "p95": 0.20000001788139343,
+        "peak": 8.5
+      },
+      "frameIntervalMs": {
+        "mean": 996.46666666617,
+        "p95": 1017.5999999940395,
+        "peak": 1017.5999999940395
+      },
+      "frameTimingValid": false,
+      "positionTargetError": {
+        "mean": 0.05625424239718264,
+        "p95": 0.13846600618795712,
+        "peak": 0.34869848624516964
+      },
+      "angleTargetError": {
+        "mean": 0.021865352808034796,
+        "p95": 0.048561750520725824,
+        "peak": 0.10900879318118234
+      },
+      "renderStep": {
+        "mean": 0.04938818975799671,
+        "p95": 0.19940440338370274,
+        "peak": 0.41065887131546186
+      },
+      "renderJumps": 0,
+      "inputGapMs": {
+        "mean": 45.25641025641026,
+        "p95": 83.33333333333326,
+        "peak": 83.33333333333348
+      },
+      "drawCalls": 19,
+      "geometryBefore": 19,
+      "geometryAfter": 0,
+      "continuousAutomationCalls": 4644
+    },
+    {
+      "version": "1.5.1",
+      "drop": 1,
+      "sound": false,
+      "initMs": 77.7999999821186,
+      "compileMs": 20.400000005960464,
+      "cpuFrameMs": {
+        "mean": 0.2372222219904264,
+        "p95": 0.30000001192092896,
+        "peak": 8.400000005960464
+      },
+      "frameIntervalMs": {
+        "mean": 994.7249999990066,
+        "p95": 1016.5,
+        "peak": 1016.5
+      },
+      "frameTimingValid": false,
+      "positionTargetError": {
+        "mean": 0.058085507158448714,
+        "p95": 0.1420227693499415,
+        "peak": 0.43610793940451026
+      },
+      "angleTargetError": {
+        "mean": 0.022500585622532956,
+        "p95": 0.04856180019397996,
+        "peak": 0.1353625703921288
+      },
+      "renderStep": {
+        "mean": 0.05344373040696393,
+        "p95": 0.2023545296389507,
+        "peak": 0.49301104760003206
+      },
+      "renderJumps": 0,
+      "inputGapMs": {
+        "mean": 45.25641025641026,
+        "p95": 83.33333333333326,
+        "peak": 83.33333333333348
+      },
+      "drawCalls": 19,
+      "geometryBefore": 19,
+      "geometryAfter": 0,
+      "continuousAutomationCalls": 0
+    },
+    {
+      "version": "1.5.1",
+      "drop": 1,
+      "sound": true,
+      "initMs": 137.90000000596046,
+      "compileMs": 40,
+      "cpuFrameMs": {
+        "mean": 0.26555555545621445,
+        "p95": 0.30000001192092896,
+        "peak": 12.199999988079071
+      },
+      "frameIntervalMs": {
+        "mean": 987.3333333333334,
+        "p95": 1016.8999999761581,
+        "peak": 1016.8999999761581
+      },
+      "frameTimingValid": false,
+      "positionTargetError": {
+        "mean": 0.058085507158448714,
+        "p95": 0.1420227693499415,
+        "peak": 0.43610793940451026
+      },
+      "angleTargetError": {
+        "mean": 0.022500585622532956,
+        "p95": 0.04856180019397996,
+        "peak": 0.1353625703921288
+      },
+      "renderStep": {
+        "mean": 0.05344373040696393,
+        "p95": 0.2023545296389507,
+        "peak": 0.49301104760003206
+      },
+      "renderJumps": 0,
+      "inputGapMs": {
+        "mean": 45.25641025641026,
+        "p95": 83.33333333333326,
+        "peak": 83.33333333333348
+      },
+      "drawCalls": 19,
+      "geometryBefore": 19,
+      "geometryAfter": 0,
+      "continuousAutomationCalls": 4466
+    }
+  ]
+}

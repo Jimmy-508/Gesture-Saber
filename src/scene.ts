@@ -7,12 +7,14 @@ import {BladeState,motionSpeed} from './dynamics';
 import {MotionFilter} from './motion';
 import {TrailBuffer} from './trail';
 import {PalmPose} from './palm-pose';
+import {HandTelemetry} from './hand-telemetry';
+import {TRACKING} from './tracking-state';
 import {Metric,ResolutionBudget} from './metrics';
 export type Quality='low'|'medium'|'high';
 const SIDES:Side[]=['Left','Right'];
 const LENGTH=2.75;
 const STREAM_ATTRIBUTES=['position','age'] as const;
-type Saber={hiltMaterials:T.Material[];group:T.Group;blade:T.Group;target:T.Vector3;rotation:T.Quaternion;motion:MotionFilter;palm:PalmPose;state:BladeState;trail:T.Mesh<T.BufferGeometry,T.ShaderMaterial>;ribbon:TrailBuffer;speed:number;measuredTip:T.Vector3;measuredTime:number;glow:T.ShaderMaterial;core:T.ShaderMaterial;light:T.PointLight};
+type Saber={telemetry:HandTelemetry;hiltMaterials:T.Material[];group:T.Group;blade:T.Group;target:T.Vector3;rotation:T.Quaternion;motion:MotionFilter;palm:PalmPose;state:BladeState;trail:T.Mesh<T.BufferGeometry,T.ShaderMaterial>;ribbon:TrailBuffer;speed:number;measuredTip:T.Vector3;measuredTime:number;glow:T.ShaderMaterial;core:T.ShaderMaterial;light:T.PointLight};
 const glowVertex=`varying vec2 vUv;
  void main(){vUv=uv;vec3 origin=(modelMatrix*vec4(0.,0.,0.,1.)).xyz;
  vec3 axis=normalize(mat3(modelMatrix)*vec3(0.,1.,0.));vec3 view=normalize(cameraPosition-origin);
@@ -30,13 +32,15 @@ const trailFragment=`uniform vec3 color;varying vec2 vUv;varying float vAge;
 void main(){float edge=pow(sin(clamp(vUv.y,0.,1.)*3.14159265),.65);if(vUv.x>1.5)edge*=pow(max(0.,sin((vUv.x-2.)*3.14159265)),.8);float a=vAge*edge*.52;gl_FragColor=vec4(color,a);}`;
 export class SaberScene {
  renderer:T.WebGLRenderer;scene=new T.Scene();camera=new T.PerspectiveCamera(43,1,.1,80);sabers:Record<Side,Saber>;
+ warmup={status:'尚未預熱',ms:0};private disposed=false;
+ prepare(){if(this.warmup.status!=='尚未預熱')return;const began=performance.now();const l=this.sabers.Left,r=this.sabers.Right,lv=l.group.visible,rv=r.group.visible,lb=l.blade.visible,rb=r.blade.visible;l.group.visible=r.group.visible=l.blade.visible=r.blade.visible=true;try{const pending=this.renderer.compileAsync(this.scene,this.camera);this.warmup.status='預熱中';void pending.then(()=>{if(!this.disposed)this.warmup={status:'完成',ms:performance.now()-began};},()=>{if(!this.disposed)this.warmup={status:'預熱失敗：使用正常渲染路徑',ms:performance.now()-began};});}finally{l.group.visible=lv;r.group.visible=rv;l.blade.visible=lb;r.blade.visible=rb;}}
  quality:Quality='medium';demo=false;fps=0;
  readonly stats={frame:new Metric(),cpu:new Metric(),trail:new Metric(),audio:new Metric(),age:new Metric(),smoothing:new Metric()};
  readonly budget=new ResolutionBudget();pixelRatio=1;private budgetTime=0;private cameraRight=new T.Vector3(1,0,0);
  private budgetFrames=new Metric();
  private viewport=new T.Vector2();
  private frame=0;private last=performance.now();private sample=0;private frames=0;private observer:ResizeObserver;private environment:T.WebGLRenderTarget;
- private tip=new T.Vector3();private base=new T.Vector3();private euler=new T.Euler();
+ private previousTarget=new T.Vector3();private previousRotation=new T.Quaternion();private tip=new T.Vector3();private base=new T.Vector3();private euler=new T.Euler();
  constructor(private host:HTMLElement,private sound:(side:Side,active:boolean,speed:number,extension:number)=>void=()=>{},autoStart=true,private clock:()=>number=()=>performance.now()){
   this.renderer=new T.WebGLRenderer({antialias:false,powerPreference:'high-performance',preserveDrawingBuffer:!autoStart});this.renderer.setClearColor(0x070b12);this.renderer.outputColorSpace=T.SRGBColorSpace;host.appendChild(this.renderer.domElement);
   this.camera.position.set(0,1,11);this.camera.lookAt(0,1,0);this.scene.fog=new T.FogExp2(0x070b12,.055);
@@ -47,7 +51,7 @@ export class SaberScene {
   const floor=new T.GridHelper(70,50,0x234258,0x132230);floor.position.y=-2.4;this.scene.add(floor);
   for(const z of [-7,-8]){const ring=new T.Mesh(new T.TorusGeometry(5.5,.012,4,96,Math.PI),new T.MeshBasicMaterial({color:0x1c3444}));ring.position.set(0,-1,z);this.scene.add(ring);}
   this.sabers={Left:this.makeSaber(0x30aaff,-1),Right:this.makeSaber(0xff2448,1)};
-  this.observer=new ResizeObserver(()=>this.resize());this.observer.observe(host);this.setQuality('medium');this.last=this.clock();if(autoStart)this.tick();
+  this.observer=new ResizeObserver(()=>this.resize());this.observer.observe(host);this.setQuality('medium');this.last=this.clock();if(autoStart){this.prepare();this.tick();}
  }
  private makeSaber(color:number,side:number):Saber{
   const group=new T.Group(),blade=new T.Group();group.add(blade);this.scene.add(group);
@@ -86,7 +90,7 @@ export class SaberScene {
    const copies=parts.map(mesh=>{mesh.updateMatrix();originals.add(mesh.geometry);return mesh.geometry.clone().applyMatrix4(mesh.matrix);});
    const merged=mergeGeometries(copies);if(merged){for(const mesh of parts)group.remove(mesh);group.add(new T.Mesh(merged,mat));for(const g of originals)g.dispose();}for(const g of copies)g.dispose();
   }
-  return {hiltMaterials,group,blade,target:new T.Vector3(side*1.55,-.5,0),rotation:new T.Quaternion(),motion:new MotionFilter(),palm:new PalmPose(),state:new BladeState(),trail,ribbon,speed:0,measuredTip:new T.Vector3(),measuredTime:NaN,glow,core,light};
+  return {telemetry:new HandTelemetry(),hiltMaterials,group,blade,target:new T.Vector3(side*1.55,-.5,0),rotation:new T.Quaternion(),motion:new MotionFilter(),palm:new PalmPose(),state:new BladeState(),trail,ribbon,speed:0,measuredTip:new T.Vector3(),measuredTime:NaN,glow,core,light};
  }
  setQuality(q:Quality){this.quality=q;this.budget.reset();this.applyBudget();}
  private applyBudget(){this.pixelRatio=Math.min(devicePixelRatio,this.quality==='low'?1:this.quality==='medium'?1.4:1.8)*this.budget.scale;this.renderer.setPixelRatio(this.pixelRatio);for(const side of SIDES)this.sabers[side].light.visible=this.quality==='high'&&this.budget.scale>.8;this.resize();}
@@ -94,14 +98,17 @@ export class SaberScene {
  update(pose:Pose){
   const s=this.sabers[pose.side],p=pose.points;
   const observation=observeHand(p);if(!observation){this.lost(pose.side,pose.time,'觀測無效');return;}
+  const previouslyReliable=s.palm.reliable;this.previousTarget.copy(s.target);this.previousRotation.copy(s.rotation);
   s.rotation.copy(s.palm.update(p,pose.world,pose.side,pose.time,pose.imageAspect??4/3));
   const {x:cx,y:cy}=observation,height=2*Math.tan(T.MathUtils.degToRad(21.5))*11;
   s.target.set((.5-cx)*height*this.camera.aspect,(.5-cy)*height+1,(p[5]&&p[17]&&Number.isFinite(p[5].x)&&Number.isFinite(p[17].x)&&Number.isFinite(p[5].y)&&Number.isFinite(p[17].y)?T.MathUtils.clamp((Math.hypot(p[5].x-p[17].x,p[5].y-p[17].y)-.12)*7,-1,1):s.target.z));
+  if(Number.isFinite(s.motion.lastSample)){if(this.previousTarget.distanceTo(s.target)>1)s.telemetry.positionJumps++;if(this.previousRotation.angleTo(s.rotation)>Math.PI/3)s.telemetry.rotationJumps++;}
+  if(s.palm.reliable&&!previouslyReliable&&Number.isFinite(s.motion.lastSample))s.telemetry.qualityRecoveries++;if(!s.palm.reliable)s.telemetry.fallbacks++;if(/歧義|突變|銜接/.test(s.palm.status))s.telemetry.guards++;s.telemetry.delay.add(Math.max(0,this.clock()-pose.time));
   if(pose.time-s.measuredTime>250)s.ribbon.reset();
   this.measure(s,pose.time);s.motion.push(s.target,s.rotation,pose.time,this.clock(),s.palm.reliable);s.state.observe(true,this.clock());
  }
- retain(side:Side,time:number){const s=this.sabers[side];s.state.observe(true,this.clock());s.state.poseFrozen=true;s.palm.reliable=false;s.palm.status='身分歧義：保留姿態';s.motion.freeze();s.speed=0;s.measuredTime=NaN;}
- lost(side:Side,time:number,reason:string){const s=this.sabers[side];s.state.markLost(reason);s.motion.freeze();s.speed=0;s.measuredTime=NaN;}
+ retain(side:Side,time:number){const s=this.sabers[side];s.state.observe(true,this.clock());s.telemetry.delay.add(Math.max(0,this.clock()-time));s.state.poseFrozen=true;s.palm.reliable=false;s.palm.status='身分歧義：保留姿態';s.motion.freeze();s.speed=0;s.measuredTime=NaN;}
+ lost(side:Side,time:number,reason:string){const s=this.sabers[side];s.state.markLost(reason);}
  private measure(s:Saber,time:number){
   this.tip.set(0,LENGTH+.12,0).applyQuaternion(s.rotation).add(s.target);
   const elapsed=Number.isFinite(s.measuredTime)?(time-s.measuredTime)/1000:0;
@@ -129,7 +136,7 @@ export class SaberScene {
    const s=this.sabers[side];
    if(this.demo){const t=now*.0012,fit=Math.min(1,this.camera.aspect/1.4);s.target.set((i?1:-1)*(1.5+Math.sin(t*1.7)*.6)*fit,-.6+Math.cos(t)*.3,0);s.rotation.setFromEuler(this.euler.set(.2,Math.sin(t)*.4,(i?-1:1)*(.3+Math.sin(t*1.7)*.65)*fit));this.measure(s,now);s.motion.push(s.target,s.rotation,now,now);s.state.observe(Math.floor(now/5500)%3!==2,now);}
    const extension=s.state.step(now,dt),tracked=s.state.visible(now);s.group.visible=tracked;
-   if(tracked){if(s.state.canMove)s.motion.sample(now);else s.motion.freeze();s.group.position.copy(s.motion.position);s.group.quaternion.copy(s.motion.rotation);if(!this.demo){this.stats.age.add(Math.max(0,now-s.measuredTime));this.stats.smoothing.add(s.motion.lagMs);}}
+   if(tracked){if(!s.state.poseFrozen&&now-s.state.lastSeen<TRACKING.staleMs)s.motion.sample(now);else s.motion.freeze();s.group.position.copy(s.motion.position);s.group.quaternion.copy(s.motion.rotation);if(!this.demo){this.stats.age.add(Math.max(0,now-s.measuredTime));this.stats.smoothing.add(s.motion.lagMs);s.telemetry.smoothing.add(s.motion.lagMs);}}
    for(const material of s.hiltMaterials)material.opacity=s.state.fade(now);
    s.blade.scale.y=Math.max(.001,extension);s.blade.visible=extension>.001;
    s.glow.uniforms.time.value=s.core.uniforms.time.value=now/1000;if(s.light.visible)s.light.intensity=extension*1.8;
@@ -139,5 +146,5 @@ export class SaberScene {
   this.renderer.render(this.scene,this.camera);
   this.stats.cpu.add(performance.now()-cpuStart);
  }
- dispose(){cancelAnimationFrame(this.frame);this.observer.disconnect();this.hide();const geometries=new Set<T.BufferGeometry>(),materials=new Set<T.Material>();this.scene.traverse(o=>{if(o instanceof T.Mesh||o instanceof T.LineSegments){geometries.add(o.geometry);for(const m of Array.isArray(o.material)?o.material:[o.material])materials.add(m);}});for(const g of geometries)g.dispose();for(const m of materials)m.dispose();this.environment.dispose();this.renderer.dispose();this.renderer.domElement.remove();}
+ dispose(){this.disposed=true;cancelAnimationFrame(this.frame);this.observer.disconnect();this.hide();const geometries=new Set<T.BufferGeometry>(),materials=new Set<T.Material>();this.scene.traverse(o=>{if(o instanceof T.Mesh||o instanceof T.LineSegments){geometries.add(o.geometry);for(const m of Array.isArray(o.material)?o.material:[o.material])materials.add(m);}});for(const g of geometries)g.dispose();for(const m of materials)m.dispose();this.environment.dispose();this.renderer.dispose();this.renderer.domElement.remove();}
 }

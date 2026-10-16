@@ -35,7 +35,7 @@ test('24 Hz samples interpolate on 60 Hz frames; prediction is bounded and stops
 });
 test('stop cancels extrapolation; gaps and out-of-order packets cannot jump or restart prediction',()=>{
  const f=new MotionFilter(),q=new Quaternion();f.push(new Vector3(),q,0,0);f.push(new Vector3(.4,0,0),q,42,42);f.sample(60);f.push(new Vector3(.4,0,0),q,84,84);f.sample(140);assert.ok(Math.abs(f.position.x-.4)<.02);
- const time=f.lastSample;f.push(new Vector3(99,0,0),q,20,150);assert.equal(f.lastSample,time);f.push(new Vector3(1,0,0),q,1000,1000);assert.equal(f.position.x,1);f.reset();assert.equal(f.speed,0);
+ const time=f.lastSample;f.push(new Vector3(99,0,0),q,20,150);assert.equal(f.lastSample,time);f.push(new Vector3(1,0,0),q,1000,1000);assert.ok(f.position.x<1);f.sample(1100);assert.ok(Math.abs(f.position.x-1)<.01);f.reset();assert.equal(f.speed,0);
 });
 test('equal input/render cadence advances the previous interpolation instead of freezing every frame',()=>{
  const f=new MotionFilter(),q=new Quaternion();for(let i=0;i<60;i++){const now=i*1000/60;f.push(new Vector3(i*.01,0,0),q,now,now);f.sample(now);}assert.ok(f.position.x>.5);assert.ok(f.position.x<.72);

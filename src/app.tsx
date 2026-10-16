@@ -5,6 +5,7 @@ import {TrackingSession,initialDiagnostics,type Diagnostics,type TrackingResult}
 import {SaberAudio} from './audio';
 import {runtimeStatus} from './runtime';
 import {HandAssignment} from './hand-assignment';
+import type {HandTelemetry} from './hand-telemetry';
 import type {Summary} from './metrics';
 import './style.css';
 const CameraIcon=()=> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h3l1.6-2h6.8L17 7h3v12H4Z"/><circle cx="12" cy="12.5" r="3.3"/></svg>;
@@ -20,6 +21,7 @@ export function App({sessionFactory=(...args)=>new TrackingSession(...args)}:{se
  const [poseInfo,setPoseInfo]=useState({Left:'尚未觀測',Right:'尚未觀測',identity:'等待手部'});
  const samples=useRef({time:0,count:0});
  const started=useRef(false),showMetrics=useRef(false);
+ const [handPerf,setHandPerf]=useState<Partial<Record<Side,ReturnType<HandTelemetry['snapshot']>>>>({}),[summary,setSummary]=useState('');
  const [perf,setPerf]=useState<Record<string,Summary>>({}),[renderInfo,setRenderInfo]=useState({ratio:1,calls:0,leftTrail:0,rightTrail:0});
  const format=(name:string)=>{const s=perf[name],f=(n:number)=>n.toFixed(n<1?3:1);return s?.count?`${f(s.mean)} / ${f(s.p95)} / ${f(s.peak)} ms`:'尚無樣本';};
  const [status,setStatus]=useState<Status>('idle'),[error,setError]=useState(''),[settings,setSettings]=useState(false),[quality,setQuality]=useState<Quality>('medium'),[demo,setDemo]=useState(false),[fps,setFps]=useState(0),[hz,setHz]=useState(0);
@@ -35,7 +37,7 @@ export function App({sessionFactory=(...args)=>new TrackingSession(...args)}:{se
  useEffect(()=>{
   try{scene.current=new SaberScene(host.current!,(side,active,speed,extension)=>audio.current?.update(side,active,speed,extension));}catch{setStatus('error');setError('無法建立 WebGL 場景。請使用支援 WebGL 的瀏覽器。');}
   const interval=setInterval(()=>{
-   if(!showMetrics.current)return;setDiag({...latestDiag.current});
+   if(!showMetrics.current)return;const now=performance.now();if(scene.current)setHandPerf({Left:scene.current.sabers.Left.telemetry.snapshot(now),Right:scene.current.sabers.Right.telemetry.snapshot(now)});setDiag({...latestDiag.current});
    setFps(scene.current?.fps??0);setAudioStatus(audio.current?.status??'等待操作啟用');
    if(showMetrics.current){const describe=(side:Side)=>{if(scene.current?.demo)return '展示模式：未使用手部姿態';const p=scene.current?.sabers[side].palm;return p?`方向 ${p.direction.x.toFixed(2)}, ${p.direction.y.toFixed(2)}, ${p.direction.z.toFixed(2)} · Δ ${p.deltaDegrees.toFixed(1)}° · ${p.status} · 姿態可信 ${p.reliable?'是':'否'} · ${scene.current?.sabers[side].state.diagnostics(performance.now())}`:'尚未觀測';};setPoseInfo({Left:describe('Left'),Right:describe('Right'),identity:assignment.current.details.join(' · ')+' · '+assignment.current.status});const all:Record<string,Summary>={};for(const [key,value] of Object.entries(scene.current?.stats??{}))all[key]=value.snapshot();for(const [key,value] of Object.entries(session.current?.stats??{}))all[key]=value.snapshot();setPerf(all);setRenderInfo({ratio:scene.current?.pixelRatio??1,calls:scene.current?.renderer.info.render.calls??0,leftTrail:scene.current?.sabers.Left.ribbon.vertices??0,rightTrail:scene.current?.sabers.Right.ribbon.vertices??0});}
   },500);
@@ -48,7 +50,9 @@ export function App({sessionFactory=(...args)=>new TrackingSession(...args)}:{se
  function receive(data:TrackingResult){
   if(!started.current){started.current=true;setStatus('running');}
   let left=false,right=false;
-  for(const {side,index:i,freeze} of assignment.current.assign(data)){
+  const matches=assignment.current.assign(data),arrived=performance.now();
+  for(const side of ['Left','Right'] as Side[]){const match=matches.find(m=>m.side===side),raw=data.handedness.filter(h=>h[0]?.categoryName===(side==='Left'?'Right':'Left')).length;scene.current?.sabers[side].telemetry.result(raw,!!match,!!match?.freeze,arrived);}
+  for(const {side,index:i,freeze} of matches){
    if(freeze)scene.current?.retain(side,data.time);else scene.current?.update({side,points:data.landmarks[i],world:data.world[i],open:true,time:data.time,imageAspect:data.aspect});
    if(side==='Left')left=true;else right=true;
   }
@@ -57,7 +61,7 @@ export function App({sessionFactory=(...args)=>new TrackingSession(...args)}:{se
   if(elapsed>1000){if(showMetrics.current)setHz(Math.round(samples.current.count*1000/elapsed));samples.current={time:performance.now(),count:0};}
  }
  function start(){
-  if(!scene.current)return;stop();unlockAudio();setDemo(false);setError('');setStatus('loading');latestDiag.current={...initialDiagnostics};setDiag({...initialDiagnostics});samples.current={time:performance.now(),count:0};const id=generation.current;
+  if(!scene.current)return;stop();for(const s of Object.values(scene.current.sabers))s.telemetry.reset();setSummary('');unlockAudio();setDemo(false);setError('');setStatus('loading');latestDiag.current={...initialDiagnostics};setDiag({...initialDiagnostics});samples.current={time:performance.now(),count:0};const id=generation.current;
   const next=sessionFactory(new URL(import.meta.env.BASE_URL,location.origin).href,d=>{if(id===generation.current)latestDiag.current=d;},r=>{if(id===generation.current)receive(r);},message=>{if(id!==generation.current)return;setStatus('error');setError(message);latestDiag.current={...latestDiag.current,camera:'已釋放',detail:message};scene.current?.hide();audio.current?.dispose();audio.current=null;});
   session.current=next;next.setRate(quality==='low'?18:quality==='medium'?24:30);void next.start(forceMain);
  }
@@ -69,7 +73,7 @@ export function App({sessionFactory=(...args)=>new TrackingSession(...args)}:{se
  function trapFocus(e:React.KeyboardEvent<HTMLElement>){
   if(e.key==='Escape'){closeSettings();return;}
   if(e.key!=='Tab')return;
-  const items=dialog.current?.querySelectorAll<HTMLElement>('button:not(:disabled),input:not(:disabled),select:not(:disabled),a[href]');if(!items?.length)return;
+  const items=dialog.current?.querySelectorAll<HTMLElement>('button:not(:disabled),input:not(:disabled),textarea,select:not(:disabled),a[href]');if(!items?.length)return;
   const first=items[0],last=items[items.length-1];
   if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
  }
@@ -90,7 +94,7 @@ export function App({sessionFactory=(...args)=>new TrackingSession(...args)}:{se
 {diagnostics&&<div className="diagnostics" aria-label="追蹤診斷"><dl>
    <dt>攝影機</dt><dd>{diag.camera}</dd><dt>模型／WASM</dt><dd>{diag.model}</dd><dt>辨識模式</dt><dd>{diag.mode}</dd><dt>管線</dt><dd>{diag.pipeline}</dd><dt>已處理影格</dt><dd>{diag.frames}</dd><dt>渲染 FPS</dt><dd>{perf.frame?.mean?(1000/perf.frame.mean).toFixed(1):fps}</dd><dt>追蹤 Hz</dt><dd>{perf.interval?.mean?(1000/perf.interval.mean).toFixed(1):hz}</dd><dt>攝影機解碼</dt><dd>{perf.cameraInterval?.mean?`${(1000/perf.cameraInterval.mean).toFixed(1)} Hz`:'瀏覽器未提供樣本'}</dd>
    <dt>解碼幀間隔</dt><dd>{format('cameraInterval')}</dd><dt>追蹤間隔</dt><dd>{format('interval')}</dd><dt>擷取／轉換</dt><dd>{format('capture')}</dd><dt>推論</dt><dd>{format('inference')}</dd><dt>結果送達延遲</dt><dd>{format('delivery')}</dd><dt>資料→畫面估計</dt><dd>{format('age')}</dd><dt>平滑落後估計</dt><dd>{format('smoothing')}</dd><dt>渲染幀間隔</dt><dd>{format('frame')}</dd><dt>CPU 幀工作</dt><dd>{format('cpu')}</dd><dt>單劍光軌 CPU</dt><dd>{format('trail')}</dd><dt>單劍音訊 CPU</dt><dd>{format('audio')}</dd><dt>光軌頂點 藍／紅</dt><dd>{renderInfo.leftTrail} / {renderInfo.rightTrail}</dd><dt>實際像素比</dt><dd>{renderInfo.ratio.toFixed(2)}× · {renderInfo.calls} draw calls</dd><dt>左手姿態</dt><dd>{poseInfo.Left}</dd><dt>右手姿態</dt><dd>{poseInfo.Right}</dd><dt>模型設定</dt><dd>VIDEO／CPU · 雙手 · 偵測／存在／追蹤門檻均 0.55 · 鏡頭目標 640×480／30fps</dd><dt>身分配對</dt><dd>{poseInfo.identity}</dd><dt>音訊</dt><dd>{audioStatus} · Phase 1.1 原始合成</dd></dl>
-   <p>{diag.detail||'啟動攝影機後會顯示實際追蹤資料；展示模式不代表實機追蹤。'}</p><small>時間依序為平均 / P95 / 峰值（最近最多 240 筆）。每 500 ms 更新。資料延遲從取樣時計算，非完整攝影機到螢幕延遲。CPU 提交時間不代表 GPU 執行時間；GPU 未直接量測。</small></div>}
+   <table className="hand-comparison"><caption>逐手統計 · 藍 Left／紅 Right</caption><thead><tr><th>指標</th><th>藍劍</th><th>紅劍</th></tr></thead><tbody>{(['modelLabelHz','updateHz','model','pairs','pairRate','rejects','missing','interruptions','freezes','recoveries','fallbacks','poseRecoveries','qualityRecoveries','guards','positionJumps','rotationJumps','rawGap','gap','delay','smoothing'] as const).map(key=><tr key={key}><th>{{modelLabelHz:'模型標籤 Hz',updateHz:'有效更新 Hz',model:'模型觀測數',pairs:'配對成功',pairRate:'配對涵蓋率 %',rejects:'有標籤未配對',missing:'缺席影格',interruptions:'配對中斷',freezes:'歧義凍結段',recoveries:'配對恢復',fallbacks:'姿態備援筆',poseRecoveries:'歧義姿態恢復',qualityRecoveries:'姿態備援恢復',guards:'方向保護筆',positionJumps:'位置突變筆',rotationJumps:'旋轉突變筆',rawGap:'模型標籤間隔 ms',gap:'有效間隔 ms',delay:'資料延遲 ms',smoothing:'平滑落後 ms'}[key]}</th>{(['Left','Right'] as Side[]).map(side=>{const v=handPerf[side]?.[key];return <td key={side}>{v===undefined?'—':typeof v==='number'?v.toFixed(key.endsWith('Hz')?1:0):[v.mean,v.p95,v.peak].map(n=>n.toFixed(1)).join(' / ')}</td>;})}</tr>)}</tbody></table><p>配對涵蓋率以所有模型結果影格為分母（含零手），歧義凍結計入配對、排除有效更新 Hz。中斷包含未配對與超過 180 ms 的送達缺口。計數自本次啟動累計；時間為最近最多 240 筆平均／P95／峰值。模型 Hz 依原始手別標籤歸屬，標籤錯誤會影響歸屬；不能視為真實左右手召回率。位置突變 &gt;1 場景單位、角度 &gt;60°，是觀測提示而非已證明的錯誤。</p><p>GPU 預熱：{scene.current?.warmup.status} · {scene.current?.warmup.ms.toFixed(1)} ms；音訊預備：{audio.current?.preparation.ms.toFixed(1)??'—'} ms／{audio.current?.preparation.noiseBuffers??0} 噪聲緩衝；排程 {audio.current?.scheduledCalls??0} 次，略過 {audio.current?.skippedUpdates??0} 次未變更新，省略 {audio.current?.skippedParameters??0} 次未變參數。</p><button className="secondary" onClick={()=>{const text=JSON.stringify({version:'1.5.1',mode:diag.mode,render:perf.frame,cpu:perf.cpu,hands:handPerf,audio:{preparation:audio.current?.preparation,scheduledCalls:audio.current?.scheduledCalls,skippedUpdates:audio.current?.skippedUpdates,skippedParameters:audio.current?.skippedParameters},warmup:scene.current?.warmup},null,2);setSummary(text);void navigator.clipboard?.writeText(text).catch(()=>{});}}>複製統計摘要</button>{summary&&<textarea className="stat-summary" aria-label="統計摘要（不含影像或關鍵點）" readOnly value={summary} onFocus={e=>e.currentTarget.select()}/>}<p>{diag.detail||'啟動攝影機後會顯示實際追蹤資料；展示模式不代表實機追蹤。'}</p><small>時間依序為平均 / P95 / 峰值（最近最多 240 筆）。每 500 ms 更新。資料延遲從取樣時計算，非完整攝影機到螢幕延遲。CPU 提交時間不代表 GPU 執行時間；GPU 未直接量測。</small></div>}
 
    </section>
    <section className="setting-group"><h3>開發與測試</h3><button className="secondary" aria-pressed={demo} onClick={toggleDemo}>{demo?'停止展示':'光劍與音效展示'}</button><p>展示使用模擬動作，不代表攝影機追蹤結果。</p></section>

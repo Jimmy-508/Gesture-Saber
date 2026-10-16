@@ -34,3 +34,5 @@ test('tracking-driven ignition, short occlusion, departure and reacquisition tri
  s.markLost('long');for(let t=1220;t<=1660;t+=20)frame(t);assert.equal(sweep.events.filter(e=>e[0]==='ramp').length,2);
  s.observe(true,1700);frame(1700);assert.equal(sweep.events.filter(e=>e[0]==='ramp').length,3);assert.equal(ctx.buffers,2);audio.dispose();assert.equal(ctx.closed,1);
 });
+
+test('unchanged original targets reuse scheduling and sources; transitions and changed values still automate',async()=>{setup();const a=new SaberAudio();await a.unlock();const ctx=Context.current;a.update('Left',true,8,1);ctx.currentTime+=1.1;a.update('Left',true,8,1);const calls=a.scheduledCalls,nodes=ctx.nodes.length;for(let i=0;i<120;i++){ctx.currentTime+=1/60;a.update('Left',true,8,1);}assert.equal(a.scheduledCalls,calls);assert.equal(a.skippedUpdates,121);a.update('Left',true,9,1);assert.ok(a.scheduledCalls>calls);assert.equal(ctx.nodes.length,nodes);assert.equal(ctx.buffers,2);await a.unlock();assert.equal(ctx.nodes.length,nodes);a.stop();a.update('Left',true,9,1);assert.equal(a.voices.Left.active,true);a.dispose();});
