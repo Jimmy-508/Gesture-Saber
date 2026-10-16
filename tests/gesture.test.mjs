@@ -1,6 +1,2 @@
-import {test} from 'node:test';import assert from 'node:assert/strict';
-import {reliablePalm} from '../src/gesture.ts';import {Quaternion,Vector3} from 'three';import {anatomicalHand} from './fixtures/anatomical-hands.mjs';
-test('reliable palm uses 3D MCP and wrist only: curled/occluded fingers and edge-on poses remain usable',()=>{
- for(const side of ['Left','Right'])for(const angle of [0,Math.PI/2,Math.PI]){const h=anatomicalHand(side,new Quaternion().setFromAxisAngle(new Vector3(1,0,0),angle));for(const i of [1,2,3,4,6,7,8,10,11,12,14,15,16,18,19,20])h.points[i]={x:NaN,y:NaN,z:NaN};assert.equal(reliablePalm(h.points),true);}
- const h=anatomicalHand('Left');h.points[9]={x:NaN,y:0,z:0};assert.equal(reliablePalm(h.points),true);assert.equal(reliablePalm([]),false);assert.equal(reliablePalm(Array(21).fill({x:0,y:0,z:0})),false);
-});
+import {test} from 'node:test';import assert from 'node:assert/strict';import {observeHand,duplicateHands} from '../src/hand-presence.ts';import {anatomicalHand} from './fixtures/anatomical-hands.mjs';
+test('presence rejects NaN, collapsed, out of range and too few points, independent of depth and palm anchors',()=>{for(const p of [[],[{x:0,y:0,z:0}],Array(21).fill({x:NaN,y:NaN,z:0}),Array(21).fill({x:.5,y:.5,z:0}),Array(21).fill({x:99,y:99,z:0})])assert.equal(observeHand(p),null);const h=anatomicalHand('Left');for(const i of [0,5,9,13,17])h.points[i]={x:NaN,y:NaN,z:NaN};h.points=h.points.map(p=>({...p,z:NaN}));assert.ok(observeHand(h.points));const outlier=anatomicalHand('Left');outlier.points[0]={x:99,y:99,z:99};assert.ok(observeHand(outlier.points).x<1);const good=anatomicalHand('Right');assert.equal(duplicateHands(good.points,structuredClone(good.points)),true);});

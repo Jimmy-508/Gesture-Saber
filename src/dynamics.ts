@@ -1,3 +1,4 @@
+import {TRACKING,type HandStatus} from './tracking-state.ts';
 const clamp=(n:number,a:number,b:number)=>Math.max(a,Math.min(b,n));
 export function soundForSpeed(speed:number){
  const s=clamp(Number.isFinite(speed)?speed:0,0,24),energy=1-Math.exp(-s/8);
@@ -5,25 +6,27 @@ export function soundForSpeed(speed:number){
 }
 /** Each hand owns its state; only trusted, assigned observations refresh lastSeen. */
 export class BladeState {
- extension=0;active=false;lastSeen=-Infinity;requested=false;lost=true;reason='尚未追蹤';
+ poseFrozen=false;extension=0;active=false;lastSeen=-Infinity;requested=false;lost=true;status:HandStatus='LOST';reason='尚未追蹤';
  // False is reserved for the developer demo's explicit extension/retraction cycle.
  observe(tracked:boolean,time:number){
   if(time<=this.lastSeen)return;
-  this.requested=tracked;this.lastSeen=time;this.lost=false;this.reason=tracked?'可靠手部追蹤':'展示收劍';
+  this.requested=tracked;this.lastSeen=time;this.lost=false;this.status='TRACKED';this.poseFrozen=false;this.reason=tracked?'可靠手部追蹤':'展示收劍';
  }
- markLost(reason:string){this.lost=true;this.reason=reason;}
- visible(now:number){return now-this.lastSeen<420;}
- diagnostics(now:number){const age=Number.isFinite(this.lastSeen)?Math.max(0,now-this.lastSeen):0;return (this.lost?'LOST':'TRACKED')+' · 中斷 '+(this.lost?Math.round(age):0)+' ms · '+(this.active?'啟動':this.extension>0?'收縮':'收起')+' · '+this.reason;}
+ markLost(reason:string){this.lost=true;if(this.status==='TRACKED')this.status='TEMPORARILY_LOST';this.reason=reason;}
+ get canMove(){return this.status==='TRACKED'&&!this.poseFrozen;}
+ fade(now:number){return Math.min(1,Math.max(0,(TRACKING.hideMs-(now-this.lastSeen))/(TRACKING.hideMs-TRACKING.retractMs)));}
+ visible(now:number){return now-this.lastSeen<TRACKING.hideMs;}
+ diagnostics(now:number){const age=Number.isFinite(this.lastSeen)?Math.max(0,now-this.lastSeen):0;return this.status+' · 中斷 '+(this.lost?Math.round(age):0)+' ms · '+(this.active?'啟動':this.extension>0?'收縮':'收起')+' · '+this.reason;}
  step(now:number,dt:number){
   if(!Number.isFinite(this.lastSeen)){this.active=false;return this.extension=0;}
   const age=now-this.lastSeen;
-  if(age>=180&&!this.lost)this.markLost('追蹤資料逾時：未收到新結果');
-  if(age>=260){this.requested=false;this.reason=age>=420?'持續 LOST：隱藏':'持續 LOST：收劍';}
-  this.active=this.requested&&age<260;
+  if(age>=TRACKING.staleMs&&!this.lost)this.markLost('追蹤資料逾時：未收到新結果');
+  if(age>=TRACKING.retractMs){this.status='LOST';this.requested=false;this.reason=age>=TRACKING.hideMs?'持續 LOST：隱藏':'持續 LOST：收劍';}
+  this.active=this.requested&&age<TRACKING.retractMs;
   const target=this.active?1:0,delta=Math.max(0,Math.min(dt,.1))/(this.active?.16:.12);
   this.extension=target>this.extension?Math.min(target,this.extension+delta):Math.max(target,this.extension-delta);
   return this.extension;
  }
- reset(){this.extension=0;this.active=false;this.requested=false;this.lastSeen=-Infinity;this.lost=true;this.reason='尚未追蹤';}
+ reset(){this.poseFrozen=false;this.extension=0;this.active=false;this.requested=false;this.lastSeen=-Infinity;this.lost=true;this.status='LOST';this.reason='尚未追蹤';}
 }
 export function motionSpeed(distance:number,elapsed:number){return elapsed>0&&elapsed<.45?clamp(distance/elapsed,0,24):0;}

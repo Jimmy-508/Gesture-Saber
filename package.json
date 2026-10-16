@@ -1,6 +1,6 @@
 {
   "name": "gesture-saber",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Camera-controlled dual lightsaber free-swing laboratory",
   "private": true,
   "scripts": {

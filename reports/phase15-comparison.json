@@ -1,0 +1,31 @@
+{
+  "scope": "Same Node process, 100 synthetic observations, 10 warmups + 100 replay batches. No model/FPS/tablet/heap claim.",
+  "degraded": {
+    "baseline": {
+      "assignedOf100": 14,
+      "meanMs": 0.0022487899999999823,
+      "p95Ms": 0.0034209999999998786,
+      "peakBatchMeanMs": 0.030250000000000058
+    },
+    "current": {
+      "assignedOf100": 100,
+      "meanMs": 0.00521345,
+      "p95Ms": 0.007016999999999882,
+      "peakBatchMeanMs": 0.009466999999999927
+    }
+  },
+  "normal": {
+    "baseline": {
+      "assignedOf100": 100,
+      "meanMs": 0.0025436900000000346,
+      "p95Ms": 0.0043000000000000685,
+      "peakBatchMeanMs": 0.006705000000000041
+    },
+    "current": {
+      "assignedOf100": 100,
+      "meanMs": 0.00462425000000002,
+      "p95Ms": 0.005878999999999905,
+      "peakBatchMeanMs": 0.01011099999999999
+    }
+  }
+}

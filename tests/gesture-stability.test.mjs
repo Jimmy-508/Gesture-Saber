@@ -7,17 +7,14 @@ test('open and anatomically curled hands activate immediately; flat, rotated and
  for(let i=0;i<100;i++){let h=anatomicalHand(side,new Quaternion().setFromEuler(new Euler(i/99*Math.PI,.2*Math.sin(i),i*.05)),.5+Math.sin(i*.1)*.1);if(i%2)h=curled(h);h.points=h.points.map((p,k)=>({x:p.x+Math.sin(k+i)*.0006,y:p.y+Math.cos(k+i)*.0006,z:p.z}));feed(a,states,[h],1000+i*42);assert.equal(states[side].active,true);assert.equal(states[side==='Left'?'Right':'Left'].active,false);}
  }
 });
-test('low handedness confidence, invalid palms, missing identity and overlap cannot activate fresh blades',()=>{
- for(const input of [detections([],1000),{...detections([anatomicalHand('Left')],1000),handedness:[[{categoryName:'Right',score:.4}]]},{...detections([anatomicalHand('Left')],1000),handedness:[[{categoryName:'Right',score:NaN}]]},detections([anatomicalHand('Left',new Quaternion(),.5),anatomicalHand('Right',new Quaternion(),.5)],1000)]){const a=new HandAssignment();assert.equal(a.assign(input).length,0);}
- const h=anatomicalHand('Right');h.points[9].z=NaN;assert.equal(new HandAssignment().assign(detections([h],1000)).length,0);
-});
+test('presence invalidity, rather than palm quality or score, rejects observations',()=>{for(const landmarks of [[],[Array(21).fill({x:NaN,y:NaN,z:NaN})],[Array(21).fill({x:.5,y:.5,z:0})]])assert.equal(new HandAssignment().assign({landmarks,handedness:[],time:1000}).length,0);const h=anatomicalHand('Right');h.points[9].z=NaN;assert.equal(new HandAssignment().assign(detections([h],1000)).length,1);});
 test('short loss holds activation; sustained loss retracts and hides; independently reacquired fist immediately extends',()=>{
  const l=new BladeState(),r=new BladeState();l.observe(true,1000);r.observe(true,1000);l.step(1000,.1);l.step(1080,.1);l.markLost('遮擋');l.step(1100,.02);assert.equal(l.active,true);l.observe(true,1120);l.step(1120,.02);assert.equal(l.extension,1);
  l.markLost('持續遮擋');for(let t=1140;t<=1600;t+=20){l.step(t,.02);r.observe(true,t);r.step(t,.02);}assert.equal(l.visible(1600),false);assert.equal(l.extension,0);assert.equal(r.active,true);assert.match(l.diagnostics(1600),/LOST.*隱藏/);
  l.observe(true,1620);assert.ok(l.step(1620,.02)>0);assert.equal(l.active,true);l.reset();assert.equal(l.active,false);assert.equal(l.lastSeen,-Infinity);
 });
 test('crossing, result-order reversal, duplicate labels, occlusion and reacquisition preserve bilateral ownership',()=>{
- const a=new HandAssignment(),states={Left:new BladeState(),Right:new BladeState()};for(let i=0;i<=10;i++){const hands=[anatomicalHand('Left',new Quaternion(),.7-i*.04),anatomicalHand('Right',new Quaternion(),.3+i*.04)];if(i%2)hands.reverse();for(const assignment of a.assign(detections(hands,1000+i*40))){assert.equal(assignment.side,hands[assignment.index].side);states[assignment.side].observe(true,1000+i*40);}for(const s of Object.values(states))s.step(1000+i*40,.04);}
+ const a=new HandAssignment(),states={Left:new BladeState(),Right:new BladeState()};for(let i=0;i<=10;i++){const hands=[anatomicalHand('Left',new Quaternion(),.7-i*.04),anatomicalHand('Right',new Quaternion(),.3+i*.04)];if(i%2)hands.reverse();for(const assignment of a.assign(detections(hands,1000+i*40))){if(!assignment.freeze)assert.equal(assignment.side,hands[assignment.index].side);states[assignment.side].observe(true,1000+i*40);}for(const s of Object.values(states))s.step(1000+i*40,.04);}
  assert.equal(states.Left.active,true);assert.equal(states.Right.active,true);assert.equal(a.assign(detections([],1450)).length,0);assert.equal(a.assign(detections([anatomicalHand('Left',new Quaternion(),.3),anatomicalHand('Right',new Quaternion(),.7)],1500)).length,2);
 });
 test('loss freezes displayed pose and prediction, recovery interpolates; trails age without new loss samples',()=>{

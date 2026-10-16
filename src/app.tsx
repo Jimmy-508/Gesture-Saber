@@ -48,8 +48,8 @@ export function App({sessionFactory=(...args)=>new TrackingSession(...args)}:{se
  function receive(data:TrackingResult){
   if(!started.current){started.current=true;setStatus('running');}
   let left=false,right=false;
-  for(const {side,index:i} of assignment.current.assign(data)){
-   scene.current?.update({side,points:data.landmarks[i],world:data.world[i],open:true,time:data.time,imageAspect:data.aspect});
+  for(const {side,index:i,freeze} of assignment.current.assign(data)){
+   if(freeze)scene.current?.retain(side,data.time);else scene.current?.update({side,points:data.landmarks[i],world:data.world[i],open:true,time:data.time,imageAspect:data.aspect});
    if(side==='Left')left=true;else right=true;
   }
   for(const side of ['Left','Right'] as Side[])if(!(side==='Left'?left:right))scene.current?.lost(side,data.time,data.landmarks.length?'模型回傳 '+data.landmarks.length+' 隻，該手未配對：'+assignment.current.status:'MediaPipe 未回傳手部');

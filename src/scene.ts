@@ -1,7 +1,8 @@
 import * as T from 'three';
 import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
-import {reliablePalm,palmCenter,type Pose,type Side} from './gesture';
+import type {Pose,Side} from './gesture';
+import {observeHand} from './hand-presence';
 import {BladeState,motionSpeed} from './dynamics';
 import {MotionFilter} from './motion';
 import {TrailBuffer} from './trail';
@@ -92,13 +93,14 @@ export class SaberScene {
  private resize(){const w=this.host.clientWidth,h=this.host.clientHeight;if(!w||!h)return;this.renderer.getSize(this.viewport);if(this.viewport.x!==w||this.viewport.y!==h)this.renderer.setSize(w,h);this.camera.aspect=w/h;this.camera.updateProjectionMatrix();}
  update(pose:Pose){
   const s=this.sabers[pose.side],p=pose.points;
-  if(!reliablePalm(p)){this.lost(pose.side,pose.time,'掌部關鍵點不可靠');return;}
+  const observation=observeHand(p);if(!observation){this.lost(pose.side,pose.time,'觀測無效');return;}
   s.rotation.copy(s.palm.update(p,pose.world,pose.side,pose.time,pose.imageAspect??4/3));
-  const {x:cx,y:cy}=palmCenter(p),height=2*Math.tan(T.MathUtils.degToRad(21.5))*11;
-  s.target.set((.5-cx)*height*this.camera.aspect,(.5-cy)*height+1,(p[5]&&p[17]&&Number.isFinite(p[5].x)&&Number.isFinite(p[17].x)?T.MathUtils.clamp((Math.hypot(p[5].x-p[17].x,p[5].y-p[17].y)-.12)*7,-1,1):s.target.z));
+  const {x:cx,y:cy}=observation,height=2*Math.tan(T.MathUtils.degToRad(21.5))*11;
+  s.target.set((.5-cx)*height*this.camera.aspect,(.5-cy)*height+1,(p[5]&&p[17]&&Number.isFinite(p[5].x)&&Number.isFinite(p[17].x)&&Number.isFinite(p[5].y)&&Number.isFinite(p[17].y)?T.MathUtils.clamp((Math.hypot(p[5].x-p[17].x,p[5].y-p[17].y)-.12)*7,-1,1):s.target.z));
   if(pose.time-s.measuredTime>250)s.ribbon.reset();
-  this.measure(s,pose.time);s.motion.push(s.target,s.rotation,pose.time,this.clock(),s.palm.reliable);s.state.observe(true,pose.time);
+  this.measure(s,pose.time);s.motion.push(s.target,s.rotation,pose.time,this.clock(),s.palm.reliable);s.state.observe(true,this.clock());
  }
+ retain(side:Side,time:number){const s=this.sabers[side];s.state.observe(true,this.clock());s.state.poseFrozen=true;s.palm.reliable=false;s.palm.status='身分歧義：保留姿態';s.motion.freeze();s.speed=0;s.measuredTime=NaN;}
  lost(side:Side,time:number,reason:string){const s=this.sabers[side];s.state.markLost(reason);s.motion.freeze();s.speed=0;s.measuredTime=NaN;}
  private measure(s:Saber,time:number){
   this.tip.set(0,LENGTH+.12,0).applyQuaternion(s.rotation).add(s.target);
@@ -110,7 +112,7 @@ export class SaberScene {
  private updateTrail(s:Saber,now:number){
   const maxAge=this.quality==='low'?.12:this.quality==='medium'?.18:.22;
   this.tip.set(0,.12+LENGTH*s.state.extension,0).applyQuaternion(s.group.quaternion).add(s.group.position);this.base.set(0,.16,0).applyQuaternion(s.group.quaternion).add(s.group.position);
-  s.ribbon.update(this.base,this.tip,now,s.state.extension,maxAge,this.cameraRight,!s.state.lost&&now-s.state.lastSeen<180);
+  s.ribbon.update(this.base,this.tip,now,s.state.extension,maxAge,this.cameraRight,s.state.canMove);
   const previous=s.trail.geometry.drawRange.count;s.trail.geometry.setDrawRange(0,s.ribbon.vertices);
   if(s.ribbon.vertices||previous){for(const name of STREAM_ATTRIBUTES){const a=s.trail.geometry.attributes[name] as T.BufferAttribute;a.clearUpdateRanges();a.addUpdateRange(0,s.ribbon.vertices*(name==='position'?3:1));a.needsUpdate=true;}}
  }
@@ -127,8 +129,8 @@ export class SaberScene {
    const s=this.sabers[side];
    if(this.demo){const t=now*.0012,fit=Math.min(1,this.camera.aspect/1.4);s.target.set((i?1:-1)*(1.5+Math.sin(t*1.7)*.6)*fit,-.6+Math.cos(t)*.3,0);s.rotation.setFromEuler(this.euler.set(.2,Math.sin(t)*.4,(i?-1:1)*(.3+Math.sin(t*1.7)*.65)*fit));this.measure(s,now);s.motion.push(s.target,s.rotation,now,now);s.state.observe(Math.floor(now/5500)%3!==2,now);}
    const extension=s.state.step(now,dt),tracked=s.state.visible(now);s.group.visible=tracked;
-   if(tracked){if(!s.state.lost&&now-s.state.lastSeen<180)s.motion.sample(now);else s.motion.freeze();s.group.position.copy(s.motion.position);s.group.quaternion.copy(s.motion.rotation);if(!this.demo){this.stats.age.add(Math.max(0,now-s.measuredTime));this.stats.smoothing.add(s.motion.lagMs);}}
-   for(const material of s.hiltMaterials)material.opacity=Math.min(1,Math.max(0,(420-(now-s.state.lastSeen))/160));
+   if(tracked){if(s.state.canMove)s.motion.sample(now);else s.motion.freeze();s.group.position.copy(s.motion.position);s.group.quaternion.copy(s.motion.rotation);if(!this.demo){this.stats.age.add(Math.max(0,now-s.measuredTime));this.stats.smoothing.add(s.motion.lagMs);}}
+   for(const material of s.hiltMaterials)material.opacity=s.state.fade(now);
    s.blade.scale.y=Math.max(.001,extension);s.blade.visible=extension>.001;
    s.glow.uniforms.time.value=s.core.uniforms.time.value=now/1000;if(s.light.visible)s.light.intensity=extension*1.8;
    const audioStart=performance.now(),speed=Number.isFinite(s.measuredTime)?s.speed*Math.exp(-Math.max(0,now-s.measuredTime-80)/100):0;this.sound(side,s.state.active,speed,extension);this.stats.audio.add(performance.now()-audioStart);

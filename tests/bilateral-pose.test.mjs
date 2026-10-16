@@ -55,11 +55,11 @@ test('short occlusion recovery and partial world landmarks stay bilateral, finit
 });
 test('temporal ownership survives output-order changes, label swap/duplicates, crossing and brief occlusion',()=>{
  const assignment=new HandAssignment();let time=1000;
- const send=(xLeft,xRight,labels,reverse=false)=>{const hands=[anatomicalHand('Left',new Quaternion(),xLeft),anatomicalHand('Right',new Quaternion(),xRight)];const data=detections(hands,time,labels);time+=42;if(reverse){data.landmarks.reverse();data.handedness.reverse();hands.reverse();}const chosen=assignment.assign(data);for(const a of chosen)assert.equal(hands[a.index].side,a.side);return chosen;};
+ const send=(xLeft,xRight,labels,reverse=false)=>{const hands=[anatomicalHand('Left',new Quaternion(),xLeft),anatomicalHand('Right',new Quaternion(),xRight)];const data=detections(hands,time,labels);time+=42;if(reverse){data.landmarks.reverse();data.handedness.reverse();hands.reverse();}const chosen=assignment.assign(data);for(const a of chosen)if(!a.freeze)assert.equal(hands[a.index].side,a.side);return chosen;};
  send(.72,.28);send(.70,.30,['Left','Right']);send(.68,.32,['Right','Right'],true);
  for(let i=0;i<=20;i++)send(.66-i*.018,.34+i*.018,undefined,i%2===0);
  time+=180;send(.25,.75);assert.equal(send(.23,.77).length,2);
- const overlap=assignment.assign(detections([anatomicalHand('Left',new Quaternion(),.5),anatomicalHand('Right',new Quaternion(),.5)],time));time+=42;assert.equal(overlap.length,0);
+ const overlap=assignment.assign(detections([anatomicalHand('Left',new Quaternion(),.5),anatomicalHand('Right',new Quaternion(),.5)],time));time+=42;assert.equal(overlap.length,2);assert.ok(overlap.every(m=>m.freeze));
  send(.22,.78);const single=anatomicalHand('Right',new Quaternion(),.79);const selected=assignment.assign(detections([single],time,['Right']));assert.deepEqual(selected,[{side:'Right',index:0}]);
 });
 
