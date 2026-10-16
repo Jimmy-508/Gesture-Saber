@@ -41,6 +41,7 @@ export class SaberScene {
  private viewport=new T.Vector2();
  private frame=0;private last=performance.now();private sample=0;private frames=0;private observer:ResizeObserver;private environment:T.WebGLRenderTarget;
  private previousTarget=new T.Vector3();private previousRotation=new T.Quaternion();private tip=new T.Vector3();private base=new T.Vector3();private euler=new T.Euler();
+ private diagnosticDirection=new T.Vector3();
  constructor(private host:HTMLElement,private sound:(side:Side,active:boolean,speed:number,extension:number)=>void=()=>{},autoStart=true,private clock:()=>number=()=>performance.now()){
   this.renderer=new T.WebGLRenderer({antialias:false,powerPreference:'high-performance',preserveDrawingBuffer:!autoStart});this.renderer.setClearColor(0x070b12);this.renderer.outputColorSpace=T.SRGBColorSpace;host.appendChild(this.renderer.domElement);
   this.camera.position.set(0,1,11);this.camera.lookAt(0,1,0);this.scene.fog=new T.FogExp2(0x070b12,.055);
@@ -100,6 +101,7 @@ export class SaberScene {
   const observation=observeHand(p);if(!observation){this.lost(pose.side,pose.time,'觀測無效');return;}
   const previouslyReliable=s.palm.reliable;this.previousTarget.copy(s.target);this.previousRotation.copy(s.rotation);
   s.rotation.copy(s.palm.update(p,pose.world,pose.side,pose.time,pose.imageAspect??4/3));
+  s.telemetry.recordPose(s.palm);
   if(Number.isFinite(s.motion.lastSample))s.telemetry.directionGap.add(pose.time-s.motion.lastSample);if(s.palm.limited)s.telemetry.rateLimits++;
   const {x:cx,y:cy}=observation,height=2*Math.tan(T.MathUtils.degToRad(21.5))*11;
   s.target.set((.5-cx)*height*this.camera.aspect,(.5-cy)*height+1,(p[5]&&p[17]&&Number.isFinite(p[5].x)&&Number.isFinite(p[17].x)&&Number.isFinite(p[5].y)&&Number.isFinite(p[17].y)?T.MathUtils.clamp((Math.hypot(p[5].x-p[17].x,p[5].y-p[17].y)-.12)*7,-1,1):s.target.z));
@@ -138,7 +140,7 @@ export class SaberScene {
    if(this.demo){const t=now*.0012,fit=Math.min(1,this.camera.aspect/1.4);s.target.set((i?1:-1)*(1.5+Math.sin(t*1.7)*.6)*fit,-.6+Math.cos(t)*.3,0);s.rotation.setFromEuler(this.euler.set(.2,Math.sin(t)*.4,(i?-1:1)*(.3+Math.sin(t*1.7)*.65)*fit));this.measure(s,now);s.motion.push(s.target,s.rotation,now,now);s.state.observe(Math.floor(now/5500)%3!==2,now);}
    const extension=s.state.step(now,dt),tracked=s.state.visible(now);s.group.visible=tracked;
    if(tracked){if(!s.state.poseFrozen&&now-s.state.lastSeen<TRACKING.staleMs)s.motion.sample(now);else s.motion.freeze();s.group.position.copy(s.motion.position);s.group.quaternion.copy(s.motion.rotation);if(!this.demo){this.stats.age.add(Math.max(0,now-s.measuredTime));this.stats.smoothing.add(s.motion.lagMs);s.telemetry.smoothing.add(s.motion.lagMs);}}
-   if(!this.demo){s.telemetry.predictionActive=tracked&&s.motion.rotationPredictionActive;if(s.telemetry.predictionActive)s.telemetry.predictionFrames++;if(tracked&&s.motion.rotationPredictionCapped)s.telemetry.predictionCappedFrames++;if(tracked&&!s.state.poseFrozen&&now-s.state.lastSeen<TRACKING.staleMs){s.telemetry.positionError.add(s.motion.positionError);s.telemetry.positionLag.add(s.motion.positionLagMs);s.telemetry.rotationError.add(T.MathUtils.radToDeg(s.motion.rotationErrorRad));s.telemetry.rotationLag.add(s.motion.rotationLagMs);}}
+   if(!this.demo){s.telemetry.predictionActive=tracked&&s.motion.rotationPredictionActive;if(s.telemetry.predictionActive)s.telemetry.predictionFrames++;if(tracked&&s.motion.rotationPredictionCapped)s.telemetry.predictionCappedFrames++;if(tracked&&!s.state.poseFrozen&&now-s.state.lastSeen<TRACKING.staleMs){s.telemetry.positionError.add(s.motion.positionError);s.telemetry.positionLag.add(s.motion.positionLagMs);s.telemetry.rotationError.add(T.MathUtils.radToDeg(s.motion.rotationErrorRad));s.telemetry.rotationLag.add(s.motion.rotationLagMs);if(s.palm.inputDirectionValid)s.telemetry.inputToRender.add(T.MathUtils.radToDeg(s.palm.inputDirection.angleTo(this.diagnosticDirection.set(0,1,0).applyQuaternion(s.group.quaternion)))) ;}}
    for(const material of s.hiltMaterials)material.opacity=s.state.fade(now);
    s.blade.scale.y=Math.max(.001,extension);s.blade.visible=extension>.001;
    s.glow.uniforms.time.value=s.core.uniforms.time.value=now/1000;if(s.light.visible)s.light.intensity=extension*1.8;

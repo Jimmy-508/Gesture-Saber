@@ -1,0 +1,6 @@
+{
+  "cases": 17,
+  "redIdentical": true,
+  "blueIdentical": true,
+  "rootCause": "not established on tablet"
+}

@@ -1,0 +1,9 @@
+import fs from 'node:fs';import assert from 'node:assert/strict';import {blueReplay} from '../benchmarks/blue-replay.mjs';import {blueCases} from '../benchmarks/blue-input.mjs';
+const rows=[];for(const name of blueCases){const before=blueReplay('1.5.2',name,{trace:true}),after=blueReplay('1.5.3',name,{trace:true});for(const side of ['Left','Right']){assert.deepEqual(after[side].trace,before[side].trace,name+' '+side);delete before[side].trace;delete after[side].trace;}rows.push({name,redOutputIdentical:true,blueOutputIdentical:true,before,after});}
+fs.writeFileSync('reports/phase153-comparison.json',JSON.stringify({scope:'Same synthetic observations and timestamps; no tablet data or ML inference. New diagnostics do not change decisions. CPU covers control chain, not renderer or full app.',rows},null,2));
+const metrics=s=>[s.mean,s.p95,s.peak].map(n=>n.toFixed(3)).join(' / '),deg=s=>metrics({mean:s.mean*180/Math.PI,p95:s.p95*180/Math.PI,peak:s.peak*180/Math.PI});
+const lines=['# Phase 1.5.3 固定基準比較','全部動作、啟閉與姿態輸出逐幀相同，沒有證實的藍劍改善。數字是合成輸入，不是實機延遲。三數為平均 / P95 / 峰值。','', '| 情境 | 藍劍角差 °（前後相同） | 紅劍角差 °（前後相同） | 藍劍保護筆（前→後） | 紅劍完全一致 |','|---|---:|---:|---:|---:|'];
+for(const r of rows)lines.push(`| ${r.name} | ${deg(r.after.Left.rotationErrorRad)} | ${deg(r.after.Right.rotationErrorRad)} | ${r.before.Left.guards} → ${r.after.Left.guards} | 是 |`);
+lines.push('','| 情境 | 藍劍內部角差換算 ms（前後相同） | 藍劍尖誤差（前後相同） | 1.5.2 核心 CPU ms | 1.5.3 核心 CPU ms |','|---|---:|---:|---:|---:|');
+for(const r of rows)lines.push(`| ${r.name} | ${metrics(r.after.Left.internalRotationLagMs)} | ${metrics(r.after.Left.tipError)} | ${metrics(r.before.cpuFrameMs)} | ${metrics(r.after.cpuFrameMs)} |`);
+fs.writeFileSync('reports/phase153-metrics.md',lines.join('\n')+'\n');console.log(JSON.stringify({cases:rows.length,redIdentical:true,blueIdentical:true,rootCause:'not established on tablet'},null,2));

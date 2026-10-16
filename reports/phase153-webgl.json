@@ -1,0 +1,4757 @@
+{
+  "scope": "Real WebGL fixed-step QA with synthetic hands, not tablet/model evidence. No change to blue motion claimed.",
+  "rows": [
+    {
+      "name": "flat",
+      "frames": 180,
+      "redIdentical": true,
+      "blueIdentical": true,
+      "soundInputsIdentical": true,
+      "beforeCpu": {
+        "mean": 0.8027777772810724,
+        "p95": 1.0999999940395355,
+        "peak": 57.80000001192093
+      },
+      "afterCpu": {
+        "mean": 0.43166666643487084,
+        "p95": 0.800000011920929,
+        "peak": 9.399999976158142
+      },
+      "drawCalls": [
+        19,
+        19
+      ],
+      "geometryAfter": [
+        0,
+        0
+      ],
+      "diagnostics": {
+        "Left": {
+          "poseUpdates": 72,
+          "reliablePosePct": 100,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 0.06401475883186426,
+            "p95": 0.17255594674204225,
+            "peak": 0.17586452149354925,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 17.613082774976977,
+            "p95": 37.95694269364829,
+            "peak": 42.00799566600607,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.006542965874499139,
+            "p95": 0.020285100816523075,
+            "peak": 0.029167724199907333,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 17.240655007070092,
+            "p95": 41.66666666666674,
+            "peak": 64.5434164977533,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 0.06401476487767706,
+            "p95": 0.1725559471216354,
+            "peak": 0.17586452364471242,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 3.440692286327403,
+            "p95": 34.69544602324349,
+            "peak": 37.876361253452856,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 0,
+          "predictionCappedFrames": 0,
+          "predictionActive": false
+        },
+        "Right": {
+          "poseUpdates": 72,
+          "reliablePosePct": 100,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 0.06401475883194356,
+            "p95": 0.17255594674204225,
+            "peak": 0.17586452149354925,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 17.61308277421725,
+            "p95": 37.956942693647214,
+            "peak": 42.00799566600887,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.006542965874493795,
+            "p95": 0.020285100816525677,
+            "peak": 0.029167724199906004,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 17.24065500706043,
+            "p95": 41.66666666666674,
+            "peak": 64.54341649776755,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 0.0640147648729616,
+            "p95": 0.1725559471216354,
+            "peak": 0.1758645236530021,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 3.440692286168996,
+            "p95": 34.69544602324349,
+            "peak": 37.8763612537629,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 0,
+          "predictionCappedFrames": 0,
+          "predictionActive": false
+        }
+      }
+    },
+    {
+      "name": "edge",
+      "frames": 180,
+      "redIdentical": true,
+      "blueIdentical": true,
+      "soundInputsIdentical": true,
+      "beforeCpu": {
+        "mean": 0.3205555554893282,
+        "p95": 0.5999999940395355,
+        "peak": 7.199999988079071
+      },
+      "afterCpu": {
+        "mean": 0.307777777645323,
+        "p95": 0.5999999940395355,
+        "peak": 9
+      },
+      "drawCalls": [
+        19,
+        19
+      ],
+      "geometryAfter": [
+        0,
+        0
+      ],
+      "diagnostics": {
+        "Left": {
+          "poseUpdates": 72,
+          "reliablePosePct": 100,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 1.1857967309049916e-8,
+            "p95": 0,
+            "peak": 8.537736462515939e-7,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 0.47592334530332947,
+            "p95": 0.7466948076860268,
+            "peak": 1.74916270047932,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 19.634852780856033,
+            "p95": 37.79390906583334,
+            "peak": 50.653552686517905,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.01153295854436866,
+            "p95": 0.024541241487346988,
+            "peak": 0.04148449491878813,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 16.98213815194303,
+            "p95": 31.850565513603872,
+            "peak": 46.66257580864576,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 0.47592334529426444,
+            "p95": 0.7466948076853659,
+            "peak": 1.7491627004784305,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 19.40708793568979,
+            "p95": 34.851429189884335,
+            "peak": 53.646714514715185,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 158,
+          "predictionCappedFrames": 0,
+          "predictionActive": true
+        },
+        "Right": {
+          "poseUpdates": 72,
+          "reliablePosePct": 100,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 0.4759233453032878,
+            "p95": 0.7466948076860268,
+            "peak": 1.74916270047932,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 19.634852780965726,
+            "p95": 37.79390906507334,
+            "peak": 50.653552684094976,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.011532958544369112,
+            "p95": 0.024541241487342078,
+            "peak": 0.04148449491878699,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 16.98213815194414,
+            "p95": 31.85056551360219,
+            "peak": 46.66257580864813,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 0.4759233452956915,
+            "p95": 0.7466948076853659,
+            "peak": 1.749162700477597,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 19.407087935879115,
+            "p95": 34.851429189884335,
+            "peak": 53.64671451460488,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 158,
+          "predictionCappedFrames": 0,
+          "predictionActive": true
+        }
+      }
+    },
+    {
+      "name": "towardCamera",
+      "frames": 180,
+      "redIdentical": true,
+      "blueIdentical": true,
+      "soundInputsIdentical": true,
+      "beforeCpu": {
+        "mean": 0.3144444447424677,
+        "p95": 0.4000000059604645,
+        "peak": 15.900000005960464
+      },
+      "afterCpu": {
+        "mean": 0.3077777781420284,
+        "p95": 0.4000000059604645,
+        "peak": 16
+      },
+      "drawCalls": [
+        19,
+        19
+      ],
+      "geometryAfter": [
+        0,
+        0
+      ],
+      "diagnostics": {
+        "Left": {
+          "poseUpdates": 72,
+          "reliablePosePct": 100,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 0.7131682506971373,
+            "p95": 2.54668614451959,
+            "peak": 4.829540566643253,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 20.455769982932473,
+            "p95": 40.09790396724293,
+            "peak": 150,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.013826675787548981,
+            "p95": 0.05078423384833565,
+            "peak": 0.060353240909841996,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 19.49768459336413,
+            "p95": 42.45692042529963,
+            "peak": 97.4214512917257,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 0.7131689381857553,
+            "p95": 2.546694585147627,
+            "peak": 4.829540700027997,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 8.924720348473931,
+            "p95": 35.163225081185516,
+            "peak": 69.30071415962362,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 45,
+          "predictionCappedFrames": 0,
+          "predictionActive": false
+        },
+        "Right": {
+          "poseUpdates": 72,
+          "reliablePosePct": 100,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 1.1857967309049916e-8,
+            "p95": 0,
+            "peak": 8.537736462515939e-7,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 0.7131682506974539,
+            "p95": 2.54668614451959,
+            "peak": 4.829540566643253,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 20.45576998844158,
+            "p95": 40.09790396724312,
+            "peak": 150,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.013826675787549272,
+            "p95": 0.050784233848337086,
+            "peak": 0.06035324090984079,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 19.49768459345463,
+            "p95": 42.45692042529928,
+            "peak": 97.4214512917547,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 0.7131689381959647,
+            "p95": 2.546694585148772,
+            "peak": 4.829540700027997,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 8.924720348516658,
+            "p95": 35.163225081185516,
+            "peak": 69.30071415973195,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 45,
+          "predictionCappedFrames": 0,
+          "predictionActive": false
+        }
+      }
+    },
+    {
+      "name": "slow",
+      "frames": 180,
+      "redIdentical": true,
+      "blueIdentical": true,
+      "soundInputsIdentical": true,
+      "beforeCpu": {
+        "mean": 0.3072222219573127,
+        "p95": 0.4000000059604645,
+        "peak": 13.700000017881393
+      },
+      "afterCpu": {
+        "mean": 0.2777777769499355,
+        "p95": 0.4000000059604645,
+        "peak": 12.699999988079071
+      },
+      "drawCalls": [
+        19,
+        19
+      ],
+      "geometryAfter": [
+        0,
+        0
+      ],
+      "diagnostics": {
+        "Left": {
+          "poseUpdates": 72,
+          "reliablePosePct": 100,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 2.86276654996851e-8,
+            "p95": 0,
+            "peak": 0.0000012074182697257333,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 0.705372751435229,
+            "p95": 1.053992680005188,
+            "peak": 2.019684599989057,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 19.99845586090341,
+            "p95": 32.656506346338126,
+            "peak": 41.66666666666674,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.017262389242654705,
+            "p95": 0.03253603128066652,
+            "peak": 0.06499440160263244,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 18.209560138582454,
+            "p95": 31.326310070722236,
+            "peak": 71.10322230267839,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 0.7485606359292063,
+            "p95": 1.132064905157789,
+            "peak": 2.258627767864495,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 21.191421021158032,
+            "p95": 37.185940917452506,
+            "peak": 53.27093896494235,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 170,
+          "predictionCappedFrames": 0,
+          "predictionActive": true
+        },
+        "Right": {
+          "poseUpdates": 72,
+          "reliablePosePct": 100,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 5.0309094571905556e-8,
+            "p95": 0,
+            "peak": 0.0000012074182697257333,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 0.7053727514359416,
+            "p95": 1.053992680005534,
+            "peak": 2.019684599989057,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 19.99845586095919,
+            "p95": 32.656506346270646,
+            "peak": 41.66666666666674,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.017262389242654465,
+            "p95": 0.03253603128066828,
+            "peak": 0.06499440160263026,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 18.209560138582322,
+            "p95": 31.326310070717206,
+            "peak": 71.10322230271468,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 0.74856063593024,
+            "p95": 1.132064905156501,
+            "peak": 2.258627767864495,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 21.19142102128508,
+            "p95": 37.18594091897659,
+            "peak": 53.27093896494235,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 170,
+          "predictionCappedFrames": 0,
+          "predictionActive": true
+        }
+      }
+    },
+    {
+      "name": "fast",
+      "frames": 180,
+      "redIdentical": true,
+      "blueIdentical": true,
+      "soundInputsIdentical": true,
+      "beforeCpu": {
+        "mean": 0.2672222216924032,
+        "p95": 0.30000001192092896,
+        "peak": 12.5
+      },
+      "afterCpu": {
+        "mean": 0.25944444520605936,
+        "p95": 0.4000000059604645,
+        "peak": 10
+      },
+      "drawCalls": [
+        19,
+        19
+      ],
+      "geometryAfter": [
+        0,
+        0
+      ],
+      "diagnostics": {
+        "Left": {
+          "poseUpdates": 72,
+          "reliablePosePct": 100,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 4.514042388005883,
+            "p95": 7.163332867084663,
+            "peak": 13.487251604785609,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 21.502090708313634,
+            "p95": 29.44776556507405,
+            "peak": 53.93234613453291,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.08915937160828191,
+            "p95": 0.16620718382847144,
+            "peak": 0.2939267512798752,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 21.10579509131433,
+            "p95": 31.61705541867007,
+            "peak": 116.71255604528895,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 5.040043874636566,
+            "p95": 7.737418789649298,
+            "peak": 14.224265773734253,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 21.85949425982797,
+            "p95": 27.865292049143523,
+            "peak": 51.81351741312931,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 170,
+          "predictionCappedFrames": 25,
+          "predictionActive": true
+        },
+        "Right": {
+          "poseUpdates": 72,
+          "reliablePosePct": 100,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 4.514042388005946,
+            "p95": 7.163332867084612,
+            "peak": 13.487251604785609,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 21.50209070831345,
+            "p95": 29.44776556507169,
+            "peak": 53.93234613453273,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.08915937160828195,
+            "p95": 0.1662071838284713,
+            "peak": 0.2939267512798735,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 21.105795091314356,
+            "p95": 31.61705541866973,
+            "peak": 116.71255604529449,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 5.0400438746365595,
+            "p95": 7.7374187896496744,
+            "peak": 14.224265773734253,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 21.859494259827667,
+            "p95": 27.865292049145346,
+            "peak": 51.81351741312931,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 170,
+          "predictionCappedFrames": 25,
+          "predictionActive": true
+        }
+      }
+    },
+    {
+      "name": "swing",
+      "frames": 180,
+      "redIdentical": true,
+      "blueIdentical": true,
+      "soundInputsIdentical": true,
+      "beforeCpu": {
+        "mean": 0.2677777783738242,
+        "p95": 0.4000000059604645,
+        "peak": 11.300000011920929
+      },
+      "afterCpu": {
+        "mean": 0.2655555557873514,
+        "p95": 0.30000001192092896,
+        "peak": 13.099999994039536
+      },
+      "drawCalls": [
+        19,
+        19
+      ],
+      "geometryAfter": [
+        0,
+        0
+      ],
+      "diagnostics": {
+        "Left": {
+          "poseUpdates": 72,
+          "reliablePosePct": 100,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 1.9653199298858774,
+            "p95": 3.1705400425115737,
+            "peak": 5.921128902934275,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 20.903015730201393,
+            "p95": 31.536204317705792,
+            "peak": 46.64969329243431,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.04956259537486802,
+            "p95": 0.09635709411110838,
+            "peak": 0.19845921156053353,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 19.317429115311203,
+            "p95": 33.93674917137324,
+            "peak": 41.66666666666674,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 2.034284773132851,
+            "p95": 3.2158832719798163,
+            "peak": 6.090441626505515,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 21.743706779723507,
+            "p95": 30.58741531729366,
+            "peak": 49.28482610776213,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 168,
+          "predictionCappedFrames": 0,
+          "predictionActive": true
+        },
+        "Right": {
+          "poseUpdates": 72,
+          "reliablePosePct": 100,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 1.1857967309049916e-8,
+            "p95": 0,
+            "peak": 8.537736462515939e-7,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 1.9653199298858088,
+            "p95": 3.1705400425118038,
+            "peak": 5.921128902934275,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 20.90301573019681,
+            "p95": 31.536204317708837,
+            "peak": 46.64969329239732,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.04956259537486802,
+            "p95": 0.09635709411110839,
+            "peak": 0.1984592115605317,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 19.31742911531128,
+            "p95": 33.936749171372995,
+            "peak": 41.66666666666675,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 2.0342847731326885,
+            "p95": 3.2158832719802697,
+            "peak": 6.090441626505995,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 21.743706779716636,
+            "p95": 30.587415317300913,
+            "peak": 49.28482610779493,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 168,
+          "predictionCappedFrames": 0,
+          "predictionActive": true
+        }
+      }
+    },
+    {
+      "name": "stop",
+      "frames": 180,
+      "redIdentical": true,
+      "blueIdentical": true,
+      "soundInputsIdentical": true,
+      "beforeCpu": {
+        "mean": 0.22666666689846252,
+        "p95": 0.30000001192092896,
+        "peak": 7.0999999940395355
+      },
+      "afterCpu": {
+        "mean": 0.24277777820825577,
+        "p95": 0.30000001192092896,
+        "peak": 11.699999988079071
+      },
+      "drawCalls": [
+        19,
+        19
+      ],
+      "geometryAfter": [
+        0,
+        0
+      ],
+      "diagnostics": {
+        "Left": {
+          "poseUpdates": 72,
+          "reliablePosePct": 100,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 2.86276654996851e-8,
+            "p95": 0,
+            "peak": 0.0000012074182697257333,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 0.9035636694996638,
+            "p95": 5.10433939240326,
+            "peak": 9.54045049312477,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 19.400642607900146,
+            "p95": 44.88416194886815,
+            "peak": 150,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.024508197197829963,
+            "p95": 0.11999527525118502,
+            "peak": 0.3551082312210411,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 22.00640617024254,
+            "p95": 58.297727543184585,
+            "peak": 150,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 0.9134267414196878,
+            "p95": 5.104401116324009,
+            "peak": 9.540450524409906,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 6.482281180854257,
+            "p95": 34.695446016860615,
+            "peak": 41.81686709919391,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 27,
+          "predictionCappedFrames": 0,
+          "predictionActive": false
+        },
+        "Right": {
+          "poseUpdates": 72,
+          "reliablePosePct": 100,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 1.1857967309049916e-8,
+            "p95": 0,
+            "peak": 8.537736462515939e-7,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 0.9035636695031287,
+            "p95": 5.104339392403331,
+            "peak": 9.54045049312477,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 19.40064260761383,
+            "p95": 44.884161956757644,
+            "peak": 150,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.024508197197828457,
+            "p95": 0.119995275251185,
+            "peak": 0.3551082312210415,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 22.00640617026373,
+            "p95": 58.29772754318543,
+            "peak": 150,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 0.9134267414223249,
+            "p95": 5.104401116324009,
+            "peak": 9.540450524409906,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 6.4822811810448835,
+            "p95": 34.695446017589504,
+            "peak": 41.81686709919391,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 27,
+          "predictionCappedFrames": 0,
+          "predictionActive": false
+        }
+      }
+    },
+    {
+      "name": "turn90",
+      "frames": 180,
+      "redIdentical": true,
+      "blueIdentical": true,
+      "soundInputsIdentical": true,
+      "beforeCpu": {
+        "mean": 0.28722222248713175,
+        "p95": 0.30000001192092896,
+        "peak": 16.5
+      },
+      "afterCpu": {
+        "mean": 0.27722222208976743,
+        "p95": 0.5999999940395355,
+        "peak": 11.200000017881393
+      },
+      "drawCalls": [
+        19,
+        19
+      ],
+      "geometryAfter": [
+        0,
+        0
+      ],
+      "diagnostics": {
+        "Left": {
+          "poseUpdates": 72,
+          "reliablePosePct": 98.61111111111111,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 1,
+          "inputToPose": {
+            "mean": 1.2480607540575461,
+            "p95": 0,
+            "peak": 89.86037429214332,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 2.1520596148258466,
+            "p95": 0.16245817604401802,
+            "peak": 89.91992057236367,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 1,
+              "DEPTH": 0,
+              "ROLL": 1,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 1,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 1,
+          "guards": 1,
+          "positionJumps": 1,
+          "rotationJumps": 1,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 19.086223237074396,
+            "p95": 38.1190628607807,
+            "peak": 150,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.02027947718688437,
+            "p95": 0.019583398484963495,
+            "peak": 2.1355157958553255,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 17.80068601031029,
+            "p95": 41.51079206542585,
+            "peak": 150,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 0.6516519784575897,
+            "p95": 0.17303074423365714,
+            "peak": 89.91994857742742,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 3.3887725098812562,
+            "p95": 34.69544602062994,
+            "peak": 41.66666667759832,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 0,
+          "predictionCappedFrames": 0,
+          "predictionActive": false
+        },
+        "Right": {
+          "poseUpdates": 72,
+          "reliablePosePct": 98.61111111111111,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 1,
+          "inputToPose": {
+            "mean": 1.2480607540575464,
+            "p95": 0,
+            "peak": 89.86037429214333,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 2.152059614828613,
+            "p95": 0.16245817604401802,
+            "peak": 89.91992057236365,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 1,
+              "DEPTH": 0,
+              "ROLL": 1,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 1,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 1,
+          "guards": 1,
+          "positionJumps": 1,
+          "rotationJumps": 1,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 19.086223233883203,
+            "p95": 38.11906285970061,
+            "peak": 150,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.020279477186878243,
+            "p95": 0.019583398484933266,
+            "peak": 2.1355157958553246,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 17.800686010254754,
+            "p95": 41.5107920654145,
+            "peak": 150,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 0.6516519784395344,
+            "p95": 0.17303074423365714,
+            "peak": 89.91994857742739,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 3.3887725098911363,
+            "p95": 34.69544602382138,
+            "peak": 41.666666677598315,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 0,
+          "predictionCappedFrames": 0,
+          "predictionActive": false
+        }
+      }
+    },
+    {
+      "name": "partial",
+      "frames": 180,
+      "redIdentical": true,
+      "blueIdentical": true,
+      "soundInputsIdentical": true,
+      "beforeCpu": {
+        "mean": 0.27777777761220934,
+        "p95": 0.5,
+        "peak": 11
+      },
+      "afterCpu": {
+        "mean": 0.3049999997019768,
+        "p95": 0.4000000059604645,
+        "peak": 12.099999994039536
+      },
+      "drawCalls": [
+        19,
+        19
+      ],
+      "geometryAfter": [
+        0,
+        0
+      ],
+      "diagnostics": {
+        "Left": {
+          "poseUpdates": 72,
+          "reliablePosePct": 47.22222222222222,
+          "worldPoses": 34,
+          "imagePoses": 25,
+          "heldPoses": 13,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 1.4470739766976168e-8,
+            "p95": 0,
+            "peak": 8.537736462515939e-7,
+            "count": 59
+          },
+          "inputToRender": {
+            "mean": 2.0960404754097777,
+            "p95": 7.3044484946318375,
+            "peak": 11.77384603060239,
+            "count": 145
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 13,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 38,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 38,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 1,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 19.38732552855533,
+            "p95": 38.66616562091221,
+            "peak": 64.6592059136128,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.0491055261972861,
+            "p95": 0.09635709411110838,
+            "peak": 0.19845921156053353,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 19.080547691360874,
+            "p95": 33.38333043041763,
+            "peak": 41.66666666666674,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 1.7841353214352558,
+            "p95": 6.874313026607678,
+            "peak": 12.114332124139594,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 15.928567014369976,
+            "p95": 41.79894573376056,
+            "peak": 49.22144107077789,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 72,
+          "predictionCappedFrames": 0,
+          "predictionActive": true
+        },
+        "Right": {
+          "poseUpdates": 72,
+          "reliablePosePct": 100,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 1.1857967309049916e-8,
+            "p95": 0,
+            "peak": 8.537736462515939e-7,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 1.9653199298858088,
+            "p95": 3.1705400425118038,
+            "peak": 5.921128902934275,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 20.90301573019681,
+            "p95": 31.536204317708837,
+            "peak": 46.64969329239732,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.04956259537486802,
+            "p95": 0.09635709411110839,
+            "peak": 0.1984592115605317,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 19.31742911531128,
+            "p95": 33.936749171372995,
+            "peak": 41.66666666666675,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 2.0342847731326885,
+            "p95": 3.2158832719802697,
+            "peak": 6.090441626505995,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 21.743706779716636,
+            "p95": 30.587415317300913,
+            "peak": 49.28482610779493,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 168,
+          "predictionCappedFrames": 0,
+          "predictionActive": true
+        }
+      }
+    },
+    {
+      "name": "conflict",
+      "frames": 180,
+      "redIdentical": true,
+      "blueIdentical": true,
+      "soundInputsIdentical": true,
+      "beforeCpu": {
+        "mean": 0.32555555552244186,
+        "p95": 0.4000000059604645,
+        "peak": 20.400000005960464
+      },
+      "afterCpu": {
+        "mean": 0.25611111107799744,
+        "p95": 0.5999999940395355,
+        "peak": 10.099999994039536
+      },
+      "drawCalls": [
+        19,
+        19
+      ],
+      "geometryAfter": [
+        0,
+        0
+      ],
+      "diagnostics": {
+        "Left": {
+          "poseUpdates": 72,
+          "reliablePosePct": 47.22222222222222,
+          "worldPoses": 34,
+          "imagePoses": 38,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 2.86276654996851e-8,
+            "p95": 0,
+            "peak": 0.0000012074182697257333,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 1.712035208998005,
+            "p95": 5.80781641729071,
+            "peak": 6.058229824638297,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 38
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 38,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 1,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 19.269356300060885,
+            "p95": 38.14043886167857,
+            "peak": 46.64969329243431,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.04956259537486797,
+            "p95": 0.09635709411110838,
+            "peak": 0.19845921156053353,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 19.317429115311093,
+            "p95": 33.93674917137324,
+            "peak": 41.66666666666674,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 1.77590069625376,
+            "p95": 5.847562940433609,
+            "peak": 6.141017056658361,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 19.24070298568576,
+            "p95": 43.325329230897424,
+            "peak": 49.22144107077789,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 72,
+          "predictionCappedFrames": 0,
+          "predictionActive": true
+        },
+        "Right": {
+          "poseUpdates": 72,
+          "reliablePosePct": 100,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 1.1857967309049916e-8,
+            "p95": 0,
+            "peak": 8.537736462515939e-7,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 1.9653199298858088,
+            "p95": 3.1705400425118038,
+            "peak": 5.921128902934275,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 20.90301573019681,
+            "p95": 31.536204317708837,
+            "peak": 46.64969329239732,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.04956259537486802,
+            "p95": 0.09635709411110839,
+            "peak": 0.1984592115605317,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 19.31742911531128,
+            "p95": 33.936749171372995,
+            "peak": 41.66666666666675,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 2.0342847731326885,
+            "p95": 3.2158832719802697,
+            "peak": 6.090441626505995,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 21.743706779716636,
+            "p95": 30.587415317300913,
+            "peak": 49.28482610779493,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 168,
+          "predictionCappedFrames": 0,
+          "predictionActive": true
+        }
+      }
+    },
+    {
+      "name": "depthAmbiguous",
+      "frames": 180,
+      "redIdentical": true,
+      "blueIdentical": true,
+      "soundInputsIdentical": true,
+      "beforeCpu": {
+        "mean": 0.2716666668653488,
+        "p95": 0.4000000059604645,
+        "peak": 15.700000017881393
+      },
+      "afterCpu": {
+        "mean": 0.2744444449742635,
+        "p95": 0.4000000059604645,
+        "peak": 14.599999994039536
+      },
+      "drawCalls": [
+        19,
+        19
+      ],
+      "geometryAfter": [
+        0,
+        0
+      ],
+      "diagnostics": {
+        "Left": {
+          "poseUpdates": 72,
+          "reliablePosePct": 47.22222222222222,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 38,
+          "inputToPose": {
+            "mean": 94.93589511214533,
+            "p95": 179.87853810722257,
+            "peak": 179.87853810722257,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 96.03161189913926,
+            "p95": 179.8787199489693,
+            "peak": 179.92474681997157,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 38,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 38,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 1,
+          "guards": 38,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 16.879648881964005,
+            "p95": 37.42448679990517,
+            "peak": 87.19218943260046,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.007771947008280041,
+            "p95": 0.021165710871147138,
+            "peak": 0.0732530231289616,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 17.809360777644542,
+            "p95": 41.66666666666674,
+            "peak": 86.5704547657996,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 0.029021313603103695,
+            "p95": 0.16245817622020747,
+            "peak": 0.1892668278420628,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 1.3971010482856203,
+            "p95": 10.20735471088193,
+            "peak": 36.92235444046353,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 0,
+          "predictionCappedFrames": 0,
+          "predictionActive": false
+        },
+        "Right": {
+          "poseUpdates": 72,
+          "reliablePosePct": 100,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 0.06401475883158475,
+            "p95": 0.17255594673993008,
+            "peak": 0.17586452149562165,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 18.235528128277007,
+            "p95": 39.59407744319272,
+            "peak": 58.40182447401661,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.006539093470836105,
+            "p95": 0.01939736958300483,
+            "peak": 0.024406086583116465,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 17.551824405621037,
+            "p95": 41.13927319449376,
+            "peak": 86.570454764889,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 0.06401476489892047,
+            "p95": 0.172555947130084,
+            "peak": 0.1758645236530021,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 3.4406922863141194,
+            "p95": 34.69544602251461,
+            "peak": 37.87636125228758,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 0,
+          "predictionCappedFrames": 0,
+          "predictionActive": false
+        }
+      }
+    },
+    {
+      "name": "occlusion",
+      "frames": 180,
+      "redIdentical": true,
+      "blueIdentical": true,
+      "soundInputsIdentical": true,
+      "beforeCpu": {
+        "mean": 0.34499999980131785,
+        "p95": 0.5,
+        "peak": 20.400000005960464
+      },
+      "afterCpu": {
+        "mean": 0.28944444391462537,
+        "p95": 0.5999999940395355,
+        "peak": 14
+      },
+      "drawCalls": [
+        19,
+        19
+      ],
+      "geometryAfter": [
+        0,
+        0
+      ],
+      "diagnostics": {
+        "Left": {
+          "poseUpdates": 69,
+          "reliablePosePct": 94.20289855072464,
+          "worldPoses": 69,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 1,
+          "inputToPose": {
+            "mean": 0.04769836128753231,
+            "p95": 0,
+            "peak": 3.2911869288397297,
+            "count": 69
+          },
+          "inputToRender": {
+            "mean": 2.0305136478866426,
+            "p95": 3.5235371226708496,
+            "peak": 23.344751017139185,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 4,
+              "RATE": 1
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 4,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 1,
+          "guards": 4,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.10628019323656,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 69
+          },
+          "smoothing": {
+            "mean": 21.07027743105426,
+            "p95": 34.056600858247855,
+            "peak": 150,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.051199128257146787,
+            "p95": 0.0993008279977317,
+            "peak": 0.648642457040724,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 19.669680020173583,
+            "p95": 35.75456269282831,
+            "peak": 150,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 43.5049019607843,
+            "p95": 41.66666666666697,
+            "peak": 166.66666666666652,
+            "count": 68
+          },
+          "rotationError": {
+            "mean": 2.0436500813134044,
+            "p95": 3.5836111791687864,
+            "peak": 20.053658051099926,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 21.796445499656134,
+            "p95": 41.67050462188632,
+            "peak": 150,
+            "count": 178
+          },
+          "rateLimits": 1,
+          "predictionFrames": 150,
+          "predictionCappedFrames": 0,
+          "predictionActive": true
+        },
+        "Right": {
+          "poseUpdates": 72,
+          "reliablePosePct": 100,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 1.1857967309049916e-8,
+            "p95": 0,
+            "peak": 8.537736462515939e-7,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 1.9653199298858088,
+            "p95": 3.1705400425118038,
+            "peak": 5.921128902934275,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 20.90301573019681,
+            "p95": 31.536204317708837,
+            "peak": 46.64969329239732,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.04956259537486802,
+            "p95": 0.09635709411110839,
+            "peak": 0.1984592115605317,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 19.31742911531128,
+            "p95": 33.936749171372995,
+            "peak": 41.66666666666675,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 2.0342847731326885,
+            "p95": 3.2158832719802697,
+            "peak": 6.090441626505995,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 21.743706779716636,
+            "p95": 30.587415317300913,
+            "peak": 49.28482610779493,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 168,
+          "predictionCappedFrames": 0,
+          "predictionActive": true
+        }
+      }
+    },
+    {
+      "name": "cross",
+      "frames": 180,
+      "redIdentical": true,
+      "blueIdentical": true,
+      "soundInputsIdentical": true,
+      "beforeCpu": {
+        "mean": 0.25555555522441864,
+        "p95": 0.30000001192092896,
+        "peak": 13.799999982118607
+      },
+      "afterCpu": {
+        "mean": 0.3777777772810724,
+        "p95": 0.5,
+        "peak": 24.599999994039536
+      },
+      "drawCalls": [
+        19,
+        19
+      ],
+      "geometryAfter": [
+        0,
+        0
+      ],
+      "diagnostics": {
+        "Left": {
+          "poseUpdates": 24,
+          "reliablePosePct": 100,
+          "worldPoses": 24,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 24
+          },
+          "inputToRender": {
+            "mean": 2.0885414103518505,
+            "p95": 3.194988668355221,
+            "peak": 5.921128902934275,
+            "count": 60
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 19.65098566940239,
+            "p95": 24.74523470683252,
+            "peak": 41.66666666666675,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.08066709183065988,
+            "p95": 0.18149520173766803,
+            "peak": 0.19459591995875053,
+            "count": 60
+          },
+          "positionLag": {
+            "mean": 20.040613145517103,
+            "p95": 27.996950834673388,
+            "peak": 41.66666666666674,
+            "count": 60
+          },
+          "directionGap": {
+            "mean": 41.66666666666665,
+            "p95": 41.66666666666674,
+            "peak": 41.66666666666674,
+            "count": 23
+          },
+          "rotationError": {
+            "mean": 2.143164105342492,
+            "p95": 3.2154147593710594,
+            "peak": 6.090441626505515,
+            "count": 60
+          },
+          "rotationLag": {
+            "mean": 21.165429628680197,
+            "p95": 32.81591881068219,
+            "peak": 49.22144107077789,
+            "count": 60
+          },
+          "rateLimits": 0,
+          "predictionFrames": 52,
+          "predictionCappedFrames": 0,
+          "predictionActive": false
+        },
+        "Right": {
+          "poseUpdates": 24,
+          "reliablePosePct": 100,
+          "worldPoses": 24,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 24
+          },
+          "inputToRender": {
+            "mean": 2.0885414103518665,
+            "p95": 3.194988668355449,
+            "peak": 5.921128902934275,
+            "count": 60
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 19.650985669402022,
+            "p95": 24.74523470683067,
+            "peak": 41.66666666666674,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.08066709183065994,
+            "p95": 0.18149520173766723,
+            "peak": 0.1945959199587503,
+            "count": 60
+          },
+          "positionLag": {
+            "mean": 20.04061314551714,
+            "p95": 27.996950834673388,
+            "peak": 41.66666666666674,
+            "count": 60
+          },
+          "directionGap": {
+            "mean": 41.66666666666665,
+            "p95": 41.66666666666674,
+            "peak": 41.66666666666674,
+            "count": 23
+          },
+          "rotationError": {
+            "mean": 2.1431641053425254,
+            "p95": 3.215414759372873,
+            "peak": 6.090441626505995,
+            "count": 60
+          },
+          "rotationLag": {
+            "mean": 21.165429628675085,
+            "p95": 32.815918810610846,
+            "peak": 49.22144107072901,
+            "count": 60
+          },
+          "rateLimits": 0,
+          "predictionFrames": 52,
+          "predictionCappedFrames": 0,
+          "predictionActive": false
+        }
+      }
+    },
+    {
+      "name": "screenSwap",
+      "frames": 180,
+      "redIdentical": true,
+      "blueIdentical": true,
+      "soundInputsIdentical": true,
+      "beforeCpu": {
+        "mean": 0.25722222245401805,
+        "p95": 0.5,
+        "peak": 9.100000023841858
+      },
+      "afterCpu": {
+        "mean": 0.3288888888226615,
+        "p95": 0.5,
+        "peak": 14.699999988079071
+      },
+      "drawCalls": [
+        19,
+        19
+      ],
+      "geometryAfter": [
+        0,
+        0
+      ],
+      "diagnostics": {
+        "Left": {
+          "poseUpdates": 72,
+          "reliablePosePct": 100,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 1.9653199298858774,
+            "p95": 3.1705400425115737,
+            "peak": 5.921128902934275,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 20.903015730201396,
+            "p95": 31.5362043177061,
+            "peak": 46.64969329243413,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.049562595374868054,
+            "p95": 0.09635709411110756,
+            "peak": 0.19845921156053212,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 19.31742911531124,
+            "p95": 33.936749171373584,
+            "peak": 41.66666666666674,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 2.034284773132851,
+            "p95": 3.2158832719798163,
+            "peak": 6.090441626505515,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 21.743706779723507,
+            "p95": 30.58741531729366,
+            "peak": 49.28482610776213,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 168,
+          "predictionCappedFrames": 0,
+          "predictionActive": true
+        },
+        "Right": {
+          "poseUpdates": 72,
+          "reliablePosePct": 100,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 1.1857967309049916e-8,
+            "p95": 0,
+            "peak": 8.537736462515939e-7,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 1.9653199298858088,
+            "p95": 3.1705400425118038,
+            "peak": 5.921128902934275,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 20.903015730196817,
+            "p95": 31.53620431770867,
+            "peak": 46.64969329239764,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.04956259537486797,
+            "p95": 0.09635709411110836,
+            "peak": 0.19845921156053,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 19.31742911531131,
+            "p95": 33.93674917137198,
+            "peak": 41.66666666666674,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 2.0342847731326885,
+            "p95": 3.2158832719802697,
+            "peak": 6.090441626505995,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 21.743706779716636,
+            "p95": 30.587415317300913,
+            "peak": 49.28482610779493,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 168,
+          "predictionCappedFrames": 0,
+          "predictionActive": true
+        }
+      }
+    },
+    {
+      "name": "lowLabels",
+      "frames": 180,
+      "redIdentical": true,
+      "blueIdentical": true,
+      "soundInputsIdentical": true,
+      "beforeCpu": {
+        "mean": 0.26722222202354007,
+        "p95": 0.5,
+        "peak": 9.5
+      },
+      "afterCpu": {
+        "mean": 0.27166666719648574,
+        "p95": 0.30000001192092896,
+        "peak": 16.400000005960464
+      },
+      "drawCalls": [
+        19,
+        19
+      ],
+      "geometryAfter": [
+        0,
+        0
+      ],
+      "diagnostics": {
+        "Left": {
+          "poseUpdates": 72,
+          "reliablePosePct": 100,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 1.9653199298858774,
+            "p95": 3.1705400425115737,
+            "peak": 5.921128902934275,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 20.903015730201393,
+            "p95": 31.536204317705792,
+            "peak": 46.64969329243431,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.04956259537486802,
+            "p95": 0.09635709411110838,
+            "peak": 0.19845921156053353,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 19.317429115311203,
+            "p95": 33.93674917137324,
+            "peak": 41.66666666666674,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 2.034284773132851,
+            "p95": 3.2158832719798163,
+            "peak": 6.090441626505515,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 21.743706779723507,
+            "p95": 30.58741531729366,
+            "peak": 49.28482610776213,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 168,
+          "predictionCappedFrames": 0,
+          "predictionActive": true
+        },
+        "Right": {
+          "poseUpdates": 72,
+          "reliablePosePct": 100,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 1.1857967309049916e-8,
+            "p95": 0,
+            "peak": 8.537736462515939e-7,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 1.9653199298858088,
+            "p95": 3.1705400425118038,
+            "peak": 5.921128902934275,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 20.90301573019681,
+            "p95": 31.536204317708837,
+            "peak": 46.64969329239732,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.04956259537486802,
+            "p95": 0.09635709411110839,
+            "peak": 0.1984592115605317,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 19.31742911531128,
+            "p95": 33.936749171372995,
+            "peak": 41.66666666666675,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 2.0342847731326885,
+            "p95": 3.2158832719802697,
+            "peak": 6.090441626505995,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 21.743706779716636,
+            "p95": 30.587415317300913,
+            "peak": 49.28482610779493,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 168,
+          "predictionCappedFrames": 0,
+          "predictionActive": true
+        }
+      }
+    },
+    {
+      "name": "zeroHands",
+      "frames": 180,
+      "redIdentical": true,
+      "blueIdentical": true,
+      "soundInputsIdentical": true,
+      "beforeCpu": {
+        "mean": 0.35055555568801033,
+        "p95": 0.9000000059604645,
+        "peak": 9.5
+      },
+      "afterCpu": {
+        "mean": 0.2516666665673256,
+        "p95": 0.4000000059604645,
+        "peak": 9.900000005960464
+      },
+      "drawCalls": [
+        19,
+        19
+      ],
+      "geometryAfter": [
+        0,
+        0
+      ],
+      "diagnostics": {
+        "Left": {
+          "poseUpdates": 45,
+          "reliablePosePct": 100,
+          "worldPoses": 45,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 45
+          },
+          "inputToRender": {
+            "mean": 1.7805816298013535,
+            "p95": 3.368620158582761,
+            "peak": 11.10362748104948,
+            "count": 119
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.25925925925912,
+            "p95": 33.333333333334394,
+            "peak": 33.33333333333485,
+            "count": 45
+          },
+          "smoothing": {
+            "mean": 19.45549540045021,
+            "p95": 37.27238899895533,
+            "peak": 150,
+            "count": 134
+          },
+          "positionError": {
+            "mean": 0.04781942596875831,
+            "p95": 0.10320950695811905,
+            "peak": 0.27358569070380484,
+            "count": 119
+          },
+          "positionLag": {
+            "mean": 20.58016374105459,
+            "p95": 38.875782658505074,
+            "peak": 150,
+            "count": 119
+          },
+          "directionGap": {
+            "mean": 67.23484848484844,
+            "p95": 41.66666666666697,
+            "peak": 1166.6666666666679,
+            "count": 44
+          },
+          "rotationError": {
+            "mean": 2.0265892967626016,
+            "p95": 3.3780995487206265,
+            "peak": 25.888587551230067,
+            "count": 119
+          },
+          "rotationLag": {
+            "mean": 22.627135920187026,
+            "p95": 41.67050462188632,
+            "peak": 150,
+            "count": 119
+          },
+          "rateLimits": 0,
+          "predictionFrames": 98,
+          "predictionCappedFrames": 0,
+          "predictionActive": true
+        },
+        "Right": {
+          "poseUpdates": 45,
+          "reliablePosePct": 100,
+          "worldPoses": 45,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 45
+          },
+          "inputToRender": {
+            "mean": 1.7805816298529897,
+            "p95": 3.368620158582761,
+            "peak": 11.103627481049513,
+            "count": 119
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.25925925925912,
+            "p95": 33.333333333334394,
+            "peak": 33.33333333333485,
+            "count": 45
+          },
+          "smoothing": {
+            "mean": 19.455495393053845,
+            "p95": 37.27238899891721,
+            "peak": 150,
+            "count": 134
+          },
+          "positionError": {
+            "mean": 0.04781942596875826,
+            "p95": 0.10320950695811777,
+            "peak": 0.27358569070380523,
+            "count": 119
+          },
+          "positionLag": {
+            "mean": 20.58016374105459,
+            "p95": 38.875782658513415,
+            "peak": 150,
+            "count": 119
+          },
+          "directionGap": {
+            "mean": 67.23484848484844,
+            "p95": 41.66666666666697,
+            "peak": 1166.6666666666679,
+            "count": 44
+          },
+          "rotationError": {
+            "mean": 2.026589296357203,
+            "p95": 3.3780995487206265,
+            "peak": 25.888587551230067,
+            "count": 119
+          },
+          "rotationLag": {
+            "mean": 22.62713591660442,
+            "p95": 41.67050462188632,
+            "peak": 150,
+            "count": 119
+          },
+          "rateLimits": 0,
+          "predictionFrames": 98,
+          "predictionCappedFrames": 0,
+          "predictionActive": true
+        }
+      }
+    },
+    {
+      "name": "poorRight",
+      "frames": 180,
+      "redIdentical": true,
+      "blueIdentical": true,
+      "soundInputsIdentical": true,
+      "beforeCpu": {
+        "mean": 0.2766666662361887,
+        "p95": 0.5999999940395355,
+        "peak": 9.599999994039536
+      },
+      "afterCpu": {
+        "mean": 0.2261111112104522,
+        "p95": 0.4000000059604645,
+        "peak": 7.0999999940395355
+      },
+      "drawCalls": [
+        19,
+        19
+      ],
+      "geometryAfter": [
+        0,
+        0
+      ],
+      "diagnostics": {
+        "Left": {
+          "poseUpdates": 72,
+          "reliablePosePct": 100,
+          "worldPoses": 72,
+          "imagePoses": 0,
+          "heldPoses": 0,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 72
+          },
+          "inputToRender": {
+            "mean": 1.9653199298858774,
+            "p95": 3.1705400425115737,
+            "peak": 5.921128902934275,
+            "count": 178
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 0,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 0,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 0,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 0,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 20.903015730201393,
+            "p95": 31.536204317705792,
+            "peak": 46.64969329243431,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.04956259537486802,
+            "p95": 0.09635709411110838,
+            "peak": 0.19845921156053353,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 19.317429115311203,
+            "p95": 33.93674917137324,
+            "peak": 41.66666666666674,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 2.034284773132851,
+            "p95": 3.2158832719798163,
+            "peak": 6.090441626505515,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 21.743706779723507,
+            "p95": 30.58741531729366,
+            "peak": 49.28482610776213,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 168,
+          "predictionCappedFrames": 0,
+          "predictionActive": true
+        },
+        "Right": {
+          "poseUpdates": 72,
+          "reliablePosePct": 47.22222222222222,
+          "worldPoses": 34,
+          "imagePoses": 25,
+          "heldPoses": 13,
+          "guardRestrictedPoses": 0,
+          "inputToPose": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 59
+          },
+          "inputToRender": {
+            "mean": 2.0960404754153514,
+            "p95": 7.304448494631789,
+            "peak": 11.773846030602328,
+            "count": 145
+          },
+          "pose": {
+            "source": "WORLD",
+            "worldRejection": "NONE",
+            "status": "世界座標",
+            "guards": [],
+            "guardCounts": {
+              "MISSING": 13,
+              "DEGENERATE": 0,
+              "DIRECTION": 0,
+              "DEPTH": 0,
+              "ROLL": 0,
+              "TRANSVERSE": 0,
+              "RECOVERY": 0,
+              "RATE": 0
+            },
+            "worldRejections": {
+              "WORLD_POINTS": 38,
+              "WORLD_SCALE": 0,
+              "WORLD_IMAGE_DIRECTION": 0
+            },
+            "identityFrozen": false
+          },
+          "labels": {
+            "last": "Unknown",
+            "score": null,
+            "assigned": {
+              "Left": 0,
+              "Right": 0,
+              "Unknown": 0
+            },
+            "mismatch": 0
+          },
+          "model": 0,
+          "modelLabelHz": 0,
+          "pairs": 0,
+          "pairRate": 0,
+          "rejects": 0,
+          "missing": 0,
+          "interruptions": 0,
+          "freezes": 0,
+          "recoveries": 0,
+          "fallbacks": 38,
+          "poseRecoveries": 0,
+          "qualityRecoveries": 1,
+          "guards": 0,
+          "positionJumps": 0,
+          "rotationJumps": 0,
+          "updateHz": 0,
+          "gap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "rawGap": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0,
+            "count": 0
+          },
+          "delay": {
+            "mean": 29.16666666666653,
+            "p95": 33.33333333333394,
+            "peak": 33.33333333333485,
+            "count": 72
+          },
+          "smoothing": {
+            "mean": 19.38732568938286,
+            "p95": 38.66616562088183,
+            "peak": 64.659205913613,
+            "count": 178
+          },
+          "positionError": {
+            "mean": 0.049105526196722454,
+            "p95": 0.09635709411110839,
+            "peak": 0.1984592115605317,
+            "count": 178
+          },
+          "positionLag": {
+            "mean": 19.080547693784734,
+            "p95": 33.3833304304169,
+            "peak": 41.66666666666675,
+            "count": 178
+          },
+          "directionGap": {
+            "mean": 41.66666666666668,
+            "p95": 41.66666666666697,
+            "peak": 41.66666666666697,
+            "count": 71
+          },
+          "rotationError": {
+            "mean": 1.78413532139192,
+            "p95": 6.874313026607678,
+            "peak": 12.114332124139473,
+            "count": 178
+          },
+          "rotationLag": {
+            "mean": 15.928567014241423,
+            "p95": 41.79894573374145,
+            "peak": 49.22144107072901,
+            "count": 178
+          },
+          "rateLimits": 0,
+          "predictionFrames": 72,
+          "predictionCappedFrames": 0,
+          "predictionActive": true
+        }
+      }
+    }
+  ],
+  "appearance": {
+    "changedChannels": 0,
+    "pixels": 298890,
+    "calls": [
+      19,
+      19
+    ]
+  },
+  "pass": true
+}
