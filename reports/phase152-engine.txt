@@ -1,0 +1,25 @@
+開始 Worker 模型載入
+檢查模型資源版本
+讀取快取：手部模型
+快取已驗證：手部模型
+讀取快取：WASM
+快取已驗證：WASM
+讀取快取：WASM 載入器
+快取已驗證：WASM 載入器
+資源已驗證，正在初始化 WASM 與手部模型
+PASS：Worker 模型初始化
+PASS：Worker ImageBitmap 推論，偵測 0 隻手
+開始主執行緒模型載入
+檢查模型資源版本
+讀取快取：手部模型
+快取已驗證：手部模型
+讀取快取：WASM
+快取已驗證：WASM
+讀取快取：WASM 載入器
+快取已驗證：WASM 載入器
+資源已驗證，正在初始化 WASM 與手部模型
+PASS：主執行緒模型初始化
+PASS：主執行緒 canvas 推論，偵測 0 隻手
+Worker 管線失敗，改用主執行緒：Error: Injected unsupported Worker
+PASS：Worker 初始化失敗 → 主執行緒備援推論
+DONE：測試資源已釋放

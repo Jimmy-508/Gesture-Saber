@@ -4,15 +4,15 @@ import type {Point,Side} from './gesture';
  * scene -Z, away from the player. A rotation about Z, not a three-axis reflection. */
 export class PalmPose {
  readonly rotation=new Quaternion();readonly direction=new Vector3(0,1,0);
- reliable=false;status='尚未觀測';deltaDegrees=0;
+ reliable=false;status='尚未觀測';deltaDegrees=0;limited=false;
  private imageAxis=new Vector3();private lastImageAxis=new Vector3();private previous=new Quaternion();private recovery=0;
  private cadence=42;private observations=0;
  private x=new Vector3(1,0,0);private y=new Vector3();private z=new Vector3();private a=new Vector3();private b=new Vector3();private oldX=new Vector3();
  private matrix=new Matrix4();private candidate=new Quaternion();private pending=new Vector3();private pendingCount=0;private last=-Infinity;private ready=false;
- reset(){this.ready=false;this.last=-Infinity;this.pendingCount=this.recovery=this.observations=0;this.cadence=42;this.reliable=false;this.status='尚未觀測';this.deltaDegrees=0;}
+ reset(){this.ready=false;this.last=-Infinity;this.pendingCount=this.recovery=this.observations=0;this.cadence=42;this.reliable=this.limited=false;this.status='尚未觀測';this.deltaDegrees=0;}
  update(points:Point[],world:Point[]|undefined,side:Side,time:number,aspect=1){
   if(time<=this.last)return this.rotation;
-  this.reliable=true;this.status='世界座標';this.previous.copy(this.rotation);
+  this.reliable=true;this.limited=false;this.status='世界座標';this.previous.copy(this.rotation);
   const finite=(p:Point|undefined)=>!!p&&Number.isFinite(p.x)&&Number.isFinite(p.y)&&Number.isFinite(p.z);
   const usable=(p:Point[]|undefined)=>p&&[0,5,9,17].every(i=>finite(p[i]));
   const length=usable(world)?Math.hypot(world![9].x-world![0].x,world![9].y-world![0].y,world![9].z-world![0].z):0;
@@ -46,7 +46,14 @@ export class PalmPose {
   this.x.addScaledVector(this.y,-this.x.dot(this.y));
   const degenerate=this.x.lengthSq()<1e-6;
   // Reject unreliable roll alone: valid wrist→finger direction still updates this frame.
-  const reversed=continuous&&!this.recovery&&this.oldX.lengthSq()>1e-6&&!degenerate&&this.x.dot(this.oldX)/Math.sqrt(this.x.lengthSq()*this.oldX.lengthSq())<-.5;
+  // When the new finger axis nearly aligns with the old transverse axis, its
+  // projection approaches zero and its sign is not evidence of a roll reversal.
+  const rollComparable=this.oldX.lengthSq()>(validWorld?.1:1e-6);
+  if(validWorld&&!rollComparable&&imageValid){
+   this.b.set(-(points[5].x-points[17].x),-(points[5].y-points[17].y)/aspect,points[5].z-points[17].z).multiplyScalar(side==='Left'?1:-1);this.b.addScaledVector(this.y,-this.b.dot(this.y));
+   if(this.b.lengthSq()>1e-6&&this.b.dot(this.x)<0){this.x.copy(this.b);this.reliable=false;this.status='掌面資料矛盾：影像旋轉備援';}
+  }
+  const reversed=continuous&&!this.recovery&&rollComparable&&!degenerate&&this.x.dot(this.oldX)/Math.sqrt(this.x.lengthSq()*this.oldX.lengthSq())<-.5;
   if(degenerate||reversed||held){
    this.x.copy(this.oldX);this.reliable=false;if(!held)this.status='掌面歧義：保留旋轉基準';
    if(this.x.lengthSq()<1e-6){this.x.set(Math.abs(this.y.x)<.8?1:0,Math.abs(this.y.x)<.8?0:1,0);this.x.addScaledVector(this.y,-this.x.dot(this.y));}
@@ -54,7 +61,13 @@ export class PalmPose {
   this.x.normalize();this.z.crossVectors(this.x,this.y).normalize();this.x.crossVectors(this.y,this.z).normalize();
   this.matrix.makeBasis(this.x,this.y,this.z);this.candidate.setFromRotationMatrix(this.matrix).normalize();
   if(this.rotation.dot(this.candidate)<0)this.candidate.set(-this.candidate.x,-this.candidate.y,-this.candidate.z,-this.candidate.w);
-  if(continuous)this.rotation.rotateTowards(this.candidate,this.recovery?.35:22*dt);else this.rotation.copy(this.candidate);
+  // Normal reliable orientation is an estimate, not a second animation filter.
+  // Reuse the existing 75-degree evidence boundary and two-observation guard;
+  // ambiguous, recovered and irregular large steps retain the original limits.
+  const trusted=this.reliable&&!this.recovery,regular=gap>=12&&gap<=Math.max(100,this.cadence*1.8);
+  const normalStep=this.rotation.angleTo(this.candidate)<=Math.acos(.25),confirmed=this.pendingCount>=2&&!held;
+  if(continuous&&!(trusted&&regular&&(normalStep||confirmed)))this.rotation.rotateTowards(this.candidate,this.recovery?.35:22*dt);else this.rotation.copy(this.candidate);
+  this.limited=this.rotation.angleTo(this.candidate)>1e-5;
   if(this.recovery){this.reliable=false;if(this.status==='世界座標')this.status='遮擋後姿態銜接';}
   this.deltaDegrees=this.ready?this.previous.angleTo(this.rotation)*180/Math.PI:0;
   if(imageValid&&!held)this.lastImageAxis.copy(this.imageAxis);

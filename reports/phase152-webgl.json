@@ -1,0 +1,3028 @@
+{
+  "scope": "Synthetic anatomical poses and real WebGL fixed steps; not actual FPS, camera or tablet end-to-end latency. Core directions use known ground truth; WebGL hilt error uses observed target.",
+  "staticAppearance": {
+    "pixels": 298890,
+    "changedChannels": 0,
+    "maxByteDifference": 0,
+    "drawCalls": [
+      19,
+      19
+    ],
+    "pass": true
+  },
+  "core": [
+    {
+      "version": "1.5.1",
+      "name": "slow",
+      "cpuFrameMs": {
+        "mean": 0.0581314877242778,
+        "p95": 0.19999998807907104,
+        "peak": 3.199999988079071
+      },
+      "inputGapMs": {
+        "mean": 41.66666666666667,
+        "p95": 41.66666666666674,
+        "peak": 41.66666666666674
+      },
+      "left": {
+        "rotationErrorRad": {
+          "mean": 0.008332356544062365,
+          "p95": 0.016855393886935167,
+          "peak": 0.021484286565510536
+        },
+        "directionErrorRad": {
+          "mean": 0.008332356544070121,
+          "p95": 0.01685539388694562,
+          "peak": 0.02148428656554306
+        },
+        "palmObservationErrorRad": {
+          "mean": 2.8766720451443352e-9,
+          "p95": 2.9802322387695312e-8,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.023913714128493142,
+          "p95": 0.04837440781008209,
+          "peak": 0.06165871658984602
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.023913714128493142,
+          "p95": 0.04837440781008209,
+          "peak": 0.06165871658984602
+        },
+        "positionError": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "rotationStepRad": {
+          "mean": 0.0015494729147779787,
+          "p95": 0.005274258965850663,
+          "peak": 0.008010884821260935
+        },
+        "bestFitLagMs": 46,
+        "positionBestFitLagMs": 0,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0.0007354211483084905
+      },
+      "right": {
+        "rotationErrorRad": {
+          "mean": 0.0083323565440588,
+          "p95": 0.016855393886935167,
+          "peak": 0.021484286565510536
+        },
+        "directionErrorRad": {
+          "mean": 0.00833235654406914,
+          "p95": 0.01685539388694562,
+          "peak": 0.02148428656554306
+        },
+        "palmObservationErrorRad": {
+          "mean": 4.142407745007843e-9,
+          "p95": 2.9802322387695312e-8,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.023913714128492494,
+          "p95": 0.04837440781008209,
+          "peak": 0.06165871658984602
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.023913714128492494,
+          "p95": 0.04837440781008209,
+          "peak": 0.06165871658984602
+        },
+        "positionError": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "rotationStepRad": {
+          "mean": 0.0015494729149302163,
+          "p95": 0.005274258965850663,
+          "peak": 0.008010884821260935
+        },
+        "bestFitLagMs": 46,
+        "positionBestFitLagMs": 0,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0.000735421148308657
+      }
+    },
+    {
+      "version": "1.5.2",
+      "name": "slow",
+      "cpuFrameMs": {
+        "mean": 0.013840830552949213,
+        "p95": 0.09999999403953552,
+        "peak": 0.699999988079071
+      },
+      "inputGapMs": {
+        "mean": 41.66666666666667,
+        "p95": 41.66666666666674,
+        "peak": 41.66666666666674
+      },
+      "left": {
+        "rotationErrorRad": {
+          "mean": 0.007576362831491119,
+          "p95": 0.015034465644339993,
+          "peak": 0.020399587054677967
+        },
+        "directionErrorRad": {
+          "mean": 0.007576362831716806,
+          "p95": 0.015034465644352927,
+          "peak": 0.02039958705469709
+        },
+        "palmObservationErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "tipError": {
+          "mean": 0.02174406132301229,
+          "p95": 0.04314851001828904,
+          "peak": 0.05854579969158558
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.02174406132301229,
+          "p95": 0.04314851001828904,
+          "peak": 0.05854579969158558
+        },
+        "positionError": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "rotationStepRad": {
+          "mean": 0.001487913184581069,
+          "p95": 0.008014116537339626,
+          "peak": 0.016274878379759383
+        },
+        "bestFitLagMs": 38,
+        "positionBestFitLagMs": 0,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0.000013544822327182793
+      },
+      "right": {
+        "rotationErrorRad": {
+          "mean": 0.007576362831490244,
+          "p95": 0.015034465644339993,
+          "peak": 0.020399587054677967
+        },
+        "directionErrorRad": {
+          "mean": 0.007576362831716846,
+          "p95": 0.015034465644352927,
+          "peak": 0.02039958705469709
+        },
+        "palmObservationErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "tipError": {
+          "mean": 0.021744061323009774,
+          "p95": 0.0431485100182892,
+          "peak": 0.05854579969158558
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.021744061323009774,
+          "p95": 0.0431485100182892,
+          "peak": 0.05854579969158558
+        },
+        "positionError": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "rotationStepRad": {
+          "mean": 0.0014879130695242284,
+          "p95": 0.008014116537339626,
+          "peak": 0.016274878379759383
+        },
+        "bestFitLagMs": 38,
+        "positionBestFitLagMs": 0,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0.000013544822327182793
+      }
+    },
+    {
+      "version": "1.5.1",
+      "name": "step30",
+      "cpuFrameMs": {
+        "mean": 0.004844290471819446,
+        "p95": 0,
+        "peak": 0.10000002384185791
+      },
+      "inputGapMs": {
+        "mean": 41.66666666666667,
+        "p95": 41.66666666666674,
+        "peak": 41.66666666666674
+      },
+      "left": {
+        "rotationErrorRad": {
+          "mean": 0.01982525141498771,
+          "p95": 0.082364951673729,
+          "peak": 0.5232023611673401
+        },
+        "directionErrorRad": {
+          "mean": 0.01982525141523468,
+          "p95": 0.08236495167373546,
+          "peak": 0.5232023611673422
+        },
+        "palmObservationErrorRad": {
+          "mean": 1.150668818057734e-9,
+          "p95": 0,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.05637136825515787,
+          "p95": 0.23632059827315233,
+          "peak": 1.4845223468049877
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.05637136825515787,
+          "p95": 0.23632059827315233,
+          "peak": 1.4845223468049877
+        },
+        "positionError": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "rotationStepRad": {
+          "mean": 0.0033803876475605823,
+          "p95": 0.0014801248482038528,
+          "peak": 0.5980477910045023
+        },
+        "bestFitLagMs": 60,
+        "positionBestFitLagMs": 0,
+        "step90PercentMs": 116.666666666668,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0.11984542983716262,
+        "leadingErrorRad": 0
+      },
+      "right": {
+        "rotationErrorRad": {
+          "mean": 0.01982525141497166,
+          "p95": 0.082364951673729,
+          "peak": 0.5232023611673401
+        },
+        "directionErrorRad": {
+          "mean": 0.01982525141523079,
+          "p95": 0.08236495167373546,
+          "peak": 0.5232023611673422
+        },
+        "palmObservationErrorRad": {
+          "mean": 5.178009681259804e-9,
+          "p95": 2.9802322387695312e-8,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.056371368255158864,
+          "p95": 0.23632059827315233,
+          "peak": 1.4845223468049877
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.056371368255158864,
+          "p95": 0.23632059827315233,
+          "peak": 1.4845223468049877
+        },
+        "positionError": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "rotationStepRad": {
+          "mean": 0.0033803876475054723,
+          "p95": 0.0014801248485038878,
+          "peak": 0.5980477910045023
+        },
+        "bestFitLagMs": 60,
+        "positionBestFitLagMs": 0,
+        "step90PercentMs": 116.666666666668,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0.11984542983716284,
+        "leadingErrorRad": 0
+      }
+    },
+    {
+      "version": "1.5.2",
+      "name": "step30",
+      "cpuFrameMs": {
+        "mean": 0.006228373331182143,
+        "p95": 0.09999999403953552,
+        "peak": 0.19999998807907104
+      },
+      "inputGapMs": {
+        "mean": 41.66666666666667,
+        "p95": 41.66666666666674,
+        "peak": 41.66666666666674
+      },
+      "left": {
+        "rotationErrorRad": {
+          "mean": 0.016756478788702234,
+          "p95": 0.0013128482764863476,
+          "peak": 0.5231893615206007
+        },
+        "directionErrorRad": {
+          "mean": 0.01675647878951658,
+          "p95": 0.0013128482769240964,
+          "peak": 0.5231893615206016
+        },
+        "palmObservationErrorRad": {
+          "mean": 5.75334409028867e-10,
+          "p95": 0,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.047564774691742404,
+          "p95": 0.00376787428439418,
+          "peak": 1.4844863071471233
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.047564774691742404,
+          "p95": 0.00376787428439418,
+          "peak": 1.4844863071471233
+        },
+        "positionError": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "rotationStepRad": {
+          "mean": 0.0022258133209876593,
+          "p95": 0.0008512812550137163,
+          "peak": 0.5230355389453657
+        },
+        "bestFitLagMs": 60,
+        "positionBestFitLagMs": 0,
+        "step90PercentMs": 66.66666666666777,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0.0013457888781266414,
+        "leadingErrorRad": 0
+      },
+      "right": {
+        "rotationErrorRad": {
+          "mean": 0.01675647878875973,
+          "p95": 0.0013128482764863476,
+          "peak": 0.5231893615206007
+        },
+        "directionErrorRad": {
+          "mean": 0.016756478789516388,
+          "p95": 0.0013128482769240964,
+          "peak": 0.5231893615206016
+        },
+        "palmObservationErrorRad": {
+          "mean": 2.301337636115468e-9,
+          "p95": 2.9802322387695312e-8,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.04756477469174257,
+          "p95": 0.00376787428439418,
+          "peak": 1.4844863071471233
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.04756477469174257,
+          "p95": 0.00376787428439418,
+          "peak": 1.4844863071471233
+        },
+        "positionError": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "rotationStepRad": {
+          "mean": 0.0022258135513728993,
+          "p95": 0.0008512812550137163,
+          "peak": 0.5230355389453657
+        },
+        "bestFitLagMs": 60,
+        "positionBestFitLagMs": 0,
+        "step90PercentMs": 66.66666666666777,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0.0013457888781266414,
+        "leadingErrorRad": 0
+      }
+    },
+    {
+      "version": "1.5.1",
+      "name": "step60",
+      "cpuFrameMs": {
+        "mean": 0.006574394484292265,
+        "p95": 0.09999999403953552,
+        "peak": 0.29999998211860657
+      },
+      "inputGapMs": {
+        "mean": 41.66666666666667,
+        "p95": 41.66666666666674,
+        "peak": 41.66666666666674
+      },
+      "left": {
+        "rotationErrorRad": {
+          "mean": 0.03509766082414045,
+          "p95": 0.05424547801279277,
+          "peak": 1.0468011367656405
+        },
+        "directionErrorRad": {
+          "mean": 0.03509766082434807,
+          "p95": 0.054245478012806554,
+          "peak": 1.0468011367656411
+        },
+        "palmObservationErrorRad": {
+          "mean": 0.002513961074112929,
+          "p95": 2.9802322387695312e-8,
+          "peak": 0.130222975022793
+        },
+        "tipError": {
+          "mean": 0.09656517775197111,
+          "p95": 0.15566543456146725,
+          "peak": 2.8690146583737848
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.09656517775197111,
+          "p95": 0.15566543456146725,
+          "peak": 2.8690146583737848
+        },
+        "positionError": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "rotationStepRad": {
+          "mean": 0.0050260187078358266,
+          "p95": 0.0015211508261232741,
+          "peak": 0.9914230293322421
+        },
+        "bestFitLagMs": 60,
+        "positionBestFitLagMs": 0,
+        "step90PercentMs": 66.66666666666777,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 1,
+        "falseFlips": 0,
+        "overshootRad": 0.07116110737927239,
+        "leadingErrorRad": 0
+      },
+      "right": {
+        "rotationErrorRad": {
+          "mean": 0.03509766082417495,
+          "p95": 0.05424547801279277,
+          "peak": 1.0468011367656405
+        },
+        "directionErrorRad": {
+          "mean": 0.035097660824360506,
+          "p95": 0.054245478012806554,
+          "peak": 1.0468011367656411
+        },
+        "palmObservationErrorRad": {
+          "mean": 0.00251396176451422,
+          "p95": 2.9802322387695312e-8,
+          "peak": 0.130222975022793
+        },
+        "tipError": {
+          "mean": 0.09656517775197025,
+          "p95": 0.15566543456146725,
+          "peak": 2.8690146583737848
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.09656517775197025,
+          "p95": 0.15566543456146725,
+          "peak": 2.8690146583737848
+        },
+        "positionError": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "rotationStepRad": {
+          "mean": 0.0050260187078742455,
+          "p95": 0.0015211508261232741,
+          "peak": 0.9914230293322421
+        },
+        "bestFitLagMs": 60,
+        "positionBestFitLagMs": 0,
+        "step90PercentMs": 66.66666666666777,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 1,
+        "falseFlips": 0,
+        "overshootRad": 0.07116110737927239,
+        "leadingErrorRad": 0
+      }
+    },
+    {
+      "version": "1.5.2",
+      "name": "step60",
+      "cpuFrameMs": {
+        "mean": 0.0038062283530779775,
+        "p95": 0,
+        "peak": 0.10000002384185791
+      },
+      "inputGapMs": {
+        "mean": 41.66666666666667,
+        "p95": 41.66666666666674,
+        "peak": 41.66666666666674
+      },
+      "left": {
+        "rotationErrorRad": {
+          "mean": 0.03292941394183465,
+          "p95": 0.0013128482764863476,
+          "peak": 1.0467881371189007
+        },
+        "directionErrorRad": {
+          "mean": 0.032929413943745864,
+          "p95": 0.0013128482769240964,
+          "peak": 1.0467881371189005
+        },
+        "palmObservationErrorRad": {
+          "mean": 1.7260032270866012e-9,
+          "p95": 2.9802322387695312e-8,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.09033163237465015,
+          "p95": 0.00376787428439418,
+          "peak": 2.868982344086569
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.09033163237465015,
+          "p95": 0.00376787428439418,
+          "peak": 2.868982344086569
+        },
+        "positionError": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "rotationStepRad": {
+          "mean": 0.004247430330483766,
+          "p95": 0.0008512812544920447,
+          "peak": 1.0466343145436654
+        },
+        "bestFitLagMs": 60,
+        "positionBestFitLagMs": 0,
+        "step90PercentMs": 66.66666666666777,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 1,
+        "falseFlips": 0,
+        "overshootRad": 0.0013457888781267524,
+        "leadingErrorRad": 0
+      },
+      "right": {
+        "rotationErrorRad": {
+          "mean": 0.03292941394190419,
+          "p95": 0.0013128482764863476,
+          "peak": 1.0467881371189007
+        },
+        "directionErrorRad": {
+          "mean": 0.03292941394371815,
+          "p95": 0.0013128482769240964,
+          "peak": 1.0467881371189005
+        },
+        "palmObservationErrorRad": {
+          "mean": 2.301337636115468e-9,
+          "p95": 2.9802322387695312e-8,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.09033163237465118,
+          "p95": 0.00376787428439418,
+          "peak": 2.868982344086569
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.09033163237465118,
+          "p95": 0.00376787428439418,
+          "peak": 2.868982344086569
+        },
+        "positionError": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "rotationStepRad": {
+          "mean": 0.004247430215354705,
+          "p95": 0.0008512812544920447,
+          "peak": 1.0466343145436654
+        },
+        "bestFitLagMs": 60,
+        "positionBestFitLagMs": 0,
+        "step90PercentMs": 66.66666666666777,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 1,
+        "falseFlips": 0,
+        "overshootRad": 0.0013457888781267524,
+        "leadingErrorRad": 0
+      }
+    },
+    {
+      "version": "1.5.1",
+      "name": "step90",
+      "cpuFrameMs": {
+        "mean": 0.004152248990576985,
+        "p95": 0,
+        "peak": 0.10000002384185791
+      },
+      "inputGapMs": {
+        "mean": 41.66666666666667,
+        "p95": 41.66666666666674,
+        "peak": 41.66666666666674
+      },
+      "left": {
+        "rotationErrorRad": {
+          "mean": 0.13080727173084097,
+          "p95": 1.570266069462826,
+          "peak": 1.7677075308661923
+        },
+        "directionErrorRad": {
+          "mean": 0.12006024268945167,
+          "p95": 1.567915347572588,
+          "peak": 1.5705858687538083
+        },
+        "palmObservationErrorRad": {
+          "mean": 0.08088363257793105,
+          "p95": 0.850118554911743,
+          "peak": 1.7691651953373253
+        },
+        "tipError": {
+          "mean": 0.3157143330881743,
+          "p95": 4.052942065974022,
+          "peak": 4.058365798735781
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.3157143330881743,
+          "p95": 4.052942065974022,
+          "peak": 4.058365798735781
+        },
+        "positionError": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "rotationStepRad": {
+          "mean": 0.011700261172137124,
+          "p95": 0.0015211508261232741,
+          "peak": 0.9916648257195622
+        },
+        "bestFitLagMs": 142,
+        "positionBestFitLagMs": 0,
+        "step90PercentMs": 191.66666666666833,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 2,
+        "limited": 0,
+        "abruptRotations": 3,
+        "falseFlips": 0,
+        "overshootRad": 0.0971302597790682,
+        "leadingErrorRad": 0
+      },
+      "right": {
+        "rotationErrorRad": {
+          "mean": 0.13080727173086698,
+          "p95": 1.570266069462826,
+          "peak": 1.7677075308661923
+        },
+        "directionErrorRad": {
+          "mean": 0.12006024268945883,
+          "p95": 1.567915347572588,
+          "peak": 1.5705858687538083
+        },
+        "palmObservationErrorRad": {
+          "mean": 0.08088363487926868,
+          "p95": 0.850118554911743,
+          "peak": 1.7691651953373253
+        },
+        "tipError": {
+          "mean": 0.3157143330881759,
+          "p95": 4.052942065974022,
+          "peak": 4.058365798735781
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.3157143330881759,
+          "p95": 4.052942065974022,
+          "peak": 4.058365798735781
+        },
+        "positionError": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "rotationStepRad": {
+          "mean": 0.011700261376663013,
+          "p95": 0.0015211508261232741,
+          "peak": 0.9916648257195622
+        },
+        "bestFitLagMs": 142,
+        "positionBestFitLagMs": 0,
+        "step90PercentMs": 191.66666666666833,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 2,
+        "limited": 0,
+        "abruptRotations": 3,
+        "falseFlips": 0,
+        "overshootRad": 0.0971302597790682,
+        "leadingErrorRad": 0
+      }
+    },
+    {
+      "version": "1.5.2",
+      "name": "step90",
+      "cpuFrameMs": {
+        "mean": 0.003806228249955755,
+        "p95": 0,
+        "peak": 0.10000002384185791
+      },
+      "inputGapMs": {
+        "mean": 41.66666666666667,
+        "p95": 41.66666666666674,
+        "peak": 41.66666666666674
+      },
+      "left": {
+        "rotationErrorRad": {
+          "mean": 0.08395109797410523,
+          "p95": 1.5697510605488318,
+          "peak": 1.5705828447284411
+        },
+        "directionErrorRad": {
+          "mean": 0.08395109797473302,
+          "p95": 1.5697510605488316,
+          "peak": 1.5705828447284416
+        },
+        "palmObservationErrorRad": {
+          "mean": 0.03031830921404944,
+          "p95": 0,
+          "peak": 1.570488417287761
+        },
+        "tipError": {
+          "mean": 0.21804678311579703,
+          "p95": 4.0566711101654755,
+          "peak": 4.0583596611390105
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.21804678311579703,
+          "p95": 4.0566711101654755,
+          "peak": 4.0583596611390105
+        },
+        "positionError": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "rotationStepRad": {
+          "mean": 0.00627455367727775,
+          "p95": 0.0008668706488157945,
+          "peak": 0.6551497506483028
+        },
+        "bestFitLagMs": 110,
+        "positionBestFitLagMs": 0,
+        "step90PercentMs": 125.00000000000136,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 1,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0.001776556827481679,
+        "leadingErrorRad": 0
+      },
+      "right": {
+        "rotationErrorRad": {
+          "mean": 0.08395109797485867,
+          "p95": 1.5697510605488318,
+          "peak": 1.5705828447284411
+        },
+        "directionErrorRad": {
+          "mean": 0.0839510979750686,
+          "p95": 1.5697510605488316,
+          "peak": 1.5705828447284416
+        },
+        "palmObservationErrorRad": {
+          "mean": 0.030318311515387074,
+          "p95": 2.9802322387695312e-8,
+          "peak": 1.570488417287761
+        },
+        "tipError": {
+          "mean": 0.21804678311579698,
+          "p95": 4.0566711101654755,
+          "peak": 4.0583596611390105
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.21804678311579698,
+          "p95": 4.0566711101654755,
+          "peak": 4.0583596611390105
+        },
+        "positionError": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "rotationStepRad": {
+          "mean": 0.006274553839272303,
+          "p95": 0.0008668706488157945,
+          "peak": 0.6551497506483028
+        },
+        "bestFitLagMs": 110,
+        "positionBestFitLagMs": 0,
+        "step90PercentMs": 125.00000000000136,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 1,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0.001776556827481679,
+        "leadingErrorRad": 0
+      }
+    },
+    {
+      "version": "1.5.1",
+      "name": "swing",
+      "cpuFrameMs": {
+        "mean": 0.0034602076124567475,
+        "p95": 0,
+        "peak": 0.10000002384185791
+      },
+      "inputGapMs": {
+        "mean": 41.66666666666667,
+        "p95": 41.66666666666674,
+        "peak": 41.66666666666674
+      },
+      "left": {
+        "rotationErrorRad": {
+          "mean": 0.09083084285532304,
+          "p95": 0.20443159598834978,
+          "peak": 0.3068035875453501
+        },
+        "directionErrorRad": {
+          "mean": 0.09083084285558204,
+          "p95": 0.20443159598835353,
+          "peak": 0.3068035875453494
+        },
+        "palmObservationErrorRad": {
+          "mean": 1.150668818057734e-9,
+          "p95": 0,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.25137014393899376,
+          "p95": 0.54067962837935,
+          "peak": 0.9253815141455932
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.260457488373949,
+          "p95": 0.5856975345047288,
+          "peak": 0.8770769169904801
+        },
+        "positionError": {
+          "mean": 0.03412255571970922,
+          "p95": 0.06946919199163043,
+          "peak": 0.07358532963714909
+        },
+        "rotationStepRad": {
+          "mean": 0.022437897168355696,
+          "p95": 0.12516065014925534,
+          "peak": 0.23208017434632008
+        },
+        "bestFitLagMs": 34,
+        "positionBestFitLagMs": 34,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0.010814231185752532
+      },
+      "right": {
+        "rotationErrorRad": {
+          "mean": 0.09083084285532118,
+          "p95": 0.20443159598835414,
+          "peak": 0.3068035875453501
+        },
+        "directionErrorRad": {
+          "mean": 0.09083084285558164,
+          "p95": 0.20443159598835353,
+          "peak": 0.3068035875453494
+        },
+        "palmObservationErrorRad": {
+          "mean": 2.8766720451443352e-9,
+          "p95": 2.9802322387695312e-8,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.2513701439389937,
+          "p95": 0.5406796283793499,
+          "peak": 0.9253815141455932
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.26045748837394894,
+          "p95": 0.5856975345047285,
+          "peak": 0.8770769169904801
+        },
+        "positionError": {
+          "mean": 0.03412255571970928,
+          "p95": 0.06946919199163043,
+          "peak": 0.0735853296371489
+        },
+        "rotationStepRad": {
+          "mean": 0.02243789767628788,
+          "p95": 0.1251606501492589,
+          "peak": 0.23208017434632008
+        },
+        "bestFitLagMs": 34,
+        "positionBestFitLagMs": 34,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0.010814231185752532
+      }
+    },
+    {
+      "version": "1.5.2",
+      "name": "swing",
+      "cpuFrameMs": {
+        "mean": 0.005882352899927582,
+        "p95": 0.09999999403953552,
+        "peak": 0.20000001788139343
+      },
+      "inputGapMs": {
+        "mean": 41.66666666666667,
+        "p95": 41.66666666666674,
+        "peak": 41.66666666666674
+      },
+      "left": {
+        "rotationErrorRad": {
+          "mean": 0.08363388289185184,
+          "p95": 0.21084191643077896,
+          "peak": 0.30824437893492884
+        },
+        "directionErrorRad": {
+          "mean": 0.0836338828919453,
+          "p95": 0.21084191643078543,
+          "peak": 0.30824437893492923
+        },
+        "palmObservationErrorRad": {
+          "mean": 5.75334409028867e-10,
+          "p95": 0,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.23059171668195225,
+          "p95": 0.5611562399253825,
+          "peak": 0.9294728341027522
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.23979836338050012,
+          "p95": 0.6039960882387748,
+          "peak": 0.8811632021950494
+        },
+        "positionError": {
+          "mean": 0.03412255571970935,
+          "p95": 0.06946919199163043,
+          "peak": 0.07358532963714909
+        },
+        "rotationStepRad": {
+          "mean": 0.02240927518931373,
+          "p95": 0.1848209809869045,
+          "peak": 0.28197478669646586
+        },
+        "bestFitLagMs": 30,
+        "positionBestFitLagMs": 34,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0.017953659755673645
+      },
+      "right": {
+        "rotationErrorRad": {
+          "mean": 0.08363388289185428,
+          "p95": 0.21084191643077896,
+          "peak": 0.30824437893492884
+        },
+        "directionErrorRad": {
+          "mean": 0.08363388289194598,
+          "p95": 0.21084191643078543,
+          "peak": 0.30824437893492923
+        },
+        "palmObservationErrorRad": {
+          "mean": 2.301337636115468e-9,
+          "p95": 2.9802322387695312e-8,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.23059171668194875,
+          "p95": 0.5611562399253825,
+          "peak": 0.9294728341027522
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.23979836338049793,
+          "p95": 0.6039960882387748,
+          "peak": 0.8811632021950494
+        },
+        "positionError": {
+          "mean": 0.034122555719712865,
+          "p95": 0.06946919199163043,
+          "peak": 0.07358532963727307
+        },
+        "rotationStepRad": {
+          "mean": 0.022409275649580774,
+          "p95": 0.1848209809869021,
+          "peak": 0.28197478669646586
+        },
+        "bestFitLagMs": 30,
+        "positionBestFitLagMs": 34,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0.01795365975567409
+      }
+    },
+    {
+      "version": "1.5.1",
+      "name": "fastStop",
+      "cpuFrameMs": {
+        "mean": 0.003806228249955755,
+        "p95": 0,
+        "peak": 0.19999998807907104
+      },
+      "inputGapMs": {
+        "mean": 41.66666666666667,
+        "p95": 41.66666666666674,
+        "peak": 41.66666666666674
+      },
+      "left": {
+        "rotationErrorRad": {
+          "mean": 0.04169938165359225,
+          "p95": 0.2198565948841228,
+          "peak": 0.33088067470247695
+        },
+        "directionErrorRad": {
+          "mean": 0.041699381653701885,
+          "p95": 0.2198565948841215,
+          "peak": 0.3308806747024783
+        },
+        "palmObservationErrorRad": {
+          "mean": 1.7260032270866012e-9,
+          "p95": 2.9802322387695312e-8,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.11732486776016456,
+          "p95": 0.5817260520336506,
+          "peak": 0.8468724746602092
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.11951899418115994,
+          "p95": 0.6297183600083163,
+          "peak": 0.9453014966958727
+        },
+        "positionError": {
+          "mean": 0.012244888115423815,
+          "p95": 0.06700641207071512,
+          "peak": 0.09999999999999953
+        },
+        "rotationStepRad": {
+          "mean": 0.010860595525732618,
+          "p95": 0.04228194676568874,
+          "peak": 0.24725073176214407
+        },
+        "bestFitLagMs": 34,
+        "positionBestFitLagMs": 34,
+        "step90PercentMs": null,
+        "stopSettleMs": 24.999999999999773,
+        "stationaryErrorRad": {
+          "mean": 0.0011449691169600317,
+          "p95": 0.002698477552516066,
+          "peak": 0.0029347644849720537
+        },
+        "stationaryJitterRmsRad": 0.0013827784160666886,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0.11171431896606476,
+        "leadingErrorRad": 0
+      },
+      "right": {
+        "rotationErrorRad": {
+          "mean": 0.04169938165355004,
+          "p95": 0.21985659488411874,
+          "peak": 0.33088067470247695
+        },
+        "directionErrorRad": {
+          "mean": 0.04169938165369772,
+          "p95": 0.2198565948841215,
+          "peak": 0.3308806747024783
+        },
+        "palmObservationErrorRad": {
+          "mean": 4.0273408632020695e-9,
+          "p95": 2.9802322387695312e-8,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.11732486776016958,
+          "p95": 0.5817260520336506,
+          "peak": 0.8468724746602092
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.11951899418116442,
+          "p95": 0.6297183600083153,
+          "peak": 0.9453014966958727
+        },
+        "positionError": {
+          "mean": 0.01224488811542448,
+          "p95": 0.06700641207071512,
+          "peak": 0.09999999999999953
+        },
+        "rotationStepRad": {
+          "mean": 0.010860594509914941,
+          "p95": 0.04228194676568874,
+          "peak": 0.24725073176214407
+        },
+        "bestFitLagMs": 34,
+        "positionBestFitLagMs": 34,
+        "step90PercentMs": null,
+        "stopSettleMs": 24.999999999999773,
+        "stationaryErrorRad": {
+          "mean": 0.0011449691168832889,
+          "p95": 0.0026984775528452066,
+          "peak": 0.0029347644848207333
+        },
+        "stationaryJitterRmsRad": 0.0013827784160315951,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0.11171431896606476,
+        "leadingErrorRad": 0
+      }
+    },
+    {
+      "version": "1.5.2",
+      "name": "fastStop",
+      "cpuFrameMs": {
+        "mean": 0.0027681659249698416,
+        "p95": 0,
+        "peak": 0.09999999403953552
+      },
+      "inputGapMs": {
+        "mean": 41.66666666666667,
+        "p95": 41.66666666666674,
+        "peak": 41.66666666666674
+      },
+      "left": {
+        "rotationErrorRad": {
+          "mean": 0.03933019396968986,
+          "p95": 0.22143712758353556,
+          "peak": 0.333285781639172
+        },
+        "directionErrorRad": {
+          "mean": 0.03933019396963351,
+          "p95": 0.22143712758353828,
+          "peak": 0.33328578163917266
+        },
+        "palmObservationErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "tipError": {
+          "mean": 0.11060275158639869,
+          "p95": 0.6138191574067186,
+          "peak": 0.890097303500707
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.11270020974526855,
+          "p95": 0.6342269115258299,
+          "peak": 0.9521092191086058
+        },
+        "positionError": {
+          "mean": 0.012244888115423815,
+          "p95": 0.06700641207071512,
+          "peak": 0.09999999999999953
+        },
+        "rotationStepRad": {
+          "mean": 0.01066840342123452,
+          "p95": 0.11262932463050675,
+          "peak": 0.31547052019881905
+        },
+        "bestFitLagMs": 32,
+        "positionBestFitLagMs": 34,
+        "step90PercentMs": null,
+        "stopSettleMs": 8.333333333333258,
+        "stationaryErrorRad": {
+          "mean": 0.0006221906456923391,
+          "p95": 0.0012686424343205487,
+          "peak": 0.0013457888785159207
+        },
+        "stationaryJitterRmsRad": 0.000738819733854617,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0.11173673377721594,
+        "leadingErrorRad": 0
+      },
+      "right": {
+        "rotationErrorRad": {
+          "mean": 0.0393301939692944,
+          "p95": 0.22143712758353556,
+          "peak": 0.333285781639172
+        },
+        "directionErrorRad": {
+          "mean": 0.039330193969867526,
+          "p95": 0.22143712758353828,
+          "peak": 0.33328578163917266
+        },
+        "palmObservationErrorRad": {
+          "mean": 2.301337636115468e-9,
+          "p95": 2.9802322387695312e-8,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.11060275158639676,
+          "p95": 0.6138191574067186,
+          "peak": 0.890097303500707
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.11270020974526634,
+          "p95": 0.6342269115258299,
+          "peak": 0.9521092191086058
+        },
+        "positionError": {
+          "mean": 0.01224488811542448,
+          "p95": 0.06700641207071512,
+          "peak": 0.09999999999999953
+        },
+        "rotationStepRad": {
+          "mean": 0.01066840354479541,
+          "p95": 0.1126293246305107,
+          "peak": 0.31547052019881905
+        },
+        "bestFitLagMs": 32,
+        "positionBestFitLagMs": 34,
+        "step90PercentMs": null,
+        "stopSettleMs": 8.333333333333258,
+        "stationaryErrorRad": {
+          "mean": 0.0006221906450074072,
+          "p95": 0.0012686424343205487,
+          "peak": 0.0013457888785159207
+        },
+        "stationaryJitterRmsRad": 0.0007388197339113414,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0.11173673377721594,
+        "leadingErrorRad": 0
+      }
+    },
+    {
+      "version": "1.5.1",
+      "name": "jitter",
+      "cpuFrameMs": {
+        "mean": 0.0020761245468496037,
+        "p95": 0,
+        "peak": 0.10000002384185791
+      },
+      "inputGapMs": {
+        "mean": 41.66666666666667,
+        "p95": 41.66666666666674,
+        "peak": 41.66666666666674
+      },
+      "left": {
+        "rotationErrorRad": {
+          "mean": 0.011112770544375277,
+          "p95": 0.02327834165850707,
+          "peak": 0.025999467289602268
+        },
+        "directionErrorRad": {
+          "mean": 0.011112770544400883,
+          "p95": 0.023278341658525502,
+          "peak": 0.02599946728960253
+        },
+        "palmObservationErrorRad": {
+          "mean": 1.7260032270866012e-9,
+          "p95": 2.9802322387695312e-8,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.031893282553369984,
+          "p95": 0.06680733213460238,
+          "peak": 0.07461636947144296
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.031893282553369984,
+          "p95": 0.06680733213460238,
+          "peak": 0.07461636947144296
+        },
+        "positionError": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "rotationStepRad": {
+          "mean": 0.004462146578337091,
+          "p95": 0.013278203966781393,
+          "peak": 0.01721595671684497
+        },
+        "bestFitLagMs": 0,
+        "positionBestFitLagMs": 0,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0.011096489331850333,
+          "p95": 0.022331711324909024,
+          "peak": 0.025999467289602268
+        },
+        "stationaryJitterRmsRad": 0.01293949517887725,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0
+      },
+      "right": {
+        "rotationErrorRad": {
+          "mean": 0.011112770544375277,
+          "p95": 0.02327834165850707,
+          "peak": 0.025999467289602268
+        },
+        "directionErrorRad": {
+          "mean": 0.011112770544400883,
+          "p95": 0.023278341658525502,
+          "peak": 0.02599946728960253
+        },
+        "palmObservationErrorRad": {
+          "mean": 4.142407745007843e-9,
+          "p95": 2.9802322387695312e-8,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.031893282553369984,
+          "p95": 0.06680733213460242,
+          "peak": 0.07461636947144291
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.031893282553369984,
+          "p95": 0.06680733213460242,
+          "peak": 0.07461636947144291
+        },
+        "positionError": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "rotationStepRad": {
+          "mean": 0.004462146578337091,
+          "p95": 0.013278203966781393,
+          "peak": 0.01721595671684497
+        },
+        "bestFitLagMs": 0,
+        "positionBestFitLagMs": 0,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0.011096489331850333,
+          "p95": 0.022331711324909024,
+          "peak": 0.025999467289602268
+        },
+        "stationaryJitterRmsRad": 0.01293949517887725,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0
+      }
+    },
+    {
+      "version": "1.5.2",
+      "name": "jitter",
+      "cpuFrameMs": {
+        "mean": 0.002768166131214287,
+        "p95": 0,
+        "peak": 0.10000002384185791
+      },
+      "inputGapMs": {
+        "mean": 41.66666666666667,
+        "p95": 41.66666666666674,
+        "peak": 41.66666666666674
+      },
+      "left": {
+        "rotationErrorRad": {
+          "mean": 0.00637751223574125,
+          "p95": 0.02140768036917402,
+          "peak": 0.024804991141114785
+        },
+        "directionErrorRad": {
+          "mean": 0.006377512235767333,
+          "p95": 0.02140768036919875,
+          "peak": 0.024804991141108887
+        },
+        "palmObservationErrorRad": {
+          "mean": 5.75334409028867e-10,
+          "p95": 0,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.018303325458216363,
+          "p95": 0.061438869446240496,
+          "peak": 0.07118849948390621
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.018303325458216363,
+          "p95": 0.061438869446240496,
+          "peak": 0.07118849948390621
+        },
+        "positionError": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "rotationStepRad": {
+          "mean": 0.002055001194145394,
+          "p95": 0.012846740427371875,
+          "peak": 0.022997737477218498
+        },
+        "bestFitLagMs": 0,
+        "positionBestFitLagMs": 0,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0.006460730154674113,
+          "p95": 0.02140768036917402,
+          "peak": 0.024804991141114785
+        },
+        "stationaryJitterRmsRad": 0.008529913052585485,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0
+      },
+      "right": {
+        "rotationErrorRad": {
+          "mean": 0.00637751223574125,
+          "p95": 0.02140768036917402,
+          "peak": 0.024804991141114785
+        },
+        "directionErrorRad": {
+          "mean": 0.006377512235767333,
+          "p95": 0.02140768036919875,
+          "peak": 0.024804991141108887
+        },
+        "palmObservationErrorRad": {
+          "mean": 2.4164045179212417e-9,
+          "p95": 2.9802322387695312e-8,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.018303325458216363,
+          "p95": 0.061438869446240496,
+          "peak": 0.07118849948390625
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.018303325458216363,
+          "p95": 0.061438869446240496,
+          "peak": 0.07118849948390625
+        },
+        "positionError": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "rotationStepRad": {
+          "mean": 0.002055001194145394,
+          "p95": 0.012846740427371875,
+          "peak": 0.022997737477218498
+        },
+        "bestFitLagMs": 0,
+        "positionBestFitLagMs": 0,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0.006460730154674113,
+          "p95": 0.02140768036917402,
+          "peak": 0.024804991141114785
+        },
+        "stationaryJitterRmsRad": 0.008529913052585485,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0
+      }
+    },
+    {
+      "version": "1.5.1",
+      "name": "degraded",
+      "cpuFrameMs": {
+        "mean": 0.004152249403065876,
+        "p95": 0,
+        "peak": 0.10000002384185791
+      },
+      "inputGapMs": {
+        "mean": 41.66666666666667,
+        "p95": 41.66666666666674,
+        "peak": 41.66666666666674
+      },
+      "left": {
+        "rotationErrorRad": {
+          "mean": 0.10441043026561524,
+          "p95": 0.23826110619109908,
+          "peak": 0.3124338542393358
+        },
+        "directionErrorRad": {
+          "mean": 0.10441043026587332,
+          "p95": 0.23826110619109608,
+          "peak": 0.3124338542393362
+        },
+        "palmObservationErrorRad": {
+          "mean": 5.75334409028867e-10,
+          "p95": 0,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.29021044008524144,
+          "p95": 0.6953774624087811,
+          "peak": 0.9253815141455932
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.29927958901185664,
+          "p95": 0.6821930749138216,
+          "peak": 0.8930425323502406
+        },
+        "positionError": {
+          "mean": 0.034122555719709215,
+          "p95": 0.06946919199163043,
+          "peak": 0.07358532963714909
+        },
+        "rotationStepRad": {
+          "mean": 0.022437897350829756,
+          "p95": 0.13089620090510687,
+          "peak": 0.23208017434632008
+        },
+        "bestFitLagMs": 38,
+        "positionBestFitLagMs": 34,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 10,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0.010814231185752532
+      },
+      "right": {
+        "rotationErrorRad": {
+          "mean": 0.10441043026562015,
+          "p95": 0.2382611061910972,
+          "peak": 0.31243385423933434
+        },
+        "directionErrorRad": {
+          "mean": 0.10441043026587346,
+          "p95": 0.23826110619109608,
+          "peak": 0.3124338542393358
+        },
+        "palmObservationErrorRad": {
+          "mean": 2.8766720451443352e-9,
+          "p95": 2.9802322387695312e-8,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.2902104400852413,
+          "p95": 0.6953774624087811,
+          "peak": 0.9253815141455932
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.2992795890118565,
+          "p95": 0.6821930749138203,
+          "peak": 0.8930425323502397
+        },
+        "positionError": {
+          "mean": 0.03412255571970928,
+          "p95": 0.06946919199163043,
+          "peak": 0.0735853296371489
+        },
+        "rotationStepRad": {
+          "mean": 0.022437899065271136,
+          "p95": 0.13089620090510687,
+          "peak": 0.23208017434632008
+        },
+        "bestFitLagMs": 38,
+        "positionBestFitLagMs": 34,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 10,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0.010814231185752532
+      }
+    },
+    {
+      "version": "1.5.2",
+      "name": "degraded",
+      "cpuFrameMs": {
+        "mean": 0.00311418697495774,
+        "p95": 0,
+        "peak": 0.10000002384185791
+      },
+      "inputGapMs": {
+        "mean": 41.66666666666667,
+        "p95": 41.66666666666674,
+        "peak": 41.66666666666674
+      },
+      "left": {
+        "rotationErrorRad": {
+          "mean": 0.10086041146829164,
+          "p95": 0.25876509692132854,
+          "peak": 0.3124338542393358
+        },
+        "directionErrorRad": {
+          "mean": 0.10086041146838057,
+          "p95": 0.25876509692132993,
+          "peak": 0.3124338542393362
+        },
+        "palmObservationErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "tipError": {
+          "mean": 0.279803246393123,
+          "p95": 0.7232954289978519,
+          "peak": 0.9294728341027522
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.2890802850692861,
+          "p95": 0.7405855712804924,
+          "peak": 0.8930425323502406
+        },
+        "positionError": {
+          "mean": 0.03412255571970935,
+          "p95": 0.06946919199163043,
+          "peak": 0.07358532963714909
+        },
+        "rotationStepRad": {
+          "mean": 0.02240927369309199,
+          "p95": 0.1837163125337749,
+          "peak": 0.28197478669646586
+        },
+        "bestFitLagMs": 36,
+        "positionBestFitLagMs": 34,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 10,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0.04707861962505566
+      },
+      "right": {
+        "rotationErrorRad": {
+          "mean": 0.10086041146829094,
+          "p95": 0.25876509692133026,
+          "peak": 0.31243385423933434
+        },
+        "directionErrorRad": {
+          "mean": 0.10086041146838032,
+          "p95": 0.2587650969213295,
+          "peak": 0.3124338542393358
+        },
+        "palmObservationErrorRad": {
+          "mean": 2.301337636115468e-9,
+          "p95": 2.9802322387695312e-8,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.27980324639311965,
+          "p95": 0.7232954289978524,
+          "peak": 0.9294728341027522
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.2890802850692839,
+          "p95": 0.7405855712804919,
+          "peak": 0.8930425323502397
+        },
+        "positionError": {
+          "mean": 0.034122555719712865,
+          "p95": 0.06946919199163043,
+          "peak": 0.07358532963727307
+        },
+        "rotationStepRad": {
+          "mean": 0.02240927433299486,
+          "p95": 0.1837163125337749,
+          "peak": 0.28197478669646586
+        },
+        "bestFitLagMs": 36,
+        "positionBestFitLagMs": 34,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 10,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0.047078619625055884
+      }
+    },
+    {
+      "version": "1.5.1",
+      "name": "occlusion",
+      "cpuFrameMs": {
+        "mean": 0.002076124443727381,
+        "p95": 0,
+        "peak": 0.09999999403953552
+      },
+      "inputGapMs": {
+        "mean": 47.50000000000001,
+        "p95": 41.66666666666674,
+        "peak": 333.3333333333335
+      },
+      "left": {
+        "rotationErrorRad": {
+          "mean": 0.2644563624099362,
+          "p95": 1.2687357558232142,
+          "peak": 1.5551114684586016
+        },
+        "directionErrorRad": {
+          "mean": 0.2644563624101939,
+          "p95": 1.2687357558232135,
+          "peak": 1.5551114684586016
+        },
+        "palmObservationErrorRad": {
+          "mean": 0.0769916641059782,
+          "p95": 0.9008843587039783,
+          "peak": 1.327107476162487
+        },
+        "tipError": {
+          "mean": 0.6952113853929217,
+          "p95": 3.3221635211360048,
+          "peak": 4.0704774028538
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.7297833052738236,
+          "p95": 3.4019171456710438,
+          "peak": 4.02683763953847
+        },
+        "positionError": {
+          "mean": 0.06157570980534108,
+          "p95": 0.2519017152153728,
+          "peak": 0.26085897117497403
+        },
+        "rotationStepRad": {
+          "mean": 0.02342964827697327,
+          "p95": 0.12516065014925534,
+          "peak": 0.749300270982245
+        },
+        "bestFitLagMs": 106,
+        "positionBestFitLagMs": 48,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 4,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0.6794473153472349
+      },
+      "right": {
+        "rotationErrorRad": {
+          "mean": 0.2644563624099362,
+          "p95": 1.2687357558232142,
+          "peak": 1.5551114684586016
+        },
+        "directionErrorRad": {
+          "mean": 0.264456362410194,
+          "p95": 1.2687357558232135,
+          "peak": 1.5551114684586016
+        },
+        "palmObservationErrorRad": {
+          "mean": 0.076991665256647,
+          "p95": 0.9008843587039778,
+          "peak": 1.3271074761624866
+        },
+        "tipError": {
+          "mean": 0.695211385392922,
+          "p95": 3.322163521136004,
+          "peak": 4.0704774028538
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.7297833052738235,
+          "p95": 3.4019171456710438,
+          "peak": 4.02683763953847
+        },
+        "positionError": {
+          "mean": 0.061575709805341196,
+          "p95": 0.2519017152153728,
+          "peak": 0.26085897117497403
+        },
+        "rotationStepRad": {
+          "mean": 0.02342964847918592,
+          "p95": 0.1251606501492589,
+          "peak": 0.7493002709822438
+        },
+        "bestFitLagMs": 106,
+        "positionBestFitLagMs": 48,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 4,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0.679447315347235
+      }
+    },
+    {
+      "version": "1.5.2",
+      "name": "occlusion",
+      "cpuFrameMs": {
+        "mean": 0.006228373743671034,
+        "p95": 0.09999999403953552,
+        "peak": 0.10000002384185791
+      },
+      "inputGapMs": {
+        "mean": 47.50000000000001,
+        "p95": 41.66666666666674,
+        "peak": 333.3333333333335
+      },
+      "left": {
+        "rotationErrorRad": {
+          "mean": 0.25766861707998706,
+          "p95": 1.2687357558232135,
+          "peak": 1.555111468099744
+        },
+        "directionErrorRad": {
+          "mean": 0.25766861708006966,
+          "p95": 1.2687357558232129,
+          "peak": 1.5551114680997438
+        },
+        "palmObservationErrorRad": {
+          "mean": 0.0769916635306438,
+          "p95": 0.9008843587039783,
+          "peak": 1.327107476162487
+        },
+        "tipError": {
+          "mean": 0.6766480111386821,
+          "p95": 3.322163521136002,
+          "peak": 4.070477402120251
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.7103345934531885,
+          "p95": 3.4019171456710424,
+          "peak": 4.026837638804516
+        },
+        "positionError": {
+          "mean": 0.061575709805341224,
+          "p95": 0.2519017152153728,
+          "peak": 0.26085897117497403
+        },
+        "rotationStepRad": {
+          "mean": 0.02247250690994883,
+          "p95": 0.1848209809869045,
+          "peak": 0.6743012347536849
+        },
+        "bestFitLagMs": 104,
+        "positionBestFitLagMs": 48,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 4,
+        "limited": 3,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0.6794473153472349
+      },
+      "right": {
+        "rotationErrorRad": {
+          "mean": 0.2576686170799861,
+          "p95": 1.2687357558232135,
+          "peak": 1.555111468099744
+        },
+        "directionErrorRad": {
+          "mean": 0.2576686170800696,
+          "p95": 1.2687357558232129,
+          "peak": 1.5551114680997438
+        },
+        "palmObservationErrorRad": {
+          "mean": 0.07699166468131259,
+          "p95": 0.9008843587039778,
+          "peak": 1.3271074761624866
+        },
+        "tipError": {
+          "mean": 0.6766480111386786,
+          "p95": 3.322163521136002,
+          "peak": 4.070477402120251
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.7103345934531864,
+          "p95": 3.4019171456710424,
+          "peak": 4.026837638804516
+        },
+        "positionError": {
+          "mean": 0.06157570980534467,
+          "p95": 0.2519017152153728,
+          "peak": 0.26085897117497403
+        },
+        "rotationStepRad": {
+          "mean": 0.02247250771541621,
+          "p95": 0.1848209809869021,
+          "peak": 0.6743012347536842
+        },
+        "bestFitLagMs": 104,
+        "positionBestFitLagMs": 48,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 4,
+        "limited": 3,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0.679447315347235
+      }
+    },
+    {
+      "version": "1.5.1",
+      "name": "irregular",
+      "cpuFrameMs": {
+        "mean": 0.0029585797053117016,
+        "p95": 0,
+        "peak": 0.09999999403953552
+      },
+      "inputGapMs": {
+        "mean": 47.416666666666664,
+        "p95": 80,
+        "peak": 80
+      },
+      "left": {
+        "rotationErrorRad": {
+          "mean": 0.16305933056717906,
+          "p95": 0.41539494336714466,
+          "peak": 0.5094832343717947
+        },
+        "directionErrorRad": {
+          "mean": 0.16305933056721691,
+          "p95": 0.4153949433671456,
+          "peak": 0.5094832343717959
+        },
+        "palmObservationErrorRad": {
+          "mean": 2.400187037935193e-9,
+          "p95": 2.9802322387695312e-8,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.4531232440477264,
+          "p95": 1.0644502240460103,
+          "peak": 1.4289006491047258
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.46639706258551905,
+          "p95": 1.1836305068315989,
+          "peak": 1.4464534390199162
+        },
+        "positionError": {
+          "mean": 0.06118607278803648,
+          "p95": 0.1438716465081702,
+          "peak": 0.1905020464691056
+        },
+        "rotationStepRad": {
+          "mean": 0.04741789571973515,
+          "p95": 0.20870109484430763,
+          "peak": 0.40785463907468045
+        },
+        "bestFitLagMs": 62,
+        "positionBestFitLagMs": 62,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0.036265306821859467
+      },
+      "right": {
+        "rotationErrorRad": {
+          "mean": 0.1630593305671614,
+          "p95": 0.41539494336714466,
+          "peak": 0.5094832343717947
+        },
+        "directionErrorRad": {
+          "mean": 0.16305933056722066,
+          "p95": 0.4153949433671456,
+          "peak": 0.5094832343717959
+        },
+        "palmObservationErrorRad": {
+          "mean": 5.400420835354184e-9,
+          "p95": 2.9802322387695312e-8,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.4531232440477264,
+          "p95": 1.0644502240460103,
+          "peak": 1.4289006491047258
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.46639706258551894,
+          "p95": 1.1836305068315989,
+          "peak": 1.4464534390199162
+        },
+        "positionError": {
+          "mean": 0.061186072788036505,
+          "p95": 0.1438716465081702,
+          "peak": 0.190502046469106
+        },
+        "rotationStepRad": {
+          "mean": 0.047417895719736806,
+          "p95": 0.20870109484430763,
+          "peak": 0.40785463907468045
+        },
+        "bestFitLagMs": 62,
+        "positionBestFitLagMs": 62,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0.03626530682185958
+      }
+    },
+    {
+      "version": "1.5.2",
+      "name": "irregular",
+      "cpuFrameMs": {
+        "mean": 0.003550295822719145,
+        "p95": 0,
+        "peak": 0.10000002384185791
+      },
+      "inputGapMs": {
+        "mean": 47.416666666666664,
+        "p95": 80,
+        "peak": 80
+      },
+      "left": {
+        "rotationErrorRad": {
+          "mean": 0.15292518633112098,
+          "p95": 0.41535698953538774,
+          "peak": 0.5094245154079162
+        },
+        "directionErrorRad": {
+          "mean": 0.15292518633119662,
+          "p95": 0.4153569895353886,
+          "peak": 0.5094245154079176
+        },
+        "palmObservationErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "tipError": {
+          "mean": 0.42393486766869126,
+          "p95": 1.0645913296382623,
+          "peak": 1.4287376938981977
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.43737346283254314,
+          "p95": 1.1835239201577143,
+          "peak": 1.446290353484191
+        },
+        "positionError": {
+          "mean": 0.06118607278803761,
+          "p95": 0.1438716465081702,
+          "peak": 0.19050204646910648
+        },
+        "rotationStepRad": {
+          "mean": 0.047221102393471034,
+          "p95": 0.32749868694455947,
+          "peak": 0.43245202203601885
+        },
+        "bestFitLagMs": 58,
+        "positionBestFitLagMs": 62,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0.03555585300962316
+      },
+      "right": {
+        "rotationErrorRad": {
+          "mean": 0.1529251863311131,
+          "p95": 0.41535698953538774,
+          "peak": 0.5094245154079162
+        },
+        "directionErrorRad": {
+          "mean": 0.1529251863311971,
+          "p95": 0.4153569895353886,
+          "peak": 0.5094245154079176
+        },
+        "palmObservationErrorRad": {
+          "mean": 2.000155864945994e-9,
+          "p95": 2.9802322387695312e-8,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.4239348676686904,
+          "p95": 1.0645913296382623,
+          "peak": 1.4287376938981977
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.43737346283254247,
+          "p95": 1.1835239201577141,
+          "peak": 1.446290353484191
+        },
+        "positionError": {
+          "mean": 0.06118607278803756,
+          "p95": 0.1438716465081702,
+          "peak": 0.190502046469106
+        },
+        "rotationStepRad": {
+          "mean": 0.04722110255785872,
+          "p95": 0.32749868694455947,
+          "peak": 0.43245202203601885
+        },
+        "bestFitLagMs": 58,
+        "positionBestFitLagMs": 62,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 0,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0.035555853009623384
+      }
+    },
+    {
+      "version": "1.5.1",
+      "name": "fastContinuous",
+      "cpuFrameMs": {
+        "mean": 0.0041522490936992075,
+        "p95": 0,
+        "peak": 0.10000002384185791
+      },
+      "inputGapMs": {
+        "mean": 41.66666666666667,
+        "p95": 41.66666666666674,
+        "peak": 41.66666666666674
+      },
+      "left": {
+        "rotationErrorRad": {
+          "mean": 0.07075114014996953,
+          "p95": 0.8900235860198786,
+          "peak": 1.5974540696260062
+        },
+        "directionErrorRad": {
+          "mean": 0.07075114014999692,
+          "p95": 0.8900235860198795,
+          "peak": 1.5974540696260062
+        },
+        "palmObservationErrorRad": {
+          "mean": 0.007218120731061621,
+          "p95": 0.08173649491745909,
+          "peak": 0.16319625901587556
+        },
+        "tipError": {
+          "mean": 0.22664355388300358,
+          "p95": 2.449140959286736,
+          "peak": 4.146679407421428
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.19243160677316173,
+          "p95": 2.4708893321655907,
+          "peak": 4.11252991631776
+        },
+        "positionError": {
+          "mean": 0.04098659848225528,
+          "p95": 0.07408909537398645,
+          "peak": 0.0798960588230938
+        },
+        "rotationStepRad": {
+          "mean": 0.012071615942892916,
+          "p95": 0.001968070985094347,
+          "peak": 0.99076381646748
+        },
+        "bestFitLagMs": 52,
+        "positionBestFitLagMs": 42,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 3,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0
+      },
+      "right": {
+        "rotationErrorRad": {
+          "mean": 0.07075114014991576,
+          "p95": 0.8900235860198792,
+          "peak": 1.5974540696260062
+        },
+        "directionErrorRad": {
+          "mean": 0.07075114014999145,
+          "p95": 0.8900235860198796,
+          "peak": 1.5974540696260062
+        },
+        "palmObservationErrorRad": {
+          "mean": 0.007218122596664418,
+          "p95": 0.08173649491745909,
+          "peak": 0.163196259015881
+        },
+        "tipError": {
+          "mean": 0.22664355388298915,
+          "p95": 2.449140959286737,
+          "peak": 4.146679407421428
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.19243160677316185,
+          "p95": 2.470889332165591,
+          "peak": 4.11252991631776
+        },
+        "positionError": {
+          "mean": 0.04098659848224152,
+          "p95": 0.07408909537384095,
+          "peak": 0.0798960588230921
+        },
+        "rotationStepRad": {
+          "mean": 0.012071615319302452,
+          "p95": 0.001968070985094347,
+          "peak": 0.99076381646748
+        },
+        "bestFitLagMs": 52,
+        "positionBestFitLagMs": 42,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 3,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0
+      }
+    },
+    {
+      "version": "1.5.2",
+      "name": "fastContinuous",
+      "cpuFrameMs": {
+        "mean": 0.0034602075093345245,
+        "p95": 0,
+        "peak": 0.10000002384185791
+      },
+      "inputGapMs": {
+        "mean": 41.66666666666667,
+        "p95": 41.66666666666674,
+        "peak": 41.66666666666674
+      },
+      "left": {
+        "rotationErrorRad": {
+          "mean": 0.06824215089412526,
+          "p95": 0.7618260168204084,
+          "peak": 1.5999524475854838
+        },
+        "directionErrorRad": {
+          "mean": 0.06824215089743514,
+          "p95": 0.7618260168204086,
+          "peak": 1.5999524475854838
+        },
+        "palmObservationErrorRad": {
+          "mean": 5.75334409028867e-10,
+          "p95": 0,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.22276202899216213,
+          "p95": 2.094419646729463,
+          "peak": 4.149588009924482
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.18568933484892222,
+          "p95": 2.1339494296624673,
+          "peak": 4.117528877251901
+        },
+        "positionError": {
+          "mean": 0.04125006132742769,
+          "p95": 0.07414538394411273,
+          "peak": 0.0798960588230938
+        },
+        "rotationStepRad": {
+          "mean": 0.01223991604461353,
+          "p95": 0.0008668706488157945,
+          "peak": 1.1181264307650762
+        },
+        "bestFitLagMs": 48,
+        "positionBestFitLagMs": 42,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 3,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0
+      },
+      "right": {
+        "rotationErrorRad": {
+          "mean": 0.0682421508941263,
+          "p95": 0.7618260168204091,
+          "peak": 1.5999524475854843
+        },
+        "directionErrorRad": {
+          "mean": 0.0682421508973928,
+          "p95": 0.761826016820409,
+          "peak": 1.5999524475854843
+        },
+        "palmObservationErrorRad": {
+          "mean": 1.150668818057734e-9,
+          "p95": 0,
+          "peak": 2.9802322387695312e-8
+        },
+        "tipError": {
+          "mean": 0.22276202899216263,
+          "p95": 2.0944196467294636,
+          "peak": 4.149588009924482
+        },
+        "rotationOnlyTipError": {
+          "mean": 0.18568933484892175,
+          "p95": 2.133949429662467,
+          "peak": 4.117528877251901
+        },
+        "positionError": {
+          "mean": 0.04125006132742878,
+          "p95": 0.07414538394411305,
+          "peak": 0.0798960588230938
+        },
+        "rotationStepRad": {
+          "mean": 0.012239916695526818,
+          "p95": 0.0008668706488157945,
+          "peak": 1.118126430765077
+        },
+        "bestFitLagMs": 48,
+        "positionBestFitLagMs": 42,
+        "step90PercentMs": null,
+        "stopSettleMs": null,
+        "stationaryErrorRad": {
+          "mean": 0,
+          "p95": 0,
+          "peak": 0
+        },
+        "stationaryJitterRmsRad": 0,
+        "guards": 0,
+        "limited": 0,
+        "abruptRotations": 3,
+        "falseFlips": 0,
+        "overshootRad": 0,
+        "leadingErrorRad": 0
+      }
+    }
+  ],
+  "frames": [
+    {
+      "version": "1.5.1",
+      "name": "step90",
+      "cpuFrameMs": {
+        "mean": 0.3194444444444444,
+        "p95": 0.5,
+        "peak": 10.400000005960464
+      },
+      "directionErrorRad": {
+        "mean": 0.06898367669634783,
+        "p95": 0.5341309703099512,
+        "peak": 1.5707963267948963
+      },
+      "rotationOnlyTipError": {
+        "mean": 0.18120721511789006,
+        "p95": 1.5147980097081621,
+        "peak": 4.058792924010782
+      },
+      "hiltToObservedTargetError": {
+        "mean": 0.014465264350904946,
+        "p95": 0,
+        "peak": 2.1323094489088734
+      },
+      "dataAgeMs": {
+        "mean": 41.66666666666669,
+        "p95": 58.33333333333394,
+        "peak": 58.33333333333576
+      },
+      "rotationStepRad": {
+        "mean": 0.011041431879560077,
+        "p95": 0,
+        "peak": 1.0366653564849444
+      },
+      "drawCalls": 19,
+      "geometry": 19,
+      "geometryAfter": 0
+    },
+    {
+      "version": "1.5.2",
+      "name": "step90",
+      "cpuFrameMs": {
+        "mean": 0.2705555553237597,
+        "p95": 0.4000000059604645,
+        "peak": 9.699999988079071
+      },
+      "directionErrorRad": {
+        "mean": 0.059064496027856836,
+        "p95": 0,
+        "peak": 1.5707963267948963
+      },
+      "rotationOnlyTipError": {
+        "mean": 0.15306084077687662,
+        "p95": 6.372680161348399e-16,
+        "peak": 4.058792924010782
+      },
+      "hiltToObservedTargetError": {
+        "mean": 0.014465264350932781,
+        "p95": 5.350979333337166e-13,
+        "peak": 2.1323094489088734
+      },
+      "dataAgeMs": {
+        "mean": 41.66666666666669,
+        "p95": 58.33333333333394,
+        "peak": 58.33333333333576
+      },
+      "rotationStepRad": {
+        "mean": 0.009578026382895706,
+        "p95": 0,
+        "peak": 1.308996938995753
+      },
+      "drawCalls": 19,
+      "geometry": 19,
+      "geometryAfter": 0
+    },
+    {
+      "version": "1.5.1",
+      "name": "swing",
+      "cpuFrameMs": {
+        "mean": 0.2216666668653488,
+        "p95": 0.20000001788139343,
+        "peak": 8.299999982118607
+      },
+      "directionErrorRad": {
+        "mean": 0.11181746125105749,
+        "p95": 0.24465379043067592,
+        "peak": 0.30934951791933735
+      },
+      "rotationOnlyTipError": {
+        "mean": 0.32050906577605076,
+        "p95": 0.7004065255658819,
+        "peak": 0.8842972205996196
+      },
+      "hiltToObservedTargetError": {
+        "mean": 0.08908192018467288,
+        "p95": 0.20743127667999484,
+        "peak": 0.3311685758301478
+      },
+      "dataAgeMs": {
+        "mean": 41.66666666666669,
+        "p95": 58.33333333333394,
+        "peak": 58.33333333333576
+      },
+      "rotationStepRad": {
+        "mean": 0.04932397546339118,
+        "p95": 0.17758850171773716,
+        "peak": 0.2741050203974761
+      },
+      "drawCalls": 19,
+      "geometry": 19,
+      "geometryAfter": 0
+    },
+    {
+      "version": "1.5.2",
+      "name": "swing",
+      "cpuFrameMs": {
+        "mean": 0.20944444454378552,
+        "p95": 0.20000001788139343,
+        "peak": 8.5
+      },
+      "directionErrorRad": {
+        "mean": 0.10926409546178345,
+        "p95": 0.25632578511054627,
+        "peak": 0.32276287114657165
+      },
+      "rotationOnlyTipError": {
+        "mean": 0.3131690441255773,
+        "p95": 0.7336427119340914,
+        "peak": 0.9223137905875226
+      },
+      "hiltToObservedTargetError": {
+        "mean": 0.08908192018467603,
+        "p95": 0.20743127667999484,
+        "peak": 0.3311685758301478
+      },
+      "dataAgeMs": {
+        "mean": 41.66666666666669,
+        "p95": 58.33333333333394,
+        "peak": 58.33333333333576
+      },
+      "rotationStepRad": {
+        "mean": 0.04910658033952523,
+        "p95": 0.20197015470639393,
+        "peak": 0.2848376003440136
+      },
+      "drawCalls": 19,
+      "geometry": 19,
+      "geometryAfter": 0
+    },
+    {
+      "version": "1.5.1",
+      "name": "fastStop",
+      "cpuFrameMs": {
+        "mean": 0.19333333339956071,
+        "p95": 0.20000001788139343,
+        "peak": 8.199999988079071
+      },
+      "directionErrorRad": {
+        "mean": 0.03837376456689245,
+        "p95": 0.22333503819694422,
+        "peak": 0.33333333333333354
+      },
+      "rotationOnlyTipError": {
+        "mean": 0.10991890946680753,
+        "p95": 0.6396402763805652,
+        "peak": 0.9522438016602033
+      },
+      "hiltToObservedTargetError": {
+        "mean": 0.028430935547433533,
+        "p95": 0.1674190466631822,
+        "peak": 0.35229675215853756
+      },
+      "dataAgeMs": {
+        "mean": 41.66666666666669,
+        "p95": 58.33333333333394,
+        "peak": 58.33333333333576
+      },
+      "rotationStepRad": {
+        "mean": 0.01773518105429245,
+        "p95": 0.18166681798595058,
+        "peak": 0.2916659361474337
+      },
+      "drawCalls": 19,
+      "geometry": 19,
+      "geometryAfter": 0
+    },
+    {
+      "version": "1.5.2",
+      "name": "fastStop",
+      "cpuFrameMs": {
+        "mean": 0.20888888869020675,
+        "p95": 0.29999998211860657,
+        "peak": 10.099999994039536
+      },
+      "directionErrorRad": {
+        "mean": 0.03840592336436103,
+        "p95": 0.22333333338679992,
+        "peak": 0.37500000065136546
+      },
+      "rotationOnlyTipError": {
+        "mean": 0.10998009900753414,
+        "p95": 0.6396354140492791,
+        "peak": 1.0699549252520832
+      },
+      "hiltToObservedTargetError": {
+        "mean": 0.028430935547433533,
+        "p95": 0.1674190466631822,
+        "peak": 0.35229675215853756
+      },
+      "dataAgeMs": {
+        "mean": 41.66666666666669,
+        "p95": 58.33333333333394,
+        "peak": 58.33333333333576
+      },
+      "rotationStepRad": {
+        "mean": 0.017543554482759446,
+        "p95": 0.20833333333333054,
+        "peak": 0.3183333339312262
+      },
+      "drawCalls": 19,
+      "geometry": 19,
+      "geometryAfter": 0
+    },
+    {
+      "version": "1.5.1",
+      "name": "occlusion",
+      "cpuFrameMs": {
+        "mean": 0.3027777776122093,
+        "p95": 0.5,
+        "peak": 8
+      },
+      "directionErrorRad": {
+        "mean": 0.24918947403293648,
+        "p95": 1.2241249717765568,
+        "peak": 1.5759951713792832
+      },
+      "rotationOnlyTipError": {
+        "mean": 0.690236066008198,
+        "p95": 3.2979557618008863,
+        "peak": 4.069329716318655
+      },
+      "hiltToObservedTargetError": {
+        "mean": 0.0924818836827493,
+        "p95": 0.20743127667999484,
+        "peak": 2.0755610198622936
+      },
+      "dataAgeMs": {
+        "mean": 58.94308943089434,
+        "p95": 208.3333333333328,
+        "peak": 341.66666666666674
+      },
+      "rotationStepRad": {
+        "mean": 0.050102468500908506,
+        "p95": 0.18511346209224847,
+        "peak": 0.7927796054987104
+      },
+      "drawCalls": 19,
+      "geometry": 19,
+      "geometryAfter": 0
+    },
+    {
+      "version": "1.5.2",
+      "name": "occlusion",
+      "cpuFrameMs": {
+        "mean": 0.1966666668653488,
+        "p95": 0.20000001788139343,
+        "peak": 8.300000011920929
+      },
+      "directionErrorRad": {
+        "mean": 0.24539797642542724,
+        "p95": 1.2234322026935076,
+        "peak": 1.5759951713792832
+      },
+      "rotationOnlyTipError": {
+        "mean": 0.6793660979944408,
+        "p95": 3.296328253693251,
+        "peak": 4.069329716318655
+      },
+      "hiltToObservedTargetError": {
+        "mean": 0.09248188368275072,
+        "p95": 0.20743127667999484,
+        "peak": 2.0755610198622936
+      },
+      "dataAgeMs": {
+        "mean": 58.94308943089434,
+        "p95": 208.3333333333328,
+        "peak": 341.66666666666674
+      },
+      "rotationStepRad": {
+        "mean": 0.04840977119190397,
+        "p95": 0.20901170724416698,
+        "peak": 0.6727805670966772
+      },
+      "drawCalls": 19,
+      "geometry": 19,
+      "geometryAfter": 0
+    },
+    {
+      "version": "1.5.1",
+      "name": "irregular",
+      "cpuFrameMs": {
+        "mean": 0.22055555565489662,
+        "p95": 0.20000001788139343,
+        "peak": 8.200000017881393
+      },
+      "directionErrorRad": {
+        "mean": 0.18385575964065531,
+        "p95": 0.4072505887155684,
+        "peak": 0.57725559091678
+      },
+      "rotationOnlyTipError": {
+        "mean": 0.5255609865427113,
+        "p95": 1.1607488115998215,
+        "peak": 1.633816665297396
+      },
+      "hiltToObservedTargetError": {
+        "mean": 0.10187275986766685,
+        "p95": 0.36519398739402387,
+        "peak": 0.7171195961377322
+      },
+      "dataAgeMs": {
+        "mean": 62.8012048192773,
+        "p95": 102,
+        "peak": 123.00000000000091
+      },
+      "rotationStepRad": {
+        "mean": 0.0659933320648203,
+        "p95": 0.29116003424986986,
+        "peak": 0.5414632190470117
+      },
+      "drawCalls": 19,
+      "geometry": 19,
+      "geometryAfter": 0
+    },
+    {
+      "version": "1.5.2",
+      "name": "irregular",
+      "cpuFrameMs": {
+        "mean": 0.22611111170715756,
+        "p95": 0.20000001788139343,
+        "peak": 8.800000011920929
+      },
+      "directionErrorRad": {
+        "mean": 0.17739203130140768,
+        "p95": 0.4122203024539756,
+        "peak": 0.5772538188540743
+      },
+      "rotationOnlyTipError": {
+        "mean": 0.5070642633935181,
+        "p95": 1.174713615560233,
+        "peak": 1.633811789849911
+      },
+      "hiltToObservedTargetError": {
+        "mean": 0.1018727598676665,
+        "p95": 0.36519398739402387,
+        "peak": 0.7171195961377322
+      },
+      "dataAgeMs": {
+        "mean": 62.8012048192773,
+        "p95": 102,
+        "peak": 123.00000000000091
+      },
+      "rotationStepRad": {
+        "mean": 0.06635543272414113,
+        "p95": 0.31731581012722837,
+        "peak": 0.5415637707475888
+      },
+      "drawCalls": 19,
+      "geometry": 19,
+      "geometryAfter": 0
+    }
+  ],
+  "pass": true
+}

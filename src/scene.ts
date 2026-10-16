@@ -100,10 +100,11 @@ export class SaberScene {
   const observation=observeHand(p);if(!observation){this.lost(pose.side,pose.time,'觀測無效');return;}
   const previouslyReliable=s.palm.reliable;this.previousTarget.copy(s.target);this.previousRotation.copy(s.rotation);
   s.rotation.copy(s.palm.update(p,pose.world,pose.side,pose.time,pose.imageAspect??4/3));
+  if(Number.isFinite(s.motion.lastSample))s.telemetry.directionGap.add(pose.time-s.motion.lastSample);if(s.palm.limited)s.telemetry.rateLimits++;
   const {x:cx,y:cy}=observation,height=2*Math.tan(T.MathUtils.degToRad(21.5))*11;
   s.target.set((.5-cx)*height*this.camera.aspect,(.5-cy)*height+1,(p[5]&&p[17]&&Number.isFinite(p[5].x)&&Number.isFinite(p[17].x)&&Number.isFinite(p[5].y)&&Number.isFinite(p[17].y)?T.MathUtils.clamp((Math.hypot(p[5].x-p[17].x,p[5].y-p[17].y)-.12)*7,-1,1):s.target.z));
   if(Number.isFinite(s.motion.lastSample)){if(this.previousTarget.distanceTo(s.target)>1)s.telemetry.positionJumps++;if(this.previousRotation.angleTo(s.rotation)>Math.PI/3)s.telemetry.rotationJumps++;}
-  if(s.palm.reliable&&!previouslyReliable&&Number.isFinite(s.motion.lastSample))s.telemetry.qualityRecoveries++;if(!s.palm.reliable)s.telemetry.fallbacks++;if(/歧義|突變|銜接/.test(s.palm.status))s.telemetry.guards++;s.telemetry.delay.add(Math.max(0,this.clock()-pose.time));
+  if(s.palm.reliable&&!previouslyReliable&&Number.isFinite(s.motion.lastSample))s.telemetry.qualityRecoveries++;if(!s.palm.reliable)s.telemetry.fallbacks++;if(/歧義|突變|銜接|矛盾/.test(s.palm.status))s.telemetry.guards++;s.telemetry.delay.add(Math.max(0,this.clock()-pose.time));
   if(pose.time-s.measuredTime>250)s.ribbon.reset();
   this.measure(s,pose.time);s.motion.push(s.target,s.rotation,pose.time,this.clock(),s.palm.reliable);s.state.observe(true,this.clock());
  }
@@ -115,7 +116,7 @@ export class SaberScene {
   const speed=Number.isFinite(s.measuredTime)?motionSpeed(this.tip.distanceTo(s.measuredTip),elapsed):0;
   s.speed+=(speed-s.speed)*(1-Math.exp(-Math.max(0,elapsed)*18));s.measuredTip.copy(this.tip);s.measuredTime=time;
  }
- hide(){for(const side of SIDES){const s=this.sabers[side];s.state.reset();s.motion.reset();s.palm.reset();s.group.visible=false;s.ribbon.reset();s.speed=0;s.measuredTime=NaN;s.trail.geometry.setDrawRange(0,0);this.sound(side,false,0,0);}}
+ hide(){for(const side of SIDES){const s=this.sabers[side];s.state.reset();s.motion.reset();s.palm.reset();s.telemetry.predictionActive=false;s.group.visible=false;s.ribbon.reset();s.speed=0;s.measuredTime=NaN;s.trail.geometry.setDrawRange(0,0);this.sound(side,false,0,0);}}
  private updateTrail(s:Saber,now:number){
   const maxAge=this.quality==='low'?.12:this.quality==='medium'?.18:.22;
   this.tip.set(0,.12+LENGTH*s.state.extension,0).applyQuaternion(s.group.quaternion).add(s.group.position);this.base.set(0,.16,0).applyQuaternion(s.group.quaternion).add(s.group.position);
@@ -137,6 +138,7 @@ export class SaberScene {
    if(this.demo){const t=now*.0012,fit=Math.min(1,this.camera.aspect/1.4);s.target.set((i?1:-1)*(1.5+Math.sin(t*1.7)*.6)*fit,-.6+Math.cos(t)*.3,0);s.rotation.setFromEuler(this.euler.set(.2,Math.sin(t)*.4,(i?-1:1)*(.3+Math.sin(t*1.7)*.65)*fit));this.measure(s,now);s.motion.push(s.target,s.rotation,now,now);s.state.observe(Math.floor(now/5500)%3!==2,now);}
    const extension=s.state.step(now,dt),tracked=s.state.visible(now);s.group.visible=tracked;
    if(tracked){if(!s.state.poseFrozen&&now-s.state.lastSeen<TRACKING.staleMs)s.motion.sample(now);else s.motion.freeze();s.group.position.copy(s.motion.position);s.group.quaternion.copy(s.motion.rotation);if(!this.demo){this.stats.age.add(Math.max(0,now-s.measuredTime));this.stats.smoothing.add(s.motion.lagMs);s.telemetry.smoothing.add(s.motion.lagMs);}}
+   if(!this.demo){s.telemetry.predictionActive=tracked&&s.motion.rotationPredictionActive;if(s.telemetry.predictionActive)s.telemetry.predictionFrames++;if(tracked&&s.motion.rotationPredictionCapped)s.telemetry.predictionCappedFrames++;if(tracked&&!s.state.poseFrozen&&now-s.state.lastSeen<TRACKING.staleMs){s.telemetry.positionError.add(s.motion.positionError);s.telemetry.positionLag.add(s.motion.positionLagMs);s.telemetry.rotationError.add(T.MathUtils.radToDeg(s.motion.rotationErrorRad));s.telemetry.rotationLag.add(s.motion.rotationLagMs);}}
    for(const material of s.hiltMaterials)material.opacity=s.state.fade(now);
    s.blade.scale.y=Math.max(.001,extension);s.blade.visible=extension>.001;
    s.glow.uniforms.time.value=s.core.uniforms.time.value=now/1000;if(s.light.visible)s.light.intensity=extension*1.8;
