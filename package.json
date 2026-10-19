@@ -1,7 +1,7 @@
 {
   "name": "gesture-saber",
-  "version": "1.6.0",
-  "description": "Camera-controlled dual lightsaber free-swing laboratory",
+  "version": "1.7.0",
+  "description": "Single-hand controlled transforming golden twin saber laboratory",
   "private": true,
   "scripts": {
     "dev": "vite --host 127.0.0.1",

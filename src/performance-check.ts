@@ -1,4 +1,4 @@
-import {SaberScene} from './scene';
+import {SaberScene} from '../benchmarks/phase16-scene';
 import {SaberScene as PreviousScene} from '../benchmarks/phase13-scene';
 import {Metric} from './metrics';
 import type {Pose,Point} from './gesture';

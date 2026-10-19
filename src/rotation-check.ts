@@ -1,4 +1,4 @@
-import {SaberScene} from './scene';import {SaberScene as BeforeScene} from '../benchmarks/phase151-scene';import {Quaternion,Vector3} from 'three';
+import {SaberScene} from '../benchmarks/phase16-scene';import {SaberScene as BeforeScene} from '../benchmarks/phase151-scene';import {Quaternion,Vector3} from 'three';
 // @ts-expect-error Deterministic fixtures/replay are shared with Node tests.
 import {replayRotation,rotationCases,rotationInput,summary} from '../benchmarks/rotation-replay.mjs';
 // @ts-expect-error Full anatomical left/right skeletons, not relabelled identical hands.

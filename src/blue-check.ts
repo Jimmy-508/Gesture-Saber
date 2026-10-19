@@ -1,4 +1,4 @@
-import {SaberScene} from './scene';import {SaberScene as BeforeScene} from '../benchmarks/phase152-scene';import {HandAssignment} from './hand-assignment';import {HandAssignment as BeforeAssignment} from '../benchmarks/phase152-hand-assignment';import {Vector3} from 'three';
+import {SaberScene} from '../benchmarks/phase16-scene';import {SaberScene as BeforeScene} from '../benchmarks/phase152-scene';import {HandAssignment} from './hand-assignment';import {HandAssignment as BeforeAssignment} from '../benchmarks/phase152-hand-assignment';import {Vector3} from 'three';
 // @ts-expect-error Shared deterministic anatomical observations, not camera/model output.
 import {blueInput,blueCases} from '../benchmarks/blue-input.mjs';
 // @ts-expect-error QA statistics shared with Node.

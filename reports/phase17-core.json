@@ -1,0 +1,55 @@
+{
+  "checks": [
+    "PASS 正式 App 預設新核心",
+    "PASS 右手先進控制紅色單刃",
+    "PASS 第二隻手不生成獨立武器、不改變主控",
+    "PASS 左手先進控制藍色單刃",
+    "PASS 握柄幾何邊界精確1.5倍，沒有縮放父節點",
+    "PASS 原始光刃光暈幾何保留，兩端共用 0",
+    "PASS 原始Shader保留 0",
+    "PASS 原始光刃光暈幾何保留，兩端共用 1",
+    "PASS 原始Shader保留 1",
+    "PASS 原始光刃光暈幾何保留，兩端共用 2",
+    "PASS 原始Shader保留 2",
+    "PASS 按鈕幾何與位置完全保留，未隨握柄拉長",
+    "PASS 雙拳穩定確認後尾刃逐步伸展",
+    "PASS 金色雙頭完成，持續靠攏只觸發一次",
+    "PASS 兩端共用父節點並同軸反向",
+    "PASS 主控直接輸出正式場景，未採雙手中點",
+    "PASS 兩端金色、金屬握柄保留",
+    "PASS 第二隻手離鏡仍維持雙頭",
+    "PASS 解除後再次靠攏，尾刃逐步收縮",
+    "PASS 恢復原色單刃",
+    "PASS 短暫漏幀保持",
+    "PASS 持續遺失隱藏並清除主控與型態",
+    "PASS 可重新取得另一隻主控手",
+    "PASS 切核心清除舊姿態",
+    "PASS 回退使用舊PalmPose及MotionFilter",
+    "PASS 回退仍為同一把雙頭武器",
+    "PASS 回退核心可校正實際左手且清除舊主控",
+    "PASS 切回新版清除型態",
+    "PASS 校正映射在新舊核心一致，不以畫面位置決定劍色",
+    "PASS 正式WebGL以獨立測試繪圖時鐘與24Hz合成追蹤運作",
+    "PASS 停止釋放session與武器",
+    "PASS 正式WebGL無錯誤",
+    "PASS 卸載釋放所有幾何"
+  ],
+  "alive": 0,
+  "created": 2,
+  "stats": {
+    "trackingHz": 23.96888567306699,
+    "frame": {
+      "mean": 15.793571428741728,
+      "p95": 16.80000001192093,
+      "peak": 23.799999952316284,
+      "count": 140
+    },
+    "cpu": {
+      "mean": 0.75642856998103,
+      "p95": 1.100000023841858,
+      "peak": 1.300000011920929,
+      "count": 140
+    }
+  },
+  "scope": "Real React App / tracking callback / WebGL, synthetic observations and explicit 60Hz QA render pump (browser RAF may be throttled). Not physical tablet acceptance or measured device FPS."
+}

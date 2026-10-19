@@ -1,0 +1,30 @@
+{
+  "method": "Actual Phase 1.1 production graph rendered offline at maximum volume; independent and simultaneous ignition/retraction, then stop. No microphone/speaker/tablet listening validation.",
+  "results": [
+    {
+      "speed": 0,
+      "volume": 1,
+      "peak": 0.13137628138065338,
+      "tailRms": 0,
+      "renderMs": 69.69999998807907,
+      "pass": true
+    },
+    {
+      "speed": 8,
+      "volume": 1,
+      "peak": 0.29282763600349426,
+      "tailRms": 0,
+      "renderMs": 73.80000001192093,
+      "pass": true
+    },
+    {
+      "speed": 24,
+      "volume": 1,
+      "peak": 0.3929785490036011,
+      "tailRms": 0,
+      "renderMs": 58.80000001192093,
+      "pass": true
+    }
+  ],
+  "pass": true
+}

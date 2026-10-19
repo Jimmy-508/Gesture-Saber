@@ -1,4 +1,4 @@
-import {SaberScene as Current} from './scene';import {SaberScene as Old} from '../benchmarks/phase15-scene';import {SaberAudio as CurrentAudio} from './audio';import {SaberAudio as OldAudio} from '../benchmarks/phase15-audio';
+import {SaberScene as Current} from '../benchmarks/phase16-scene';import {SaberScene as Old} from '../benchmarks/phase15-scene';import {SaberAudio as CurrentAudio} from './audio';import {SaberAudio as OldAudio} from '../benchmarks/phase15-audio';
 // @ts-expect-error Anatomical fixture shared with Node tests.
 import {anatomicalHand} from '../tests/fixtures/anatomical-hands.mjs';
 import {Quaternion,Euler} from 'three';

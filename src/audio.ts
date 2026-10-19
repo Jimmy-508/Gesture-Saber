@@ -53,6 +53,8 @@ export class SaberAudio {
   this.automate(v.hum.gain,motion.gain*gain,now,.025);this.automate(v.wind.gain,motion.wind*gain,now,.035);
   this.forceAutomation=false;
  }
+ /** Reuse the original transient on the one active voice, without another hum. */
+ pulse(side:Side,extend:boolean){const ctx=this.context,v=this.voices[side];if(!ctx||!v||ctx.state!=='running'||!this.enabled||!v.active)return;const now=ctx.currentTime;this.scheduledCalls+=6;v.sweep.frequency.cancelScheduledValues(now);v.sweep.frequency.setValueAtTime(extend?80:550,now);v.sweep.frequency.exponentialRampToValueAtTime(extend?580:45,now+(extend?.16:.12));v.transient.gain.cancelScheduledValues(now);v.transient.gain.setValueAtTime(.065,now);v.transient.gain.exponentialRampToValueAtTime(.0001,now+.2);}
  configure(enabled:boolean,volume:number){this.enabled=enabled;this.volume=Math.max(0,Math.min(1,volume));if(this.master&&this.context)this.target(this.master.gain,enabled?this.volume:0,this.context.currentTime,.03);if(!enabled)this.status='已靜音';}
  stop(){
   const ctx=this.context;if(!ctx)return;

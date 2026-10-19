@@ -1,4 +1,4 @@
-import {SaberScene} from './scene';
+import {SaberScene} from '../benchmarks/phase16-scene';
 import type {Side,Point} from './gesture';
 import {Quaternion,Euler} from 'three';
 import {HandAssignment} from './hand-assignment';
