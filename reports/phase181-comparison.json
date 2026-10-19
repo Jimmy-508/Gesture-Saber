@@ -1,0 +1,1658 @@
+{
+  "scope": "Deterministic synthetic observations: 24 Hz capture, 24 ms delivery, 60 Hz render. Scene units, not physical metres. No tablet or model-detection claim. CPU sample excludes inference/WebGL.",
+  "baseline": "b5c8c90043394e472319454e8f6532176539147f",
+  "results": [
+    {
+      "mode": "single",
+      "name": "continuous",
+      "before": {
+        "mode": "single",
+        "name": "continuous",
+        "side": "Left",
+        "accepted": 34,
+        "rejected": 0,
+        "freezeEvents": 0,
+        "freezeMs": 0,
+        "stationaryWhileInputMovesMs": 33.333333333333336,
+        "recoveryPositionStep": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "renderPositionStep": {
+          "mean": 0.14307903825349302,
+          "p95": 0.5587718262805982,
+          "max": 0.6237873494919168
+        },
+        "renderAngleStepDeg": {
+          "mean": 4.272919714616667,
+          "p95": 20.10895695904792,
+          "max": 23.374425686352023
+        },
+        "positionError": {
+          "mean": 0.2431614519855289,
+          "p95": 0.647628409532741,
+          "max": 0.7062300668003744
+        },
+        "rotationErrorDeg": {
+          "mean": 6.204782963347198,
+          "p95": 19.669594316001376,
+          "max": 22.759674730780038
+        },
+        "tipError": {
+          "mean": 0.508909453703762,
+          "p95": 1.5498440507917386,
+          "max": 1.7883260684011504
+        },
+        "stopPositionError": {
+          "mean": 2.5669263222802404e-7,
+          "p95": 0.0000012894474028174568,
+          "max": 0.0000032551728032227996
+        },
+        "cpuSampleMs": {
+          "mean": 0.0030423529411771543,
+          "p95": 0.005699999999990268,
+          "max": 0.011300000000005639
+        },
+        "expiry": null
+      },
+      "after": {
+        "mode": "single",
+        "name": "continuous",
+        "side": "Left",
+        "accepted": 34,
+        "rejected": 0,
+        "freezeEvents": 0,
+        "freezeMs": 0,
+        "stationaryWhileInputMovesMs": 33.333333333333336,
+        "recoveryPositionStep": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "renderPositionStep": {
+          "mean": 0.14307903825349302,
+          "p95": 0.5587718262805982,
+          "max": 0.6237873494919168
+        },
+        "renderAngleStepDeg": {
+          "mean": 4.272919714616667,
+          "p95": 20.10895695904792,
+          "max": 23.374425686352023
+        },
+        "positionError": {
+          "mean": 0.2431614519855289,
+          "p95": 0.647628409532741,
+          "max": 0.7062300668003744
+        },
+        "rotationErrorDeg": {
+          "mean": 6.204782963347198,
+          "p95": 19.669594316001376,
+          "max": 22.759674730780038
+        },
+        "tipError": {
+          "mean": 0.508909453703762,
+          "p95": 1.5498440507917386,
+          "max": 1.7883260684011504
+        },
+        "stopPositionError": {
+          "mean": 2.5669263222802404e-7,
+          "p95": 0.0000012894474028174568,
+          "max": 0.0000032551728032227996
+        },
+        "cpuSampleMs": {
+          "mean": 0.0025482352941189807,
+          "p95": 0.004099999999993997,
+          "max": 0.005900000000025329
+        },
+        "expiry": null
+      },
+      "unchanged": true,
+      "maxNormalOutputDifference": 0
+    },
+    {
+      "mode": "single",
+      "name": "wrist",
+      "before": {
+        "mode": "single",
+        "name": "wrist",
+        "side": "Left",
+        "accepted": 34,
+        "rejected": 0,
+        "freezeEvents": 0,
+        "freezeMs": 0,
+        "stationaryWhileInputMovesMs": 33.333333333333336,
+        "recoveryPositionStep": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "renderPositionStep": {
+          "mean": 0.17359424567339654,
+          "p95": 0.6778484537506824,
+          "max": 0.9324449225676578
+        },
+        "renderAngleStepDeg": {
+          "mean": 7.892026096231717,
+          "p95": 38.78287963882628,
+          "max": 47.17578073707339
+        },
+        "positionError": {
+          "mean": 0.2914165874102435,
+          "p95": 0.8852240663154626,
+          "max": 1.068905676574529
+        },
+        "rotationErrorDeg": {
+          "mean": 11.468227021054199,
+          "p95": 36.82542049122188,
+          "max": 45.274631348002536
+        },
+        "tipError": {
+          "mean": 0.2880938588650213,
+          "p95": 0.9459965990297456,
+          "max": 1.1507345676619734
+        },
+        "stopPositionError": {
+          "mean": 2.965340023438262e-7,
+          "p95": 0.0000014895706951774886,
+          "max": 0.0000037604399789723227
+        },
+        "cpuSampleMs": {
+          "mean": 0.001982352941175069,
+          "p95": 0.0027000000000043656,
+          "max": 0.015700000000009595
+        },
+        "expiry": null
+      },
+      "after": {
+        "mode": "single",
+        "name": "wrist",
+        "side": "Left",
+        "accepted": 34,
+        "rejected": 0,
+        "freezeEvents": 0,
+        "freezeMs": 0,
+        "stationaryWhileInputMovesMs": 33.333333333333336,
+        "recoveryPositionStep": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "renderPositionStep": {
+          "mean": 0.17359424567339654,
+          "p95": 0.6778484537506824,
+          "max": 0.9324449225676578
+        },
+        "renderAngleStepDeg": {
+          "mean": 7.892026096231717,
+          "p95": 38.78287963882628,
+          "max": 47.17578073707339
+        },
+        "positionError": {
+          "mean": 0.2914165874102435,
+          "p95": 0.8852240663154626,
+          "max": 1.068905676574529
+        },
+        "rotationErrorDeg": {
+          "mean": 11.468227021054199,
+          "p95": 36.82542049122188,
+          "max": 45.274631348002536
+        },
+        "tipError": {
+          "mean": 0.2880938588650213,
+          "p95": 0.9459965990297456,
+          "max": 1.1507345676619734
+        },
+        "stopPositionError": {
+          "mean": 2.965340023438262e-7,
+          "p95": 0.0000014895706951774886,
+          "max": 0.0000037604399789723227
+        },
+        "cpuSampleMs": {
+          "mean": 0.0015741176470582478,
+          "p95": 0.002600000000001046,
+          "max": 0.006100000000003547
+        },
+        "expiry": null
+      },
+      "unchanged": true,
+      "maxNormalOutputDifference": 0
+    },
+    {
+      "mode": "single",
+      "name": "oneMiss",
+      "before": {
+        "mode": "single",
+        "name": "oneMiss",
+        "side": "Left",
+        "accepted": 33,
+        "rejected": 0,
+        "freezeEvents": 1,
+        "freezeMs": 33.333333333333336,
+        "stationaryWhileInputMovesMs": 50,
+        "recoveryPositionStep": {
+          "mean": 0.23051686658318446,
+          "p95": 0.24006512734809443,
+          "max": 0.3233755728257916
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 6.381719848054462,
+          "p95": 6.646057664809803,
+          "max": 8.95245689422778
+        },
+        "renderPositionStep": {
+          "mean": 0.1430698435504824,
+          "p95": 0.5587718262805982,
+          "max": 0.6914105153586939
+        },
+        "renderAngleStepDeg": {
+          "mean": 4.27220111722505,
+          "p95": 20.108956962039944,
+          "max": 25.64186262010081
+        },
+        "positionError": {
+          "mean": 0.2542821983911751,
+          "p95": 0.6477068354642596,
+          "max": 0.7853103763084096
+        },
+        "rotationErrorDeg": {
+          "mean": 6.5699984287510045,
+          "p95": 19.66959431904101,
+          "max": 25.080276240307942
+        },
+        "tipError": {
+          "mean": 0.5344154505012191,
+          "p95": 1.5512458281339383,
+          "max": 1.966921816302023
+        },
+        "stopPositionError": {
+          "mean": 2.5669263222802404e-7,
+          "p95": 0.0000012894474028174568,
+          "max": 0.0000032551728032227996
+        },
+        "cpuSampleMs": {
+          "mean": 0.0010164705882359346,
+          "p95": 0.0016999999999995907,
+          "max": 0.0030999999999892225
+        },
+        "expiry": null
+      },
+      "after": {
+        "mode": "single",
+        "name": "oneMiss",
+        "side": "Left",
+        "accepted": 33,
+        "rejected": 0,
+        "freezeEvents": 0,
+        "freezeMs": 0,
+        "stationaryWhileInputMovesMs": 33.333333333333336,
+        "recoveryPositionStep": {
+          "mean": 0.23098722979109743,
+          "p95": 0.2405411685822085,
+          "max": 0.3240452993775816
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 6.381839977262087,
+          "p95": 6.646182639919139,
+          "max": 8.952625507972806
+        },
+        "renderPositionStep": {
+          "mean": 0.1431075587586947,
+          "p95": 0.5587718262805982,
+          "max": 0.6915568900212836
+        },
+        "renderAngleStepDeg": {
+          "mean": 4.272210888901826,
+          "p95": 20.108956962040015,
+          "max": 25.641906049603577
+        },
+        "positionError": {
+          "mean": 0.2543403050836296,
+          "p95": 0.6488152450345339,
+          "max": 0.7854814007322583
+        },
+        "rotationErrorDeg": {
+          "mean": 6.570013578481897,
+          "p95": 19.66959431904116,
+          "max": 25.08032067984672
+        },
+        "tipError": {
+          "mean": 0.5344628345726429,
+          "p95": 1.5512487280011704,
+          "max": 1.9670757394144869
+        },
+        "stopPositionError": {
+          "mean": 2.5669263222802404e-7,
+          "p95": 0.0000012894474028174568,
+          "max": 0.0000032551728032227996
+        },
+        "cpuSampleMs": {
+          "mean": 0.0008623529411773448,
+          "p95": 0.0010000000000331966,
+          "max": 0.0018000000000029104
+        },
+        "expiry": null
+      },
+      "unchanged": false,
+      "maxNormalOutputDifference": 0.0014816888325606126
+    },
+    {
+      "mode": "single",
+      "name": "threeMiss",
+      "before": {
+        "mode": "single",
+        "name": "threeMiss",
+        "side": "Left",
+        "accepted": 31,
+        "rejected": 0,
+        "freezeEvents": 1,
+        "freezeMs": 133.33333333333334,
+        "stationaryWhileInputMovesMs": 150,
+        "recoveryPositionStep": {
+          "mean": 0.4971735005943103,
+          "p95": 0.32235819386237213,
+          "max": 0.6719888073262484
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 15.506832591091282,
+          "p95": 10.054346300868476,
+          "max": 20.959318881314086
+        },
+        "renderPositionStep": {
+          "mean": 0.1356790196842298,
+          "p95": 0.5603082331388093,
+          "max": 0.6719888073262484
+        },
+        "renderAngleStepDeg": {
+          "mean": 4.083132157010736,
+          "p95": 20.959318881314086,
+          "max": 25.583340957613725
+        },
+        "positionError": {
+          "mean": 0.26628713144335286,
+          "p95": 0.7049406385453252,
+          "max": 1.1700600585472458
+        },
+        "rotationErrorDeg": {
+          "mean": 7.0487998611513625,
+          "p95": 20.39308197585187,
+          "max": 36.38707019198479
+        },
+        "tipError": {
+          "mean": 0.568190768593184,
+          "p95": 1.6225314582992703,
+          "max": 2.8108903131693137
+        },
+        "stopPositionError": {
+          "mean": 2.5669263222802404e-7,
+          "p95": 0.0000012894474028174568,
+          "max": 0.0000032551728032227996
+        },
+        "cpuSampleMs": {
+          "mean": 0.0008682352941177134,
+          "p95": 0.0012000000000398359,
+          "max": 0.001599999999996271
+        },
+        "expiry": null
+      },
+      "after": {
+        "mode": "single",
+        "name": "threeMiss",
+        "side": "Left",
+        "accepted": 31,
+        "rejected": 0,
+        "freezeEvents": 0,
+        "freezeMs": 0,
+        "stationaryWhileInputMovesMs": 83.33333333333334,
+        "recoveryPositionStep": {
+          "mean": 0.49856581304456865,
+          "p95": 0.32326094380491577,
+          "max": 0.6738706822842215
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 15.507044182775381,
+          "p95": 10.054483493042317,
+          "max": 20.959604872508443
+        },
+        "renderPositionStep": {
+          "mean": 0.1357591820280887,
+          "p95": 0.5603082331388093,
+          "max": 0.6738706822842215
+        },
+        "renderAngleStepDeg": {
+          "mean": 4.08314444854205,
+          "p95": 20.959604872508443,
+          "max": 25.583420628106676
+        },
+        "positionError": {
+          "mean": 0.2664172688425703,
+          "p95": 0.7049426168314041,
+          "max": 1.1734385302020087
+        },
+        "rotationErrorDeg": {
+          "mean": 7.048814826498471,
+          "p95": 20.39308197585187,
+          "max": 36.38758313137078
+        },
+        "tipError": {
+          "mean": 0.5683058686746846,
+          "p95": 1.6225314582992703,
+          "max": 2.8139216036985992
+        },
+        "stopPositionError": {
+          "mean": 2.5669263222802404e-7,
+          "p95": 0.0000012894474028174568,
+          "max": 0.0000032551728032227996
+        },
+        "cpuSampleMs": {
+          "mean": 0.0008670588235277672,
+          "p95": 0.0015000000000213731,
+          "max": 0.002999999999985903
+        },
+        "expiry": null
+      },
+      "unchanged": false,
+      "maxNormalOutputDifference": 0.003245537527900355
+    },
+    {
+      "mode": "single",
+      "name": "reverse",
+      "before": {
+        "mode": "single",
+        "name": "reverse",
+        "side": "Left",
+        "accepted": 25,
+        "rejected": 6,
+        "freezeEvents": 1,
+        "freezeMs": 383.3333333333334,
+        "stationaryWhileInputMovesMs": 416.6666666666668,
+        "recoveryPositionStep": {
+          "mean": 2.3272191442081795,
+          "p95": 0,
+          "max": 4.654438288416359
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 4.802450730134897,
+          "p95": 0,
+          "max": 9.604901460269794
+        },
+        "renderPositionStep": {
+          "mean": 0.14393744111016188,
+          "p95": 0.13901271941446317,
+          "max": 4.654438288416359
+        },
+        "renderAngleStepDeg": {
+          "mean": 0.32850675063665,
+          "p95": 1.380460334883061,
+          "max": 9.604901460269794
+        },
+        "positionError": {
+          "mean": 1.3832613843685049,
+          "p95": 5.303812683819234,
+          "max": 5.4771339396505105
+        },
+        "rotationErrorDeg": {
+          "mean": 1.3988731967945232,
+          "p95": 6.456275049104555,
+          "max": 9.463777991804749
+        },
+        "tipError": {
+          "mean": 1.396928153331794,
+          "p95": 5.303835511553278,
+          "max": 5.4776198362717645
+        },
+        "stopPositionError": {
+          "mean": 3.818265827356871e-8,
+          "p95": 1.9181217614398793e-7,
+          "max": 4.841807499418633e-7
+        },
+        "cpuSampleMs": {
+          "mean": 0.0006905882352953085,
+          "p95": 0.0006999999999948159,
+          "max": 0.015899999999987813
+        },
+        "expiry": null
+      },
+      "after": {
+        "mode": "single",
+        "name": "reverse",
+        "side": "Left",
+        "accepted": 31,
+        "rejected": 0,
+        "freezeEvents": 0,
+        "freezeMs": 0,
+        "stationaryWhileInputMovesMs": 66.66666666666667,
+        "recoveryPositionStep": {
+          "mean": 2.286749774487299,
+          "p95": 1.4826866805223826,
+          "max": 3.0908128684522156
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 0.7936645639864457,
+          "p95": 0.5146007546165022,
+          "max": 1.0727283733563893
+        },
+        "renderPositionStep": {
+          "mean": 0.1616372640905112,
+          "p95": 0.6418804046897948,
+          "max": 3.0908128684522156
+        },
+        "renderAngleStepDeg": {
+          "mean": 0.36677587323287575,
+          "p95": 1.4809197064067254,
+          "max": 1.8468200944353386
+        },
+        "positionError": {
+          "mean": 0.5031210823592244,
+          "p95": 3.4311613859734966,
+          "max": 5.480233780692677
+        },
+        "rotationErrorDeg": {
+          "mean": 0.8660990134902943,
+          "p95": 2.2963898965140404,
+          "max": 2.5922127410827724
+        },
+        "tipError": {
+          "mean": 0.5190695744424314,
+          "p95": 3.4324510962399413,
+          "max": 5.481013218243306
+        },
+        "stopPositionError": {
+          "mean": 3.818265827356871e-8,
+          "p95": 1.9181217614398793e-7,
+          "max": 4.841807499418633e-7
+        },
+        "cpuSampleMs": {
+          "mean": 0.0009035294117672813,
+          "p95": 0.0009999999999763531,
+          "max": 0.015800000000012915
+        },
+        "expiry": null
+      },
+      "unchanged": false,
+      "maxNormalOutputDifference": 5.379511109617184
+    },
+    {
+      "mode": "single",
+      "name": "ambiguity",
+      "before": {
+        "mode": "single",
+        "name": "ambiguity",
+        "side": "Left",
+        "accepted": 31,
+        "rejected": 3,
+        "freezeEvents": 1,
+        "freezeMs": 133.33333333333334,
+        "stationaryWhileInputMovesMs": 133.33333333333334,
+        "recoveryPositionStep": {
+          "mean": 0.0015829889975125244,
+          "p95": 0.0010263810793056383,
+          "max": 0.0021395969157194106
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 0.8018974225650783,
+          "p95": 0.5199388910581938,
+          "max": 1.083855954071963
+        },
+        "renderPositionStep": {
+          "mean": 0.00038775068009572466,
+          "p95": 0.0014852632085728956,
+          "max": 0.0021395969157194106
+        },
+        "renderAngleStepDeg": {
+          "mean": 0.36669264693000836,
+          "p95": 1.4809361953459743,
+          "max": 1.8468201002036513
+        },
+        "positionError": {
+          "mean": 0.0013331375776889818,
+          "p95": 0.004685578296069526,
+          "max": 0.005393762202312136
+        },
+        "rotationErrorDeg": {
+          "mean": 0.8679935377929505,
+          "p95": 2.3163573436995795,
+          "max": 2.6121745289642333
+        },
+        "tipError": {
+          "mean": 0.04339413767727439,
+          "p95": 0.11567226610247601,
+          "max": 0.13042230282849812
+        },
+        "stopPositionError": {
+          "mean": 3.9307073236505816e-8,
+          "p95": 1.9746067536630107e-7,
+          "max": 4.984391717144376e-7
+        },
+        "cpuSampleMs": {
+          "mean": 0.0011835294117638702,
+          "p95": 0.0019000000000346517,
+          "max": 0.026600000000030377
+        },
+        "expiry": null
+      },
+      "after": {
+        "mode": "single",
+        "name": "ambiguity",
+        "side": "Left",
+        "accepted": 31,
+        "rejected": 3,
+        "freezeEvents": 1,
+        "freezeMs": 133.33333333333334,
+        "stationaryWhileInputMovesMs": 133.33333333333334,
+        "recoveryPositionStep": {
+          "mean": 0.0015829889975125244,
+          "p95": 0.0010263810793056383,
+          "max": 0.0021395969157194106
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 0.8018974225650783,
+          "p95": 0.5199388910581938,
+          "max": 1.083855954071963
+        },
+        "renderPositionStep": {
+          "mean": 0.00038775068009572466,
+          "p95": 0.0014852632085728956,
+          "max": 0.0021395969157194106
+        },
+        "renderAngleStepDeg": {
+          "mean": 0.36669264693000836,
+          "p95": 1.4809361953459743,
+          "max": 1.8468201002036513
+        },
+        "positionError": {
+          "mean": 0.0013331375776889818,
+          "p95": 0.004685578296069526,
+          "max": 0.005393762202312136
+        },
+        "rotationErrorDeg": {
+          "mean": 0.8679935377929505,
+          "p95": 2.3163573436995795,
+          "max": 2.6121745289642333
+        },
+        "tipError": {
+          "mean": 0.04339413767727439,
+          "p95": 0.11567226610247601,
+          "max": 0.13042230282849812
+        },
+        "stopPositionError": {
+          "mean": 3.9307073236505816e-8,
+          "p95": 1.9746067536630107e-7,
+          "max": 4.984391717144376e-7
+        },
+        "cpuSampleMs": {
+          "mean": 0.0007705882352946206,
+          "p95": 0.0013000000000147338,
+          "max": 0.010100000000022646
+        },
+        "expiry": null
+      },
+      "unchanged": true,
+      "maxNormalOutputDifference": 0
+    },
+    {
+      "mode": "single",
+      "name": "departure",
+      "before": {
+        "mode": "single",
+        "name": "departure",
+        "side": "Left",
+        "accepted": 6,
+        "rejected": 0,
+        "freezeEvents": 1,
+        "freezeMs": 366.66666666666674,
+        "stationaryWhileInputMovesMs": 383.3333333333334,
+        "recoveryPositionStep": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "renderPositionStep": {
+          "mean": 0.06668042049929057,
+          "p95": 0.33401628384358867,
+          "max": 0.5587718262805982
+        },
+        "renderAngleStepDeg": {
+          "mean": 1.9826889113876842,
+          "p95": 13.397782223201332,
+          "max": 21.620258210635303
+        },
+        "positionError": {
+          "mean": 1.1201055651896257,
+          "p95": 2.5915317046168784,
+          "max": 2.6721479150164993
+        },
+        "rotationErrorDeg": {
+          "mean": 36.11853482832578,
+          "p95": 79.82451129423143,
+          "max": 81.66263445411403
+        },
+        "tipError": {
+          "mean": 2.7604016884128804,
+          "p95": 6.196935211761592,
+          "max": 6.335000763380807
+        },
+        "stopPositionError": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "cpuSampleMs": {
+          "mean": 0.00032588235293828536,
+          "p95": 0.0006999999999948159,
+          "max": 0.0017000000000280124
+        },
+        "expiry": 630
+      },
+      "after": {
+        "mode": "single",
+        "name": "departure",
+        "side": "Left",
+        "accepted": 6,
+        "rejected": 0,
+        "freezeEvents": 0,
+        "freezeMs": 0,
+        "stationaryWhileInputMovesMs": 333.33333333333337,
+        "recoveryPositionStep": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "renderPositionStep": {
+          "mean": 0.0667635574542354,
+          "p95": 0.33401628384358867,
+          "max": 0.5587718262805982
+        },
+        "renderAngleStepDeg": {
+          "mean": 1.9827013159165099,
+          "p95": 13.397782223201332,
+          "max": 21.620258210635303
+        },
+        "positionError": {
+          "mean": 1.118778483901202,
+          "p95": 2.588767881752102,
+          "max": 2.669394563384337
+        },
+        "rotationErrorDeg": {
+          "mean": 36.11831879252195,
+          "p95": 79.82405524796633,
+          "max": 81.66217768965122
+        },
+        "tipError": {
+          "mean": 2.759025163422812,
+          "p95": 6.193960111005431,
+          "max": 6.332020013473401
+        },
+        "stopPositionError": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "cpuSampleMs": {
+          "mean": 0.00032588235293828536,
+          "p95": 0.0006000000000199179,
+          "max": 0.0009000000000014552
+        },
+        "expiry": 630
+      },
+      "unchanged": false,
+      "maxNormalOutputDifference": 0.002925625695397116
+    },
+    {
+      "mode": "twin",
+      "name": "continuous",
+      "before": {
+        "mode": "twin",
+        "name": "continuous",
+        "side": "Left",
+        "accepted": 34,
+        "rejected": 0,
+        "freezeEvents": 0,
+        "freezeMs": 0,
+        "stationaryWhileInputMovesMs": 33.333333333333336,
+        "recoveryPositionStep": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "renderPositionStep": {
+          "mean": 0.14307903825349302,
+          "p95": 0.5587718262805982,
+          "max": 0.6237873494919153
+        },
+        "renderAngleStepDeg": {
+          "mean": 4.272919714617941,
+          "p95": 20.10895695904792,
+          "max": 23.374425686352023
+        },
+        "positionError": {
+          "mean": 0.24316145198552883,
+          "p95": 0.647628409532741,
+          "max": 0.7062300668003727
+        },
+        "rotationErrorDeg": {
+          "mean": 93.56550888369094,
+          "p95": 108.96684756581706,
+          "max": 114.38912640732508
+        },
+        "tipError": {
+          "mean": 4.1084542173817,
+          "p95": 4.971144121032052,
+          "max": 5.3854428800465675
+        },
+        "stopPositionError": {
+          "mean": 2.5669263222802404e-7,
+          "p95": 0.0000012894474028174568,
+          "max": 0.0000032551728032227996
+        },
+        "cpuSampleMs": {
+          "mean": 0.0006047058823549591,
+          "p95": 0.0008000000000265572,
+          "max": 0.0013999999999896318
+        },
+        "expiry": null
+      },
+      "after": {
+        "mode": "twin",
+        "name": "continuous",
+        "side": "Left",
+        "accepted": 34,
+        "rejected": 0,
+        "freezeEvents": 0,
+        "freezeMs": 0,
+        "stationaryWhileInputMovesMs": 33.333333333333336,
+        "recoveryPositionStep": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "renderPositionStep": {
+          "mean": 0.14307903825349302,
+          "p95": 0.5587718262805982,
+          "max": 0.6237873494919153
+        },
+        "renderAngleStepDeg": {
+          "mean": 4.272919714617941,
+          "p95": 20.10895695904792,
+          "max": 23.374425686352023
+        },
+        "positionError": {
+          "mean": 0.24316145198552883,
+          "p95": 0.647628409532741,
+          "max": 0.7062300668003727
+        },
+        "rotationErrorDeg": {
+          "mean": 93.56550888369094,
+          "p95": 108.96684756581706,
+          "max": 114.38912640732508
+        },
+        "tipError": {
+          "mean": 4.1084542173817,
+          "p95": 4.971144121032052,
+          "max": 5.3854428800465675
+        },
+        "stopPositionError": {
+          "mean": 2.5669263222802404e-7,
+          "p95": 0.0000012894474028174568,
+          "max": 0.0000032551728032227996
+        },
+        "cpuSampleMs": {
+          "mean": 0.0008376470588232491,
+          "p95": 0.001599999999996271,
+          "max": 0.005699999999990268
+        },
+        "expiry": null
+      },
+      "unchanged": true,
+      "maxNormalOutputDifference": 0
+    },
+    {
+      "mode": "twin",
+      "name": "wrist",
+      "before": {
+        "mode": "twin",
+        "name": "wrist",
+        "side": "Left",
+        "accepted": 34,
+        "rejected": 0,
+        "freezeEvents": 0,
+        "freezeMs": 0,
+        "stationaryWhileInputMovesMs": 33.333333333333336,
+        "recoveryPositionStep": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "renderPositionStep": {
+          "mean": 0.17359424567339657,
+          "p95": 0.6778484537506824,
+          "max": 0.9324449225676578
+        },
+        "renderAngleStepDeg": {
+          "mean": 7.892026096234498,
+          "p95": 38.782879638826245,
+          "max": 47.17578073707339
+        },
+        "positionError": {
+          "mean": 0.29141658741024346,
+          "p95": 0.8852240663154626,
+          "max": 1.068905676574529
+        },
+        "rotationErrorDeg": {
+          "mean": 91.86709961157086,
+          "p95": 124.20559267632103,
+          "max": 131.67476124825615
+        },
+        "tipError": {
+          "mean": 4.033876822536281,
+          "p95": 4.436417042599066,
+          "max": 4.604490410206524
+        },
+        "stopPositionError": {
+          "mean": 2.965340023438262e-7,
+          "p95": 0.0000014895706951774886,
+          "max": 0.0000037604399789723227
+        },
+        "cpuSampleMs": {
+          "mean": 0.0005788235294102485,
+          "p95": 0.0006999999999948159,
+          "max": 0.0024999999999977263
+        },
+        "expiry": null
+      },
+      "after": {
+        "mode": "twin",
+        "name": "wrist",
+        "side": "Left",
+        "accepted": 34,
+        "rejected": 0,
+        "freezeEvents": 0,
+        "freezeMs": 0,
+        "stationaryWhileInputMovesMs": 33.333333333333336,
+        "recoveryPositionStep": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "renderPositionStep": {
+          "mean": 0.17359424567339657,
+          "p95": 0.6778484537506824,
+          "max": 0.9324449225676578
+        },
+        "renderAngleStepDeg": {
+          "mean": 7.892026096234498,
+          "p95": 38.782879638826245,
+          "max": 47.17578073707339
+        },
+        "positionError": {
+          "mean": 0.29141658741024346,
+          "p95": 0.8852240663154626,
+          "max": 1.068905676574529
+        },
+        "rotationErrorDeg": {
+          "mean": 91.86709961157086,
+          "p95": 124.20559267632103,
+          "max": 131.67476124825615
+        },
+        "tipError": {
+          "mean": 4.033876822536281,
+          "p95": 4.436417042599066,
+          "max": 4.604490410206524
+        },
+        "stopPositionError": {
+          "mean": 2.965340023438262e-7,
+          "p95": 0.0000014895706951774886,
+          "max": 0.0000037604399789723227
+        },
+        "cpuSampleMs": {
+          "mean": 0.0006129411764671953,
+          "p95": 0.0010000000000331966,
+          "max": 0.0027999999999792635
+        },
+        "expiry": null
+      },
+      "unchanged": true,
+      "maxNormalOutputDifference": 0
+    },
+    {
+      "mode": "twin",
+      "name": "oneMiss",
+      "before": {
+        "mode": "twin",
+        "name": "oneMiss",
+        "side": "Left",
+        "accepted": 33,
+        "rejected": 0,
+        "freezeEvents": 1,
+        "freezeMs": 33.333333333333336,
+        "stationaryWhileInputMovesMs": 50,
+        "recoveryPositionStep": {
+          "mean": 0.23051686658318501,
+          "p95": 0.2400651273480949,
+          "max": 0.3233755728257926
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 6.381719848055044,
+          "p95": 6.6460576648095815,
+          "max": 8.952456894228105
+        },
+        "renderPositionStep": {
+          "mean": 0.1430698435504824,
+          "p95": 0.5587718262805982,
+          "max": 0.6914105153586926
+        },
+        "renderAngleStepDeg": {
+          "mean": 4.272201117225904,
+          "p95": 20.108956962039944,
+          "max": 25.641862620100863
+        },
+        "positionError": {
+          "mean": 0.2542821983911751,
+          "p95": 0.6477068354642591,
+          "max": 0.785310376308408
+        },
+        "rotationErrorDeg": {
+          "mean": 93.90964517664004,
+          "p95": 110.24635376951693,
+          "max": 116.62192648741504
+        },
+        "tipError": {
+          "mean": 4.129276103157755,
+          "p95": 5.128439852137845,
+          "max": 5.525372573028233
+        },
+        "stopPositionError": {
+          "mean": 2.5669263222802404e-7,
+          "p95": 0.0000012894474028174568,
+          "max": 0.0000032551728032227996
+        },
+        "cpuSampleMs": {
+          "mean": 0.0005329411764698896,
+          "p95": 0.0006999999999948159,
+          "max": 0.0013000000000147338
+        },
+        "expiry": null
+      },
+      "after": {
+        "mode": "twin",
+        "name": "oneMiss",
+        "side": "Left",
+        "accepted": 33,
+        "rejected": 0,
+        "freezeEvents": 0,
+        "freezeMs": 0,
+        "stationaryWhileInputMovesMs": 33.333333333333336,
+        "recoveryPositionStep": {
+          "mean": 0.23098722979109795,
+          "p95": 0.240541168582209,
+          "max": 0.3240452993775826
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 6.381839977262541,
+          "p95": 6.646182639920016,
+          "max": 8.952625507973293
+        },
+        "renderPositionStep": {
+          "mean": 0.1431075587586947,
+          "p95": 0.5587718262805982,
+          "max": 0.6915568900212824
+        },
+        "renderAngleStepDeg": {
+          "mean": 4.272210890511432,
+          "p95": 20.108956962039944,
+          "max": 25.641906049603406
+        },
+        "positionError": {
+          "mean": 0.2543403050836296,
+          "p95": 0.6488152450345335,
+          "max": 0.7854814007322567
+        },
+        "rotationErrorDeg": {
+          "mean": 93.90966080984818,
+          "p95": 110.2464673423355,
+          "max": 116.62197145348922
+        },
+        "tipError": {
+          "mean": 4.129331111479517,
+          "p95": 5.12993301783285,
+          "max": 5.52554259830917
+        },
+        "stopPositionError": {
+          "mean": 2.5669263222802404e-7,
+          "p95": 0.0000012894474028174568,
+          "max": 0.0000032551728032227996
+        },
+        "cpuSampleMs": {
+          "mean": 0.0005847058823492796,
+          "p95": 0.0007999999999697138,
+          "max": 0.0015000000000213731
+        },
+        "expiry": null
+      },
+      "unchanged": false,
+      "maxNormalOutputDifference": 0.0014816888325606126
+    },
+    {
+      "mode": "twin",
+      "name": "threeMiss",
+      "before": {
+        "mode": "twin",
+        "name": "threeMiss",
+        "side": "Left",
+        "accepted": 31,
+        "rejected": 0,
+        "freezeEvents": 1,
+        "freezeMs": 133.33333333333334,
+        "stationaryWhileInputMovesMs": 150,
+        "recoveryPositionStep": {
+          "mean": 0.4971735005943103,
+          "p95": 0.32235819386237213,
+          "max": 0.6719888073262484
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 15.506832591091712,
+          "p95": 10.054346300869058,
+          "max": 20.959318881314367
+        },
+        "renderPositionStep": {
+          "mean": 0.13567901968422985,
+          "p95": 0.5603082331388093,
+          "max": 0.6719888073262484
+        },
+        "renderAngleStepDeg": {
+          "mean": 4.083132157028554,
+          "p95": 20.959318881314367,
+          "max": 25.583340957613782
+        },
+        "positionError": {
+          "mean": 0.26628713144335286,
+          "p95": 0.7049406385453254,
+          "max": 1.1700600585472458
+        },
+        "rotationErrorDeg": {
+          "mean": 93.90666917071779,
+          "p95": 111.6767633815491,
+          "max": 127.08443642186772
+        },
+        "tipError": {
+          "mean": 4.125501319942956,
+          "p95": 5.1553313499509015,
+          "max": 6.164389820459692
+        },
+        "stopPositionError": {
+          "mean": 2.5669263222802404e-7,
+          "p95": 0.0000012894474028174568,
+          "max": 0.0000032551728032227996
+        },
+        "cpuSampleMs": {
+          "mean": 0.0006811764705871075,
+          "p95": 0.0013999999999896318,
+          "max": 0.002900000000011005
+        },
+        "expiry": null
+      },
+      "after": {
+        "mode": "twin",
+        "name": "threeMiss",
+        "side": "Left",
+        "accepted": 31,
+        "rejected": 0,
+        "freezeEvents": 0,
+        "freezeMs": 0,
+        "stationaryWhileInputMovesMs": 83.33333333333334,
+        "recoveryPositionStep": {
+          "mean": 0.49856581304456865,
+          "p95": 0.32326094380491577,
+          "max": 0.6738706822842215
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 15.507044182775235,
+          "p95": 10.054483493042028,
+          "max": 20.959604872508443
+        },
+        "renderPositionStep": {
+          "mean": 0.13575918202808873,
+          "p95": 0.5603082331388093,
+          "max": 0.6738706822842215
+        },
+        "renderAngleStepDeg": {
+          "mean": 4.083144506475831,
+          "p95": 20.959604872508443,
+          "max": 25.58342062810656
+        },
+        "positionError": {
+          "mean": 0.2664172688425703,
+          "p95": 0.7049426168314045,
+          "max": 1.1734385302020087
+        },
+        "rotationErrorDeg": {
+          "mean": 93.90672289421892,
+          "p95": 111.6767633815491,
+          "max": 127.08495072279288
+        },
+        "tipError": {
+          "mean": 4.1258268362096535,
+          "p95": 5.1553313499509015,
+          "max": 6.167722255054985
+        },
+        "stopPositionError": {
+          "mean": 2.5669263222802404e-7,
+          "p95": 0.0000012894474028174568,
+          "max": 0.0000032551728032227996
+        },
+        "cpuSampleMs": {
+          "mean": 0.0005423529411760843,
+          "p95": 0.0006000000000199179,
+          "max": 0.0013999999999896318
+        },
+        "expiry": null
+      },
+      "unchanged": false,
+      "maxNormalOutputDifference": 0.003245537527900355
+    },
+    {
+      "mode": "twin",
+      "name": "reverse",
+      "before": {
+        "mode": "twin",
+        "name": "reverse",
+        "side": "Left",
+        "accepted": 25,
+        "rejected": 6,
+        "freezeEvents": 1,
+        "freezeMs": 383.3333333333334,
+        "stationaryWhileInputMovesMs": 416.6666666666668,
+        "recoveryPositionStep": {
+          "mean": 2.3272191442081795,
+          "p95": 0,
+          "max": 4.654438288416359
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 4.802450730134897,
+          "p95": 0,
+          "max": 9.604901460269794
+        },
+        "renderPositionStep": {
+          "mean": 0.14393744111016188,
+          "p95": 0.13901271941446317,
+          "max": 4.654438288416359
+        },
+        "renderAngleStepDeg": {
+          "mean": 0.3285069358794618,
+          "p95": 1.380460334883061,
+          "max": 9.604901460269794
+        },
+        "positionError": {
+          "mean": 1.3832613843685049,
+          "p95": 5.303812683819234,
+          "max": 5.4771339396505105
+        },
+        "rotationErrorDeg": {
+          "mean": 92.3286704459468,
+          "p95": 94.03602525062331,
+          "max": 94.96896514660922
+        },
+        "tipError": {
+          "mean": 5.215198865594893,
+          "p95": 9.023338706079254,
+          "max": 9.18061163002333
+        },
+        "stopPositionError": {
+          "mean": 3.818265827356871e-8,
+          "p95": 1.9181217614398793e-7,
+          "max": 4.841807499418633e-7
+        },
+        "cpuSampleMs": {
+          "mean": 0.0005623529411737389,
+          "p95": 0.0011999999999829924,
+          "max": 0.00380000000001246
+        },
+        "expiry": null
+      },
+      "after": {
+        "mode": "twin",
+        "name": "reverse",
+        "side": "Left",
+        "accepted": 31,
+        "rejected": 0,
+        "freezeEvents": 0,
+        "freezeMs": 0,
+        "stationaryWhileInputMovesMs": 66.66666666666667,
+        "recoveryPositionStep": {
+          "mean": 2.286749774487299,
+          "p95": 1.4826866805223826,
+          "max": 3.0908128684522156
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 0.7936645639850868,
+          "p95": 0.5146007546165022,
+          "max": 1.0727283733536714
+        },
+        "renderPositionStep": {
+          "mean": 0.16163726409051118,
+          "p95": 0.6418804046897948,
+          "max": 3.0908128684522156
+        },
+        "renderAngleStepDeg": {
+          "mean": 0.3667758732471494,
+          "p95": 1.4809197064067254,
+          "max": 1.8468200944353386
+        },
+        "positionError": {
+          "mean": 0.5031210823592243,
+          "p95": 3.4311613859734966,
+          "max": 5.480233780692677
+        },
+        "rotationErrorDeg": {
+          "mean": 92.19370466106409,
+          "p95": 92.6751028640216,
+          "max": 92.81512597345504
+        },
+        "tipError": {
+          "mean": 4.363161231567272,
+          "p95": 7.048981219480689,
+          "max": 9.18114972928318
+        },
+        "stopPositionError": {
+          "mean": 3.818265827356871e-8,
+          "p95": 1.9181217614398793e-7,
+          "max": 4.841807499418633e-7
+        },
+        "cpuSampleMs": {
+          "mean": 0.0005176470588253324,
+          "p95": 0.0009000000000014552,
+          "max": 0.0013999999999896318
+        },
+        "expiry": null
+      },
+      "unchanged": false,
+      "maxNormalOutputDifference": 5.379511109617184
+    },
+    {
+      "mode": "twin",
+      "name": "ambiguity",
+      "before": {
+        "mode": "twin",
+        "name": "ambiguity",
+        "side": "Left",
+        "accepted": 31,
+        "rejected": 3,
+        "freezeEvents": 1,
+        "freezeMs": 133.33333333333334,
+        "stationaryWhileInputMovesMs": 133.33333333333334,
+        "recoveryPositionStep": {
+          "mean": 0.0015829889975125244,
+          "p95": 0.0010263810793056383,
+          "max": 0.0021395969157194106
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 0.8018974225650215,
+          "p95": 0.5199388910553899,
+          "max": 1.083855954074653
+        },
+        "renderPositionStep": {
+          "mean": 0.0003877506800957299,
+          "p95": 0.0014852632085728956,
+          "max": 0.0021395969157194106
+        },
+        "renderAngleStepDeg": {
+          "mean": 0.36669275240972443,
+          "p95": 1.4809361953469586,
+          "max": 1.8468201002036513
+        },
+        "positionError": {
+          "mean": 0.0013331375776889844,
+          "p95": 0.004685578296069526,
+          "max": 0.0053937622023112475
+        },
+        "rotationErrorDeg": {
+          "mean": 0.8679935610434732,
+          "p95": 2.3163573436989497,
+          "max": 2.6121745289642333
+        },
+        "tipError": {
+          "mean": 0.017408043593648115,
+          "p95": 0.04984716842810546,
+          "max": 0.05632029462905351
+        },
+        "stopPositionError": {
+          "mean": 3.9307073236505816e-8,
+          "p95": 1.9746067536630107e-7,
+          "max": 4.984391717144376e-7
+        },
+        "cpuSampleMs": {
+          "mean": 0.0005423529411780906,
+          "p95": 0.0006999999999948159,
+          "max": 0.003199999999992542
+        },
+        "expiry": null
+      },
+      "after": {
+        "mode": "twin",
+        "name": "ambiguity",
+        "side": "Left",
+        "accepted": 31,
+        "rejected": 3,
+        "freezeEvents": 1,
+        "freezeMs": 133.33333333333334,
+        "stationaryWhileInputMovesMs": 133.33333333333334,
+        "recoveryPositionStep": {
+          "mean": 0.0015829889975125244,
+          "p95": 0.0010263810793056383,
+          "max": 0.0021395969157194106
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 0.8018974225650215,
+          "p95": 0.5199388910553899,
+          "max": 1.083855954074653
+        },
+        "renderPositionStep": {
+          "mean": 0.0003877506800957299,
+          "p95": 0.0014852632085728956,
+          "max": 0.0021395969157194106
+        },
+        "renderAngleStepDeg": {
+          "mean": 0.36669275240972443,
+          "p95": 1.4809361953469586,
+          "max": 1.8468201002036513
+        },
+        "positionError": {
+          "mean": 0.0013331375776889844,
+          "p95": 0.004685578296069526,
+          "max": 0.0053937622023112475
+        },
+        "rotationErrorDeg": {
+          "mean": 0.8679935610434732,
+          "p95": 2.3163573436989497,
+          "max": 2.6121745289642333
+        },
+        "tipError": {
+          "mean": 0.017408043593648115,
+          "p95": 0.04984716842810546,
+          "max": 0.05632029462905351
+        },
+        "stopPositionError": {
+          "mean": 3.9307073236505816e-8,
+          "p95": 1.9746067536630107e-7,
+          "max": 4.984391717144376e-7
+        },
+        "cpuSampleMs": {
+          "mean": 0.000694117647055116,
+          "p95": 0.0014999999999645297,
+          "max": 0.0020000000000095497
+        },
+        "expiry": null
+      },
+      "unchanged": true,
+      "maxNormalOutputDifference": 0
+    },
+    {
+      "mode": "twin",
+      "name": "departure",
+      "before": {
+        "mode": "twin",
+        "name": "departure",
+        "side": "Left",
+        "accepted": 6,
+        "rejected": 0,
+        "freezeEvents": 1,
+        "freezeMs": 366.66666666666674,
+        "stationaryWhileInputMovesMs": 383.3333333333334,
+        "recoveryPositionStep": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "renderPositionStep": {
+          "mean": 0.06668042049929063,
+          "p95": 0.3340162838435888,
+          "max": 0.5587718262805982
+        },
+        "renderAngleStepDeg": {
+          "mean": 1.9826889115230273,
+          "p95": 13.39778222320144,
+          "max": 21.620258210635303
+        },
+        "positionError": {
+          "mean": 1.1201055651896246,
+          "p95": 2.5915317046168767,
+          "max": 2.6721479150164984
+        },
+        "rotationErrorDeg": {
+          "mean": 122.89534810144947,
+          "p95": 170.6510372365814,
+          "max": 172.3982569446199
+        },
+        "tipError": {
+          "mean": 5.424418581358443,
+          "p95": 7.192118681740393,
+          "max": 7.2094179397370795
+        },
+        "stopPositionError": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "cpuSampleMs": {
+          "mean": 0.00043411764706086293,
+          "p95": 0.0006000000000199179,
+          "max": 0.0024000000000228283
+        },
+        "expiry": 630
+      },
+      "after": {
+        "mode": "twin",
+        "name": "departure",
+        "side": "Left",
+        "accepted": 6,
+        "rejected": 0,
+        "freezeEvents": 0,
+        "freezeMs": 0,
+        "stationaryWhileInputMovesMs": 333.33333333333337,
+        "recoveryPositionStep": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "recoveryAngleStepDeg": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "renderPositionStep": {
+          "mean": 0.06676355745423546,
+          "p95": 0.3340162838435888,
+          "max": 0.5587718262805982
+        },
+        "renderAngleStepDeg": {
+          "mean": 1.9827013193562395,
+          "p95": 13.39778222320144,
+          "max": 21.620258210635303
+        },
+        "positionError": {
+          "mean": 1.1187784839012007,
+          "p95": 2.5887678817521,
+          "max": 2.6693945633843357
+        },
+        "rotationErrorDeg": {
+          "mean": 122.89506141415896,
+          "p95": 170.65058397583925,
+          "max": 172.39780385215758
+        },
+        "tipError": {
+          "mean": 5.422565622255856,
+          "p95": 7.189235806248874,
+          "max": 7.206537486557778
+        },
+        "stopPositionError": {
+          "mean": 0,
+          "p95": 0,
+          "max": 0
+        },
+        "cpuSampleMs": {
+          "mean": 0.00033529411765049886,
+          "p95": 0.0006000000000199179,
+          "max": 0.001599999999996271
+        },
+        "expiry": 630
+      },
+      "unchanged": false,
+      "maxNormalOutputDifference": 0.002925625695397116
+    }
+  ]
+}

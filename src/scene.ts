@@ -114,8 +114,8 @@ export class SaberScene {
   if(fresh){this.clearWeapon();this.side=this.control.primary!;s.accent.color.setHex(COLORS[this.side]);}
   s.telemetry.result(data.landmarks.length,!!match,!!match?.freeze,now);
   if(!match){s.state.markLost(data.landmarks.length?'主控手未配對':'MediaPipe 未回傳手部');s.state.poseFrozen=true;if(this.controlMode==='legacy')s.motion.freeze();s.speed=0;s.measuredTime=NaN;return;}
-  s.state.observe(true,now);s.state.poseFrozen=!!match.freeze;
-  if(match.freeze){if(this.controlMode==='legacy')s.motion.freeze();s.speed=0;s.measuredTime=NaN;return;}
+  if(match.freeze){s.state.markLost('主控身分歧義：保留最後姿態');s.state.poseFrozen=true;if(this.controlMode==='legacy')s.motion.freeze();s.speed=0;s.measuredTime=NaN;return;}
+  s.state.observe(true,now);
   const p=data.landmarks[match.index],world=data.world?.[match.index],label=data.handedness[match.index]?.[0];s.telemetry.recordInput(label?.categoryName,label?.score,match.side,false,match.side==='Left'?this.control.identity.leftLabel:this.control.identity.leftLabel==='Right'?'Left':'Right');s.telemetry.delay.add(Math.max(0,now-data.time));
   if(this.controlMode==='modern'){s.target.copy(this.control.hand.pose.position);s.rotation.copy(this.control.hand.targetRotation);}
   else{const observation=observeHand(p)!;s.rotation.copy(s.palm.update(p,world,match.side,data.time,data.aspect??4/3));const height=2*Math.tan(T.MathUtils.degToRad(21.5))*11;s.target.set((.5-observation.x)*height*this.camera.aspect,(.5-observation.y)*height+1,(p[5]&&p[17]&&Number.isFinite(p[5].x)&&Number.isFinite(p[17].x)&&Number.isFinite(p[5].y)&&Number.isFinite(p[17].y)?T.MathUtils.clamp((Math.hypot(p[5].x-p[17].x,p[5].y-p[17].y)-.12)*7,-1,1):s.target.z));if(this.control.mode.twin){if(!this.control.grip.calibrated)this.control.grip.rotation.copy(s.group.quaternion);s.rotation.copy(this.control.grip.rotation);}s.motion.push(s.target,s.rotation,data.time,now,s.palm.reliable);s.telemetry.recordPose(s.palm);}

@@ -18,10 +18,12 @@ export class WeaponControl{
   const match=matches.find(m=>m.side===this.primary)??null;
   const changed=this.primary?this.mode.update(joinEvidence(data,matches,this.identity.leftLabel,!!match&&!match.freeze),arrived):false;
   if(changed&&this.mode.twin)this.grip.reset(this.hand.rotation);
-  if(match){this.lastSeen=arrived;if(!match.freeze&&this.mode.twin)this.grip.update(data.landmarks[match.index],data.world?.[match.index],match.side,data.aspect??4/3);if(modern){if(match.freeze)this.hand.freeze(arrived);else this.hand.push(data,match.index,match.side,arrived,viewAspect,fresh,this.mode.twin?this.grip.rotation:undefined);}}
-  else if(modern&&this.primary)this.hand.freeze(arrived);
+  if(match){if(!match.freeze)this.lastSeen=arrived;if(!match.freeze&&this.mode.twin)this.grip.update(data.landmarks[match.index],data.world?.[match.index],match.side,data.aspect??4/3);if(modern){if(match.freeze)this.hand.freeze(arrived);else this.hand.push(data,match.index,match.side,arrived,viewAspect,fresh,this.mode.twin?this.grip.rotation:undefined);}}
+  // No observation: finish the already accepted response, then remain at its
+  // endpoint. This is interpolation, never prediction of unseen hand motion.
+  else if(modern&&this.primary)this.hand.miss();
   return {match,fresh,changed};
  }
  sample(now:number){this.hand.sample(now);}
- snapshot(now:number){return {version:'1.8',primary:this.primary,twin:this.mode.twin,armed:this.mode.armed,changes:this.mode.changes,gesture:this.mode.reason,identity:this.identity.status,details:[...this.identity.details],leftRawLabel:this.identity.leftLabel,ageMs:this.primary?Math.max(0,now-this.lastSeen):null,grip:{calibrated:this.grip.calibrated,source:this.grip.source,reason:this.grip.reason},pose:this.hand.snapshot(now)};}
+ snapshot(now:number){return {version:'1.8.1',primary:this.primary,twin:this.mode.twin,armed:this.mode.armed,changes:this.mode.changes,gesture:this.mode.reason,identity:this.identity.status,details:[...this.identity.details],leftRawLabel:this.identity.leftLabel,ageMs:this.primary?Math.max(0,now-this.lastSeen):null,grip:{calibrated:this.grip.calibrated,source:this.grip.source,reason:this.grip.reason},pose:this.hand.snapshot(now)};}
 }

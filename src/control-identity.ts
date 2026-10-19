@@ -31,7 +31,13 @@ export class ControlIdentity{
   const take=(side:Side,c:Candidate)=>matches.push({side,index:c.index,fresh:!live.includes(side)});
   if(candidates.length===1){
    const c=candidates[0];
-   if(live.length===1){if(distance(live[0],c)<.55)take(live[0],c);else this.details.push('單手位移不連續：不建立另一個顏色');}
+   if(live.length===1){const side=live[0],t=this.tracks[side]!;
+    // A stale velocity estimate can point away from a real fast reversal. For
+    // this unopposed identity, continuity with the actual last observation is
+    // valid evidence when corroborated by the calibrated model label. Keep the
+    // same displacement bound and all two-hand
+    // ambiguity rules; never use this to choose between two possible owners.
+    if(distance(side,c)<.55||(c.side===side&&c.score>=.5&&Math.hypot(c.x-t.x,c.y-t.y)<.55))take(side,c);else this.details.push('單手位移不連續：不建立另一個顏色');}
    else if(live.length===2){const l=distance('Left',c),r=distance('Right',c);if(Math.abs(l-r)>.04&&Math.min(l,r)<.55)take(l<r?'Left':'Right',c);else this.details.push('單份觀測身分歧義：不假設雙手存在');}
    else if(c.side&&c.score>=.5)take(c.side,c);
   }else if(candidates.length===2){
