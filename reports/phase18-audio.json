@@ -1,0 +1,60 @@
+{
+  "method": "Actual Phase 1.1 production graph rendered offline at maximum volume; independent/simultaneous ignition/retraction and formal grip morph state-machine envelopes, then stop. No microphone/speaker/tablet listening validation.",
+  "results": [
+    {
+      "scenario": "dual-stress",
+      "speed": 0,
+      "volume": 1,
+      "peak": 0.13120241463184357,
+      "tailRms": 0,
+      "renderMs": 65,
+      "pass": true
+    },
+    {
+      "scenario": "dual-stress",
+      "speed": 8,
+      "volume": 1,
+      "peak": 0.30524834990501404,
+      "tailRms": 0,
+      "renderMs": 51.5,
+      "pass": true
+    },
+    {
+      "scenario": "dual-stress",
+      "speed": 24,
+      "volume": 1,
+      "peak": 0.3834736943244934,
+      "tailRms": 0,
+      "renderMs": 59.5,
+      "pass": true
+    },
+    {
+      "scenario": "grip-morph",
+      "speed": 0,
+      "volume": 1,
+      "peak": 0.12794800102710724,
+      "tailRms": 0,
+      "renderMs": 46.69999998807907,
+      "pass": true
+    },
+    {
+      "scenario": "grip-morph",
+      "speed": 8,
+      "volume": 1,
+      "peak": 0.23105569183826447,
+      "tailRms": 0,
+      "renderMs": 46.19999998807907,
+      "pass": true
+    },
+    {
+      "scenario": "grip-morph",
+      "speed": 24,
+      "volume": 1,
+      "peak": 0.3032240569591522,
+      "tailRms": 0,
+      "renderMs": 45.59999996423721,
+      "pass": true
+    }
+  ],
+  "pass": true
+}

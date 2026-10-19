@@ -8,25 +8,26 @@ const SIDES:Side[]=['Left','Right'];
 /** One render-time exponential response. No filtered target, interpolation history,
  * angular chase limiter, velocity extrapolation or dependency on the legacy core. */
 export class ControlHand{
- readonly pose=new ControlPose();readonly position=new Vector3();readonly rotation=new Quaternion();
+ readonly pose=new ControlPose();readonly position=new Vector3();readonly rotation=new Quaternion();readonly targetRotation=new Quaternion();
  private startP=new Vector3();private startQ=new Quaternion();private arrival=-Infinity;private sampleTime=-Infinity;private positionTau=.008;private rotationTau=.004;private ready=false;
  lastSeen=-Infinity;frozen=false;updates=0;freezes=0;rawLabel='Unknown';rawScore=0;
  get time(){return this.sampleTime;}
- reset(){this.pose.reset();this.ready=false;this.arrival=this.sampleTime=this.lastSeen=-Infinity;this.position.set(0,0,0);this.rotation.identity();this.frozen=false;this.updates=this.freezes=0;this.rawLabel='Unknown';this.rawScore=0;}
- push(data:ControlInput,index:number,side:Side,arrived:number,viewAspect:number,fresh=false){
+ reset(){this.pose.reset();this.ready=false;this.arrival=this.sampleTime=this.lastSeen=-Infinity;this.position.set(0,0,0);this.rotation.identity();this.targetRotation.identity();this.frozen=false;this.updates=this.freezes=0;this.rawLabel='Unknown';this.rawScore=0;}
+ push(data:ControlInput,index:number,side:Side,arrived:number,viewAspect:number,fresh=false,rotationOverride?:Quaternion){
   if(fresh){const updates=this.updates,freezes=this.freezes,holds=this.pose.holds;this.reset();this.updates=updates;this.freezes=freezes;this.pose.holds=holds;}else this.sample(arrived);
   const recovered=this.frozen||arrived-this.lastSeen>TRACKING.staleMs;
   if(!this.pose.update(data.landmarks[index],data.world?.[index],side,viewAspect,data.aspect??4/3))return;
-  if(!this.ready){this.position.copy(this.pose.position);this.rotation.copy(this.pose.rotation);this.ready=true;}
+  this.targetRotation.copy(rotationOverride??this.pose.rotation);
+  if(!this.ready){this.position.copy(this.pose.position);this.rotation.copy(this.targetRotation);this.ready=true;}
   this.startP.copy(this.position);this.startQ.copy(this.rotation);
   this.positionTau=recovered?.018:.008+.010*Math.exp(-this.position.distanceTo(this.pose.position)/.04);
-  this.rotationTau=recovered?.018:.004+.014*Math.exp(-this.rotation.angleTo(this.pose.rotation)/.035);
+  this.rotationTau=recovered?.018:.004+.014*Math.exp(-this.rotation.angleTo(this.targetRotation)/.035);
   this.arrival=arrived;this.sampleTime=data.time;this.lastSeen=arrived;this.frozen=false;this.updates++;
   const label=data.handedness[index]?.[0];this.rawLabel=label?.categoryName??'Unknown';this.rawScore=label?.score??0;
  }
  freeze(arrived:number){this.sample(arrived);if(!this.frozen)this.freezes++;this.frozen=true;this.lastSeen=arrived;}
- sample(now:number){if(!this.ready||this.frozen||now-this.lastSeen>=TRACKING.staleMs)return;const age=Math.max(0,now-this.arrival)/1000;this.position.lerpVectors(this.startP,this.pose.position,1-Math.exp(-age/this.positionTau));this.rotation.slerpQuaternions(this.startQ,this.pose.rotation,1-Math.exp(-age/this.rotationTau));}
- snapshot(now:number){return {updates:this.updates,identityFreezes:this.freezes,frozen:this.frozen,source:this.pose.source,reliable:this.pose.reliable,reason:this.pose.reason,directionHolds:this.pose.holds,lastRawLabel:this.rawLabel,lastRawScore:this.rawScore,ageMs:Number.isFinite(this.lastSeen)?Math.max(0,now-this.lastSeen):null,positionError:this.position.distanceTo(this.pose.position),targetRotationGapDeg:this.rotation.angleTo(this.pose.rotation)*180/Math.PI,prediction:false};}
+ sample(now:number){if(!this.ready||this.frozen||now-this.lastSeen>=TRACKING.staleMs)return;const age=Math.max(0,now-this.arrival)/1000;this.position.lerpVectors(this.startP,this.pose.position,1-Math.exp(-age/this.positionTau));this.rotation.slerpQuaternions(this.startQ,this.targetRotation,1-Math.exp(-age/this.rotationTau));}
+ snapshot(now:number){return {updates:this.updates,identityFreezes:this.freezes,frozen:this.frozen,source:this.pose.source,reliable:this.pose.reliable,reason:this.pose.reason,directionHolds:this.pose.holds,lastRawLabel:this.rawLabel,lastRawScore:this.rawScore,ageMs:Number.isFinite(this.lastSeen)?Math.max(0,now-this.lastSeen):null,positionError:this.position.distanceTo(this.pose.position),targetRotationGapDeg:this.rotation.angleTo(this.targetRotation)*180/Math.PI,prediction:false};}
 }
 export class ControlCore{
  private last=-Infinity;

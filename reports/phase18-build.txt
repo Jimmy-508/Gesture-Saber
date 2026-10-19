@@ -1,0 +1,50 @@
+npm notice run gesture-saber@1.8.0 build
+npm notice run npm run assets && tsc --noEmit && vite build
+npm notice run gesture-saber@1.8.0 assets
+npm notice run node scripts/prepare-assets.mjs
+MediaPipe model and WASM assets ready (served locally).
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 93 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/tests/gesture-check.html                     0.95 kB │ gzip:   0.53 kB
+dist/tests/rotation-check.html                    0.96 kB │ gzip:   0.59 kB
+dist/tests/blue-check.html                        1.10 kB │ gzip:   0.64 kB
+dist/tests/duel-check.html                        1.10 kB │ gzip:   0.62 kB
+dist/index.html                                   1.27 kB │ gzip:   0.45 kB
+dist/tests/ui-check.html                          1.29 kB │ gzip:   0.53 kB
+dist/tests/performance.html                       1.32 kB │ gzip:   0.89 kB
+dist/tests/engine-check.html                      1.62 kB │ gzip:   0.82 kB
+dist/tests/core-check.html                        1.73 kB │ gzip:   0.76 kB
+dist/assets/tracker.worker-DV81sukE.js          158.70 kB
+dist/assets/app-d9zFj5KN.css                      6.13 kB │ gzip:   2.23 kB
+dist/assets/main-Blf_1xED.js                      0.21 kB │ gzip:   0.19 kB
+dist/assets/rolldown-runtime-4tVxZq34.js          0.23 kB │ gzip:   0.19 kB
+dist/assets/modulepreload-polyfill-P2Xu9kJm.js    0.67 kB │ gzip:   0.38 kB
+dist/assets/anatomical-hands-blWD4I-z.js          1.04 kB │ gzip:   0.60 kB
+dist/assets/pipeline-B5HXHh7W.js                  2.28 kB │ gzip:   1.06 kB
+dist/assets/hand-assignment-DXCRMTun.js           2.60 kB │ gzip:   1.33 kB
+dist/assets/runtime-C0RM3_Zs.js                   3.61 kB │ gzip:   1.69 kB
+dist/assets/gestureCheck-CW7HNKOA.js              4.10 kB │ gzip:   1.99 kB
+dist/assets/model-Dc0O6iJr.js                     4.24 kB │ gzip:   2.17 kB
+dist/assets/uiCheck-DOoG_zRj.js                   5.07 kB │ gzip:   2.44 kB
+dist/assets/audio-Boeb0sSK.js                     5.80 kB │ gzip:   2.22 kB
+dist/assets/engineCheck-B7Z_eYgh.js               6.14 kB │ gzip:   2.82 kB
+dist/assets/phase16-scene-CAuYPB1t.js            15.19 kB │ gzip:   5.88 kB
+dist/assets/coreCheck-ZUpbf4hF.js                16.94 kB │ gzip:   7.22 kB
+dist/assets/performance-Bd2YA4Yo.js              18.26 kB │ gzip:   7.09 kB
+dist/assets/duelCheck-2bjp2oVn.js                21.54 kB │ gzip:   8.59 kB
+dist/assets/app-WAwl64oS.js                      24.45 kB │ gzip:   9.03 kB
+dist/assets/rotationCheck-CDeKIOo6.js            27.42 kB │ gzip:  10.40 kB
+dist/assets/blueCheck-DNFzK_K9.js                30.39 kB │ gzip:  11.38 kB
+dist/assets/mediapipe-D-nf_0VX.js               155.33 kB │ gzip:  46.13 kB
+dist/assets/react-CDJwZf2-.js                   218.75 kB │ gzip:  68.27 kB
+dist/assets/saber-DWgdw0IH.js                   607.60 kB │ gzip: 156.10 kB
+
+✓ built in 540ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.

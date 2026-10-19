@@ -12,6 +12,7 @@ import {TRACKING} from './tracking-state';
 import {Metric,ResolutionBudget} from './metrics';
 import type {ControlMode} from './control-core';
 import {WeaponControl} from './weapon-control';
+import {WeaponMorph} from './weapon-morph';
 import type {ControlInput} from './control-identity';
 export type Quality='low'|'medium'|'high';
 export const HILT_ORIGINAL_MIN=-.60,HILT_ORIGINAL_MAX=.12+.008*Math.sin(Math.PI/3);
@@ -36,16 +37,16 @@ const trailVertex=`attribute float age;varying vec2 vUv;varying float vAge;void 
 const trailFragment=`uniform vec3 color;varying vec2 vUv;varying float vAge;
 void main(){float edge=pow(sin(clamp(vUv.y,0.,1.)*3.14159265),.65);if(vUv.x>1.5)edge*=pow(max(0.,sin((vUv.x-2.)*3.14159265)),.8);float a=vAge*edge*.52;gl_FragColor=vec4(color,a);}`;
 export class SaberScene {
- readonly control=new WeaponControl();controlMode:ControlMode='modern';controlEpoch=-Infinity;
+ readonly control=new WeaponControl();readonly morph=new WeaponMorph();controlMode:ControlMode='modern';controlEpoch=-Infinity;
  renderer:T.WebGLRenderer;scene=new T.Scene();camera=new T.PerspectiveCamera(43,1,.1,80);weapon:Saber;
  warmup={status:'尚未預熱',ms:0};private disposed=false;
  quality:Quality='medium';demo=false;fps=0;goldMix=0;rearExtension=0;
  readonly stats={frame:new Metric(),cpu:new Metric(),trail:new Metric(),audio:new Metric(),age:new Metric(),smoothing:new Metric()};
  readonly budget=new ResolutionBudget();pixelRatio=1;private budgetTime=0;private cameraRight=new T.Vector3(1,0,0);private budgetFrames=new Metric();private viewport=new T.Vector2();
  private frame=0;private last=performance.now();private sample=0;private frames=0;private observer:ResizeObserver;private environment:T.WebGLRenderTarget;
- private tip=new T.Vector3();private base=new T.Vector3();private euler=new T.Euler();private color=new T.Color();private gold=new T.Color(0xffd454);private goldHalo=new T.Color(0xffb627);private goldInner=new T.Color(0xffe46a);private white=new T.Color(0xffffff);private side:Side='Left';private demoTwin=false;private demoMode=false;private demoToggle=-Infinity;
+ private tip=new T.Vector3();private base=new T.Vector3();private euler=new T.Euler();private color=new T.Color();private gold=new T.Color(0xffd454);private goldHalo=new T.Color(0xffb627);private goldInner=new T.Color(0xffe46a);private white=new T.Color(0xffffff);private side:Side='Left';private demoTwin=false;private demoMode=false;private demoGrip=new T.Quaternion().setFromAxisAngle(new T.Vector3(0,0,1),-Math.PI/2);private demoToggle=-Infinity;
  prepare(){if(this.warmup.status!=='尚未預熱')return;const began=performance.now(),s=this.weapon,visible=s.group.visible,b=s.blade.visible,r=s.rear.visible;s.group.visible=s.blade.visible=s.rear.visible=true;try{this.warmup.status='預熱中';void this.renderer.compileAsync(this.scene,this.camera).then(()=>{if(!this.disposed)this.warmup={status:'完成',ms:performance.now()-began};},()=>{if(!this.disposed)this.warmup={status:'預熱失敗：使用正常渲染路徑',ms:performance.now()-began};});}finally{s.group.visible=visible;s.blade.visible=b;s.rear.visible=r;}}
- constructor(private host:HTMLElement,private sound:(side:Side,active:boolean,speed:number,extension:number)=>void=()=>{},autoStart=true,private clock:()=>number=()=>performance.now(),private modeSound:(side:Side,extend:boolean)=>void=()=>{}){
+ constructor(private host:HTMLElement,private sound:(side:Side,active:boolean,speed:number,extension:number)=>void=()=>{},autoStart=true,private clock:()=>number=()=>performance.now()){
   this.renderer=new T.WebGLRenderer({antialias:false,powerPreference:'high-performance',preserveDrawingBuffer:!autoStart});this.renderer.setClearColor(0x070b12);this.renderer.outputColorSpace=T.SRGBColorSpace;host.appendChild(this.renderer.domElement);
   this.camera.position.set(0,1,11);this.camera.lookAt(0,1,0);this.scene.fog=new T.FogExp2(0x070b12,.055);
   const pmrem=new T.PMREMGenerator(this.renderer),room=new RoomEnvironment();this.environment=pmrem.fromScene(room,.05);this.scene.environment=this.environment.texture;this.scene.environmentIntensity=.75;room.dispose();pmrem.dispose();
@@ -104,7 +105,7 @@ export class SaberScene {
  setQuality(q:Quality){this.quality=q;this.budget.reset();this.applyBudget();}
  private applyBudget(){this.pixelRatio=Math.min(devicePixelRatio,this.quality==='low'?1:this.quality==='medium'?1.4:1.8)*this.budget.scale;this.renderer.setPixelRatio(this.pixelRatio);this.weapon.light.visible=this.quality==='high'&&this.budget.scale>.8;this.resize();}
  private resize(){const w=this.host.clientWidth,h=this.host.clientHeight;if(!w||!h)return;this.renderer.getSize(this.viewport);if(this.viewport.x!==w||this.viewport.y!==h)this.renderer.setSize(w,h);this.camera.aspect=w/h;this.camera.updateProjectionMatrix();}
- private clearWeapon(){const s=this.weapon;s.state.reset();s.motion.reset();s.palm.reset();s.group.visible=false;s.blade.visible=s.rear.visible=false;s.ribbon.reset();s.rearRibbon.reset();s.trail.geometry.setDrawRange(0,0);s.rearTrail.geometry.setDrawRange(0,0);s.speed=0;s.measuredTime=NaN;this.goldMix=this.rearExtension=0;this.sound(this.side,false,0,0);}
+ private clearWeapon(){const s=this.weapon;s.state.reset();s.motion.reset();s.palm.reset();s.group.visible=false;s.blade.visible=s.rear.visible=false;s.ribbon.reset();s.rearRibbon.reset();s.trail.geometry.setDrawRange(0,0);s.rearTrail.geometry.setDrawRange(0,0);s.speed=0;s.measuredTime=NaN;this.goldMix=this.rearExtension=0;this.morph.reset();this.sound(this.side,false,0,0);}
  hide(){this.control.reset();this.clearWeapon();this.demoMode=this.demoTwin=false;}
  setControlMode(mode:ControlMode){this.hide();this.controlMode=mode;this.controlEpoch=this.clock();this.weapon.telemetry.reset();for(const metric of Object.values(this.stats))metric.reset();}
  receiveControls(data:ControlInput){
@@ -116,15 +117,17 @@ export class SaberScene {
   s.state.observe(true,now);s.state.poseFrozen=!!match.freeze;
   if(match.freeze){if(this.controlMode==='legacy')s.motion.freeze();s.speed=0;s.measuredTime=NaN;return;}
   const p=data.landmarks[match.index],world=data.world?.[match.index],label=data.handedness[match.index]?.[0];s.telemetry.recordInput(label?.categoryName,label?.score,match.side,false,match.side==='Left'?this.control.identity.leftLabel:this.control.identity.leftLabel==='Right'?'Left':'Right');s.telemetry.delay.add(Math.max(0,now-data.time));
-  if(this.controlMode==='modern'){s.target.copy(this.control.hand.pose.position);s.rotation.copy(this.control.hand.pose.rotation);}
-  else{const observation=observeHand(p)!;s.rotation.copy(s.palm.update(p,world,match.side,data.time,data.aspect??4/3));const height=2*Math.tan(T.MathUtils.degToRad(21.5))*11;s.target.set((.5-observation.x)*height*this.camera.aspect,(.5-observation.y)*height+1,(p[5]&&p[17]&&Number.isFinite(p[5].x)&&Number.isFinite(p[17].x)&&Number.isFinite(p[5].y)&&Number.isFinite(p[17].y)?T.MathUtils.clamp((Math.hypot(p[5].x-p[17].x,p[5].y-p[17].y)-.12)*7,-1,1):s.target.z));s.motion.push(s.target,s.rotation,data.time,now,s.palm.reliable);s.telemetry.recordPose(s.palm);}
+  if(this.controlMode==='modern'){s.target.copy(this.control.hand.pose.position);s.rotation.copy(this.control.hand.targetRotation);}
+  else{const observation=observeHand(p)!;s.rotation.copy(s.palm.update(p,world,match.side,data.time,data.aspect??4/3));const height=2*Math.tan(T.MathUtils.degToRad(21.5))*11;s.target.set((.5-observation.x)*height*this.camera.aspect,(.5-observation.y)*height+1,(p[5]&&p[17]&&Number.isFinite(p[5].x)&&Number.isFinite(p[17].x)&&Number.isFinite(p[5].y)&&Number.isFinite(p[17].y)?T.MathUtils.clamp((Math.hypot(p[5].x-p[17].x,p[5].y-p[17].y)-.12)*7,-1,1):s.target.z));if(this.control.mode.twin){if(!this.control.grip.calibrated)this.control.grip.rotation.copy(s.group.quaternion);s.rotation.copy(this.control.grip.rotation);}s.motion.push(s.target,s.rotation,data.time,now,s.palm.reliable);s.telemetry.recordPose(s.palm);}
+  if(changed)this.morph.begin(this.control.mode.twin,now,s.group.quaternion);
+  if(this.morph.transitioning){s.speed=0;s.measuredTime=NaN;return;}
   if(data.time-s.measuredTime>250){s.ribbon.reset();s.rearRibbon.reset();}this.measure(data.time);
-  if(changed)this.modeSound(this.side,this.control.mode.twin);
+
  }
  private measure(time:number){const s=this.weapon;this.tip.set(0,LENGTH+.12,0).applyQuaternion(s.rotation).add(s.target);const elapsed=Number.isFinite(s.measuredTime)?(time-s.measuredTime)/1000:0,speed=Number.isFinite(s.measuredTime)?motionSpeed(this.tip.distanceTo(s.measuredTip),elapsed):0;s.speed+=(speed-s.speed)*(1-Math.exp(-Math.max(0,elapsed)*18));s.measuredTip.copy(this.tip);s.measuredTime=time;}
  private updateTrail(rear:boolean,now:number,extension:number){const s=this.weapon,ribbon=rear?s.rearRibbon:s.ribbon,trail=rear?s.rearTrail:s.trail,maxAge=this.quality==='low'?.12:this.quality==='medium'?.18:.22;
   this.tip.set(0,rear?HILT_BOTTOM-LENGTH*extension:.12+LENGTH*extension,0).applyQuaternion(s.group.quaternion).add(s.group.position);this.base.set(0,rear?HILT_BOTTOM-.04:.16,0).applyQuaternion(s.group.quaternion).add(s.group.position);
-  ribbon.update(this.base,this.tip,now,extension,maxAge,this.cameraRight,s.state.canMove);const previous=trail.geometry.drawRange.count;trail.geometry.setDrawRange(0,ribbon.vertices);if(ribbon.vertices||previous)for(const name of STREAM_ATTRIBUTES){const a=trail.geometry.attributes[name] as T.BufferAttribute;a.clearUpdateRanges();a.addUpdateRange(0,ribbon.vertices*(name==='position'?3:1));a.needsUpdate=true;}
+  ribbon.update(this.base,this.tip,now,extension,maxAge,this.cameraRight,s.state.canMove&&!this.morph.transitioning);const previous=trail.geometry.drawRange.count;trail.geometry.setDrawRange(0,ribbon.vertices);if(ribbon.vertices||previous)for(const name of STREAM_ATTRIBUTES){const a=trail.geometry.attributes[name] as T.BufferAttribute;a.clearUpdateRanges();a.addUpdateRange(0,ribbon.vertices*(name==='position'?3:1));a.needsUpdate=true;}
  }
  private tick=()=>{this.frame=requestAnimationFrame(this.tick);this.renderFrame(this.clock());};
  renderFrame(now:number){
@@ -133,18 +136,18 @@ export class SaberScene {
   if(elapsed>0&&elapsed<.1){this.budgetFrames.add(elapsed*1000);this.budgetTime+=elapsed;}else{this.budgetFrames.reset();this.budgetTime=0;}if(this.budgetTime>=1){if(this.budget.step(this.budgetFrames.snapshot().p95,this.budgetTime,now))this.applyBudget();this.budgetTime=0;}
   const s=this.weapon;
   if(!this.demo&&this.control.advance(now))this.clearWeapon();
-  if(this.demo){const t=now*.0012,fit=Math.min(1,this.camera.aspect/1.4);s.target.set(Math.sin(t*1.7)*.8*fit,1.2+Math.cos(t)*.2,0);s.rotation.setFromEuler(this.euler.set(.2,Math.sin(t)*.4,(.4+Math.sin(t*1.7)*.65)*fit));s.group.position.copy(s.target);s.group.quaternion.copy(s.rotation);this.measure(now);s.state.observe(true,now);this.demoTwin=Math.floor(now/6500)%2===1;if(this.demoTwin!==this.demoMode){this.modeSound(this.side,this.demoTwin);this.demoMode=this.demoTwin;this.demoToggle=now;}}
+  if(this.demo){this.demoTwin=Math.floor(now/6500)%2===1;if(this.demoTwin!==this.demoMode){this.morph.begin(this.demoTwin,now,s.group.quaternion);this.demoMode=this.demoTwin;this.demoToggle=now;}const t=now*.0012,fit=Math.min(1,this.camera.aspect/1.4);s.target.set(Math.sin(t*1.7)*.8*fit,1.2+Math.cos(t)*.2,0);s.rotation.setFromEuler(this.euler.set(.2,Math.sin(t)*.4,(.4+Math.sin(t*1.7)*.65)*fit));if(this.demoTwin)s.rotation.multiply(this.demoGrip);s.group.position.copy(s.target);s.group.quaternion.copy(s.rotation);this.measure(now);s.state.observe(true,now);}
   const extension=s.state.step(now,dt),tracked=s.state.visible(now);s.group.visible=tracked;
-  if(!this.demo&&tracked){if(this.controlMode==='modern'){this.control.sample(now);s.group.position.copy(this.control.hand.position);s.group.quaternion.copy(this.control.hand.rotation);this.stats.age.add(Math.max(0,now-this.control.hand.time));s.telemetry.positionError.add(this.control.hand.position.distanceTo(s.target));s.telemetry.rotationError.add(T.MathUtils.radToDeg(this.control.hand.rotation.angleTo(s.rotation)));}else{if(!s.state.poseFrozen&&now-s.state.lastSeen<TRACKING.staleMs)s.motion.sample(now);else s.motion.freeze();s.group.position.copy(s.motion.position);s.group.quaternion.copy(s.motion.rotation);this.stats.smoothing.add(s.motion.lagMs);}}
-  const twin=this.demo?this.demoTwin:this.control.mode.twin;
-  this.rearExtension=T.MathUtils.clamp(this.rearExtension+(twin?dt/.16:-dt/.12),0,1);this.goldMix=T.MathUtils.clamp(this.goldMix+(twin?dt/.18:-dt/.15),0,1);
-  const flash=twin?Math.max(0,1-(now-(this.demo?this.demoToggle:this.control.mode.lastToggle))/180):0;
+  if(!this.demo&&tracked){if(this.controlMode==='modern'){this.control.sample(now);s.group.position.copy(this.control.hand.position);s.group.quaternion.copy(this.control.hand.rotation);this.stats.age.add(Math.max(0,now-this.control.hand.time));s.telemetry.positionError.add(this.control.hand.position.distanceTo(s.target));s.telemetry.rotationError.add(T.MathUtils.radToDeg(this.control.hand.rotation.angleTo(s.rotation)));}else{if(!s.state.poseFrozen&&now-s.state.lastSeen<TRACKING.staleMs)s.motion.sample(now);else s.motion.freeze();s.group.position.copy(s.motion.position);s.group.quaternion.copy(this.control.mode.twin?this.control.grip.rotation:s.motion.rotation);this.stats.smoothing.add(s.motion.lagMs);}}
+  this.morph.step(now);this.morph.orient(s.group.quaternion,s.group.quaternion,now);
+  this.rearExtension=this.morph.rear;this.goldMix=this.morph.gold;const frontExtension=extension*this.morph.front,rearExtension=extension*this.morph.rear;
+  const flash=this.morph.twin&&this.morph.phase==='EXTEND'?Math.max(0,1-this.morph.front):0;
   this.color.setHex(COLORS[this.side]).lerp(this.gold,this.goldMix);
   s.core.uniforms.color.value.copy(this.color);s.glow.uniforms.color.value.setHex(COLORS[this.side]).lerp(this.goldHalo,this.goldMix);s.inner.uniforms.color.value.setHex(COLORS[this.side]).lerp(this.goldInner,this.goldMix);s.trail.material.uniforms.color.value.copy(this.color).lerp(this.white,this.side==='Right'?.22:.1);
-  this.animateBlade(s.blade,extension,now,flash,false);this.animateBlade(s.rear,extension*this.rearExtension,now,flash,true);
-  s.rearTrail.material.uniforms.color.value.copy(this.gold);for(const material of s.hiltMaterials)material.opacity=s.state.fade(now);s.light.color.copy(this.color);if(s.light.visible)s.light.intensity=extension*1.8;
-  const audioStart=performance.now(),speed=Number.isFinite(s.measuredTime)?s.speed*Math.exp(-Math.max(0,now-s.measuredTime-80)/100):0;this.sound(this.side,s.state.active,speed,extension);this.stats.audio.add(performance.now()-audioStart);
-  const trailStart=performance.now();if(tracked){this.updateTrail(false,now,extension);this.updateTrail(true,now,extension*this.rearExtension);}else{s.ribbon.reset();s.rearRibbon.reset();s.trail.geometry.setDrawRange(0,0);s.rearTrail.geometry.setDrawRange(0,0);}this.stats.trail.add(performance.now()-trailStart);
+  this.animateBlade(s.blade,frontExtension,now,flash,false);this.animateBlade(s.rear,rearExtension,now,flash,true);
+  s.rearTrail.material.uniforms.color.value.copy(this.gold);for(const material of s.hiltMaterials)material.opacity=s.state.fade(now);s.light.color.copy(this.color);if(s.light.visible)s.light.intensity=Math.max(frontExtension,rearExtension)*1.8;
+  const audioStart=performance.now(),speed=Number.isFinite(s.measuredTime)?s.speed*Math.exp(-Math.max(0,now-s.measuredTime-80)/100):0;this.sound(this.side,s.state.active&&this.morph.on,this.morph.transitioning?0:speed,Math.max(frontExtension,rearExtension));this.stats.audio.add(performance.now()-audioStart);
+  const trailStart=performance.now();if(tracked){this.updateTrail(false,now,frontExtension);this.updateTrail(true,now,rearExtension);}else{s.ribbon.reset();s.rearRibbon.reset();s.trail.geometry.setDrawRange(0,0);s.rearTrail.geometry.setDrawRange(0,0);}this.stats.trail.add(performance.now()-trailStart);
   this.renderer.render(this.scene,this.camera);this.stats.cpu.add(performance.now()-cpuStart);
  }
  private animateBlade(blade:T.Group,extension:number,now:number,flash:number,gold:boolean){blade.scale.y=Math.max(.001,extension);blade.visible=extension>.001;for(let i=0;i<blade.children.length;i++){const mat=(blade.children[i] as T.Mesh<T.BufferGeometry,T.ShaderMaterial>).material;mat.uniforms.time.value=now/1000;if(gold)mat.uniforms.color.value.copy(i===0?this.gold:i===1?this.goldHalo:this.goldInner);if(mat.uniforms.power)mat.uniforms.power.value=(i===1?.75:.95)*(1+flash*.25);}}

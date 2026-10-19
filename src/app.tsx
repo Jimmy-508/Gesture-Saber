@@ -35,21 +35,21 @@ export function App({sessionFactory=(...args)=>new TrackingSession(...args),onSc
   calibration.current=null;setCalibrationMessage('');
   if(sessionClock.current.start!==null&&sessionClock.current.end===null)sessionClock.current.end=performance.now();if(session.current)lastTracking.current=Object.fromEntries(Object.entries(session.current.stats).map(([k,m])=>[k,m.snapshot()]));
   generation.current++;session.current?.stop();session.current=null;latestDiag.current={...latestDiag.current,camera:'已釋放',model:runtimeStatus(),pipeline:'已停止（攝影機已釋放）',mode:'—'};scene.current?.hide();if(scene.current)scene.current.demo=false;
-  audio.current?.dispose();audio.current=null;setAudioStatus('已停止');started.current=false;setHz(0);setStatus(next);
+  audio.current?.pause(next==='paused');setAudioStatus('已暫停（音訊可重用）');started.current=false;setHz(0);setStatus(next);
  }
  function unlockAudio(){
   if(!audio.current)audio.current=new SaberAudio();audio.current.configure(sound,volume);void audio.current.unlock().then(()=>setAudioStatus(audio.current?.status??'已停止'));
  }
  useEffect(()=>{
-  try{scene.current=new SaberScene(host.current!,(side,active,speed,extension)=>audio.current?.update(side,active,speed,extension),true,()=>performance.now(),(side,extend)=>audio.current?.pulse(side,extend));scene.current.setControlMode('modern');scene.current.control.setLeftLabel(leftLabel);onSceneReady?.(scene.current);}catch{setStatus('error');setError('無法建立 WebGL 場景。請使用支援 WebGL 的瀏覽器。');}
+  try{scene.current=new SaberScene(host.current!,(side,active,speed,extension)=>audio.current?.update(side,active,speed,extension),true,()=>performance.now());scene.current.setControlMode('modern');scene.current.control.setLeftLabel(leftLabel);onSceneReady?.(scene.current);}catch{setStatus('error');setError('無法建立 WebGL 場景。請使用支援 WebGL 的瀏覽器。');}
   const interval=setInterval(()=>{
    if(!showMetrics.current)return;const now=performance.now();setDiag({...latestDiag.current});
    setFps(scene.current?.fps??0);setAudioStatus(audio.current?.status??'等待操作啟用');
    const current=scene.current;if(current){const c=current.control.snapshot(now);setWeaponInfo(current.demo?'展示模式：合成單刃／金色雙頭動作，未使用攝影機':`主控 ${c.primary??'無'} · ${c.twin?'金色雙頭':'單刃'} · ${c.gesture} · ${c.armed?'可觸發':'等待解除'} · ${current.weapon.state.diagnostics(now)} · ${c.identity}`);const all:Record<string,Summary>={};for(const [key,value] of Object.entries(current.stats))all[key]=value.snapshot();for(const [key,value] of Object.entries(session.current?.stats??{}))all[key]=value.snapshot();setPerf(all);setRenderInfo({ratio:current.pixelRatio,calls:current.renderer.info.render.calls,leftTrail:current.weapon.ribbon.vertices,rightTrail:current.weapon.rearRibbon.vertices});}
   },500);
-  const pause=()=>{stop('paused');setDemo(false);};const visibility=()=>{if(document.hidden)pause();};
-  document.addEventListener('visibilitychange',visibility);window.addEventListener('pagehide',pause);
-  return()=>{clearInterval(interval);document.removeEventListener('visibilitychange',visibility);window.removeEventListener('pagehide',pause);stop();scene.current?.dispose();};
+  const pause=()=>{stop('paused');setDemo(false);};const leave=()=>{pause();audio.current?.dispose();audio.current=null;};const visibility=()=>{if(document.hidden)pause();};
+  document.addEventListener('visibilitychange',visibility);window.addEventListener('pagehide',leave);
+  return()=>{clearInterval(interval);document.removeEventListener('visibilitychange',visibility);window.removeEventListener('pagehide',leave);stop();audio.current?.dispose();audio.current=null;scene.current?.dispose();};
  },[]);
  useEffect(()=>{scene.current?.setQuality(quality);session.current?.setRate(quality==='low'?18:quality==='medium'?24:30);},[quality]);
  useEffect(()=>{audio.current?.configure(sound,volume);},[sound,volume]);
@@ -68,13 +68,13 @@ export function App({sessionFactory=(...args)=>new TrackingSession(...args),onSc
  function start(){
   if(!scene.current)return;stop();scene.current.weapon.telemetry.reset();setSummary('');unlockAudio();setDemo(false);setError('');setStatus('loading');latestDiag.current={...initialDiagnostics};setDiag({...initialDiagnostics});samples.current={time:performance.now(),count:0};const id=generation.current;
   sessionClock.current={start:performance.now(),end:null};lastContext.current={modelHands:0,identity:'等待手部',details:[],mode:'—'};lastTracking.current={};
-  const next=sessionFactory(new URL(import.meta.env.BASE_URL,location.origin).href,d=>{if(id===generation.current)latestDiag.current=d;},r=>{if(id===generation.current)receive(r);},message=>{if(id!==generation.current)return;sessionClock.current.end=performance.now();setStatus('error');setError(message);latestDiag.current={...latestDiag.current,camera:'已釋放',detail:message};scene.current?.hide();audio.current?.dispose();audio.current=null;});
+  const next=sessionFactory(new URL(import.meta.env.BASE_URL,location.origin).href,d=>{if(id===generation.current)latestDiag.current=d;},r=>{if(id===generation.current)receive(r);},message=>{if(id!==generation.current)return;sessionClock.current.end=performance.now();setStatus('error');setError(message);latestDiag.current={...latestDiag.current,camera:'已釋放',detail:message};scene.current?.hide();audio.current?.pause();});
   session.current=next;next.setRate(quality==='low'?18:quality==='medium'?24:30);void next.start(forceMain);
  }
  function toggleDemo(){stop();const next=!demo;setDemo(next);setError('');if(next)unlockAudio();if(scene.current)scene.current.demo=next;}
  function changeCore(mode:ControlMode){calibration.current=null;setCalibrationMessage('');setCoreMode(mode);scene.current?.setControlMode(mode);if(scene.current)scene.current.demo=false;lastContext.current={modelHands:0,identity:'核心切換：等待觀測',details:[],mode:latestDiag.current.mode};setDemo(false);setSummary('');setPerf({});}
  function calibrate(){if(calibration.current){calibration.current=null;setCalibrationMessage('已取消校正。');}else{calibration.current={label:'',count:0};setCalibrationMessage('請只伸入實際左手，保持片刻；右手留在鏡頭外。再次點擊可取消。');}}
- function changeSound(enabled:boolean){setSound(enabled);if(!audio.current)audio.current=new SaberAudio();audio.current.configure(enabled,volume);if(enabled)void audio.current.unlock().then(()=>setAudioStatus(audio.current?.status??'已停止'));else setAudioStatus('已靜音');}
+ function changeSound(enabled:boolean){setSound(enabled);if(!audio.current)audio.current=new SaberAudio();audio.current.configure(enabled,volume);if(enabled)void audio.current.unlock().then(()=>setAudioStatus(audio.current?.status??'已停止'));else{audio.current.pause();setAudioStatus('已靜音');}}
  const active=status==='running',loading=status==='loading';
  function closeSettings(){setSettings(false);queueMicrotask(()=>settingsButton.current?.focus());}
  function cameraToggle(){if(active||loading){stop();setDemo(false);}else start();}
@@ -85,7 +85,7 @@ export function App({sessionFactory=(...args)=>new TrackingSession(...args),onSc
   const first=items[0],last=items[items.length-1];
   if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
  }
- function copyStats(){const now=performance.now(),clock=sessionClock.current;const text=JSON.stringify({version:'1.7.0',controlMode:scene.current?.controlMode,control:scene.current?.control.snapshot(now),generatedAt:new Date().toISOString(),sessionMs:clock.start===null?0:Math.max(0,(clock.end??now)-clock.start),demo:scene.current?.demo??false,mapping:scene.current?.controlMode==='modern'?'raw '+leftLabel+' → blue / Left; calibrated physical left → blue, right → red; uncalibrated mapping retains 1.5.3':'legacy with input calibration: raw '+leftLabel+' → blue / Left',latestResult:lastContext.current,pipeline:latestDiag.current,quality,render:perf.frame,cpu:perf.cpu,tracking:session.current?Object.fromEntries(Object.entries(session.current.stats).map(([k,m])=>[k,m.snapshot()])):lastTracking.current,weapon:scene.current?.weapon.telemetry.snapshot(now),audio:{preparation:audio.current?.preparation,scheduledCalls:audio.current?.scheduledCalls,skippedUpdates:audio.current?.skippedUpdates,skippedParameters:audio.current?.skippedParameters},warmup:scene.current?.warmup},null,2);setSummary(text);void navigator.clipboard?.writeText(text).catch(()=>{});}
+ function copyStats(){const now=performance.now(),clock=sessionClock.current;const text=JSON.stringify({version:'1.8.0',controlMode:scene.current?.controlMode,control:scene.current?.control.snapshot(now),generatedAt:new Date().toISOString(),sessionMs:clock.start===null?0:Math.max(0,(clock.end??now)-clock.start),demo:scene.current?.demo??false,mapping:scene.current?.controlMode==='modern'?'raw '+leftLabel+' → blue / Left; calibrated physical left → blue, right → red; uncalibrated mapping retains 1.5.3':'legacy with input calibration: raw '+leftLabel+' → blue / Left',latestResult:lastContext.current,pipeline:latestDiag.current,quality,render:perf.frame,cpu:perf.cpu,tracking:session.current?Object.fromEntries(Object.entries(session.current.stats).map(([k,m])=>[k,m.snapshot()])):lastTracking.current,weapon:scene.current?.weapon.telemetry.snapshot(now),audio:{preparation:audio.current?.preparation,scheduledCalls:audio.current?.scheduledCalls,skippedUpdates:audio.current?.skippedUpdates,skippedParameters:audio.current?.skippedParameters},warmup:scene.current?.warmup},null,2);setSummary(text);void navigator.clipboard?.writeText(text).catch(()=>{});}
  async function fullscreen(){try{if(document.fullscreenElement)await document.exitFullscreen();else if(document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen();else setError('此瀏覽器未提供全螢幕控制。');}catch{setError('無法切換全螢幕，請再試一次。');}}
  return <main>
   <div ref={host} className="scene" aria-label="變形光劍 3D 場景"/>
