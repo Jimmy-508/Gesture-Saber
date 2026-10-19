@@ -1,5 +1,7 @@
 # Phase 1.8.1 — targeted continuity fix
 
+> Measurement correction during the final Grip integration: the old replay could lose twin mode during setup without asserting it. Its claimed twin rotation comparison is withdrawn; the historical raw artifact is retained, not a current acceptance claim. Use `final-grip-comparison.json`, whose corrected setup asserts twin mode and records it on every output frame. Position/rejection findings remain consistent. Single direction has subsequently changed by design to Grip Control.
+
 Baseline: `b5c8c90043394e472319454e8f6532176539147f`.
 
 ## Confirmed software defects

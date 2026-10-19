@@ -46,3 +46,13 @@ test('pause/resume reuses original sources and noise buffers; mute suspends and 
 test('morph retract/align/extend generates one retraction and one ignition per transform, preserving original envelopes',async()=>{const {WeaponMorph}=await import('../src/weapon-morph.ts'),{Quaternion}=await import('three');setup();const a=new SaberAudio();await a.unlock();const ctx=Context.current,m=new WeaponMorph();a.update('Left',true,0,1);m.begin(true,1000,new Quaternion());for(let t=1000;t<=1500;t+=10){m.step(t);ctx.currentTime=t/1000;a.update('Left',m.on,0,Math.max(m.front,m.rear));}const ramps=a.voices.Left.sweep.frequency.events.filter(e=>e[0]==='ramp');assert.equal(ramps.length,3);assert.deepEqual(ramps.map(e=>e[1]),[580,45,580]);assert.equal(a.voices.Right.active,false);a.dispose();});
 
 test('deadbands retain the original paired pitch ratio and filter offset over continuous motion; mute skips scheduling immediately',async()=>{setup();const a=new SaberAudio();await a.unlock();const ctx=Context.current;for(const side of ['Left','Right'])for(let i=0;i<1000;i++){ctx.currentTime+=1/60;a.update(side,true,8+Math.sin(i/100)*.1,1);const v=a.voices[side];assert.ok(Math.abs(v.harmonic.frequency.value/v.osc.frequency.value-2.012/(side==='Left'?1:1.07))<1e-10);assert.ok(Math.abs(v.windFilter.frequency.value-v.filter.frequency.value-500)<1e-9);}a.configure(false,.3);const before=a.scheduledCalls;for(let i=0;i<120;i++)a.update('Left',true,i,1);assert.equal(a.scheduledCalls,before);a.dispose();});
+
+test('single OPEN/FIST and empty-hilt/twin transforms use only original edge envelopes, with no redundant retraction or ignition',async()=>{
+ const {WeaponMorph}=await import('../src/weapon-morph.ts'),{Quaternion}=await import('three');setup();const a=new SaberAudio();await a.unlock();const ctx=Context.current,m=new WeaponMorph();m.reset(false);const nodes=ctx.nodes.length;
+ const frame=(t,single)=>{m.step(t,single);ctx.currentTime=t/1000;a.update('Left',m.on,0,Math.max(m.front,m.rear));};
+ frame(900,false);for(let t=1000;t<=1200;t+=10)frame(t,true);for(let t=1200;t<=1450;t+=10)frame(t,false);
+ m.begin(true,1500,new Quaternion(),false);for(let t=1500;t<=1800;t+=10)frame(t,false);
+ assert.equal(m.front,1);assert.equal(m.rear,1);assert.equal(m.on,true);
+ m.begin(false,1900,new Quaternion(),false);for(let t=1900;t<=2300;t+=10)frame(t,false);
+ const ramps=a.voices.Left.sweep.frequency.events.filter(e=>e[0]==='ramp');assert.deepEqual(ramps.map(e=>e[1]),[580,45,580,45]);assert.equal(m.front,0);assert.equal(m.rear,0);assert.equal(a.voices.Right.active,false);assert.equal(ctx.nodes.length,nodes);assert.equal(ctx.buffers,2);a.dispose();assert.equal(ctx.closed,1);
+});

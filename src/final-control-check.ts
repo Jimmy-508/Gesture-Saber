@@ -10,9 +10,9 @@ export function finalControlCheck(check:(ok:boolean,name:string)=>void){
  let now=1000;const scene=new SaberScene(host,()=>{},false,()=>now);
  try{for(const mode of ['single','twin'])for(const side of ['Left','Right'] as const){
   scene.hide();now+=1000;const send=(hands:unknown[],time=now)=>scene.receiveControls(input(hands,time-24));
-  send([commandHand(side)]);scene.renderFrame(now);
+  send([gripHand(side)]);scene.renderFrame(now);
   if(mode==='twin'){for(let i=0;i<8;i++){now+=42;send([gripHand(side),gripHand(side==='Left'?'Right':'Left')]);scene.renderFrame(now);}}
-  const h=(x:number,a=0)=>mode==='twin'?gripHand(side,{x,open:true,q:new Quaternion().setFromEuler(new Euler(0,0,a))}):commandHand(side,{x,q:new Quaternion().setFromEuler(new Euler(0,0,a))});
+  const h=(x:number,a=0)=>gripHand(side,{x,open:mode==='twin',q:new Quaternion().setFromEuler(new Euler(0,0,a))});
   for(let i=0;i<14;i++){now+=42;send([h(side==='Left'?.57:.43)]);scene.renderFrame(now);}
   check(scene.control.mode.twin===(mode==='twin'),mode+' '+side+' 正式場景型態正確');
   now+=42;send([h(side==='Left'?.65:.35,.7)]);const accepted=now;scene.renderFrame(now+8);now+=12;send([]);scene.renderFrame(now);
