@@ -1,0 +1,106 @@
+{
+  "identity": [
+    {
+      "actualFixtureSide": "Left",
+      "before": {
+        "assigned": 51,
+        "missing": 29,
+        "wrong": 26,
+        "colors": [
+          "Left",
+          "Right"
+        ]
+      },
+      "after": {
+        "assigned": 80,
+        "missing": 0,
+        "wrong": 0,
+        "colors": [
+          "Left"
+        ]
+      }
+    },
+    {
+      "actualFixtureSide": "Right",
+      "before": {
+        "assigned": 44,
+        "missing": 36,
+        "wrong": 22,
+        "colors": [
+          "Right",
+          "Left"
+        ]
+      },
+      "after": {
+        "assigned": 80,
+        "missing": 0,
+        "wrong": 0,
+        "colors": [
+          "Right"
+        ]
+      }
+    }
+  ],
+  "response": [
+    {
+      "name": "slow",
+      "before": {
+        "fittedLagMs": 30,
+        "eventSettleMs": null,
+        "stopOvershootDeg": null,
+        "stationaryJitterRmsDeg": null
+      },
+      "after": {
+        "fittedLagMs": 56,
+        "eventSettleMs": null,
+        "stopOvershootDeg": null,
+        "stationaryJitterRmsDeg": null
+      }
+    },
+    {
+      "name": "swing",
+      "before": {
+        "fittedLagMs": 28,
+        "eventSettleMs": null,
+        "stopOvershootDeg": null,
+        "stationaryJitterRmsDeg": null
+      },
+      "after": {
+        "fittedLagMs": 52,
+        "eventSettleMs": null,
+        "stopOvershootDeg": null,
+        "stationaryJitterRmsDeg": null
+      }
+    },
+    {
+      "name": "stop",
+      "before": {
+        "fittedLagMs": 32,
+        "eventSettleMs": 75,
+        "stopOvershootDeg": 4.913705814278179,
+        "stationaryJitterRmsDeg": null
+      },
+      "after": {
+        "fittedLagMs": 52,
+        "eventSettleMs": 41.66666666666674,
+        "stopOvershootDeg": 0.07616256521649857,
+        "stationaryJitterRmsDeg": null
+      }
+    },
+    {
+      "name": "turn90",
+      "before": {
+        "fittedLagMs": 84,
+        "eventSettleMs": 100,
+        "stopOvershootDeg": null,
+        "stationaryJitterRmsDeg": null
+      },
+      "after": {
+        "fittedLagMs": 34,
+        "eventSettleMs": 50,
+        "stopOvershootDeg": null,
+        "stationaryJitterRmsDeg": null
+      }
+    }
+  ]
+}

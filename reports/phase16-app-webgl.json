@@ -1,0 +1,47 @@
+{
+  "checks": [
+    "PASS 正式 App 預設新核心",
+    "PASS 單手錯誤標籤仍只驅動一把劍",
+    "PASS 正式攝影機回呼啟動雙劍",
+    "PASS 直接輸出至 Three.js Left",
+    "PASS 直接輸出至 Three.js Right",
+    "PASS 真實 RAF 與雙手觀測頻率分離",
+    "PASS 平掌指向在正式管線可用",
+    "PASS 短遮擋保留啟動",
+    "PASS 持續離鏡正常收縮",
+    "PASS 持續遺失兩劍皆隱藏",
+    "PASS 設定顯示預設新核心",
+    "PASS 切回 1.5.3 清除新姿態",
+    "PASS 舊版確實使用原 PalmPose／MotionFilter",
+    "PASS 切回新版清除舊姿態",
+    "PASS 使用者指定實際左手校正成功",
+    "PASS 校正後不以畫面位置決定劍色",
+    "PASS 校正映射在新舊核心間一致",
+    "PASS 切換與校正共用同一攝影機 session",
+    "PASS 停止釋放 session 並重置雙劍",
+    "PASS 正式場景 WebGL 無錯誤",
+    "PASS 卸載釋放全部場景幾何"
+  ],
+  "alive": 0,
+  "created": 1,
+  "raf": {
+    "wallMs": 2412,
+    "sent": 58,
+    "observedHz": 24.04643449419569,
+    "frameMs": {
+      "mean": 16.50821917800054,
+      "p95": 19.200000047683716,
+      "peak": 27.599999964237213,
+      "count": 146
+    },
+    "cpuMs": {
+      "mean": 1.218367347100965,
+      "p95": 2,
+      "peak": 2.899999976158142,
+      "count": 147
+    },
+    "renderHz": 60.57588581890388,
+    "scope": "Actual desktop RAF and WebGL with synthetic ~24Hz observations; no MediaPipe inference or tablet camera."
+  },
+  "scope": "Real React App / receive / Three.js WebGL. Synthetic camera factory; no real tablet camera acceptance."
+}

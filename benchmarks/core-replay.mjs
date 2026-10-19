@@ -1,0 +1,15 @@
+import {Vector3} from 'three';import {ControlCore} from '../src/control-core.ts';import {BladeState} from '../src/dynamics.ts';import {blueInput} from './blue-input.mjs';import {blueReplay,stat} from './blue-replay.mjs';
+export const coreCases=['flat','edge','towardCamera','slow','fast','swing','stop','turn90','partial','conflict','depthAmbiguous','occlusion','cross','screenSwap','lowLabels','zeroHands','poorRight'];
+export function coreReplay(name,{trace=false}={}){
+ const core=new ControlCore(),states={Left:new BladeState(),Right:new BladeState()},values={Left:{angles:[],tips:[],steps:[],settled:[],trace:[]},Right:{angles:[],tips:[],steps:[],settled:[],trace:[]}},lastQ={Left:null,Right:null},cpu=[],tip=new Vector3(),trueTip=new Vector3();let capture=0,index=0,wrong=0,freezes=0;const queue=[];
+ for(let i=0;i<384;i++){const t=i*1000/120,now=1000+t;if(t>=capture){queue.push(blueInput(name,capture,index++));capture+=1000/24;}const began=performance.now();
+  while(queue.length&&queue[0].time+24<=now){const packet=queue.shift(),matches=core.observe(packet,now,16/9)??[];for(const side of ['Left','Right']){const m=matches.find(m=>m.side===side);if(m){states[side].observe(true,now);states[side].poseFrozen=!!m.freeze;if(m.freeze)freezes++;else if(packet.hands[m.index].side!==side)wrong++;}else states[side].markLost('missing');}}
+  core.sample(now);for(const side of ['Left','Right'])states[side].step(now,1/120);cpu.push(performance.now()-began);
+  const truth=blueInput(name,t,i).truth;for(const [j,side] of ['Left','Right'].entries()){const h=core.hands[side],v=values[side],state=states[side],error=h.rotation.angleTo(truth[j].rotation);tip.set(0,2.87,0).applyQuaternion(h.rotation);trueTip.set(0,2.87,0).applyQuaternion(truth[j].rotation);
+   if(t>250&&state.visible(now)){v.angles.push(error*180/Math.PI);v.tips.push(tip.distanceTo(trueTip));if(lastQ[side])v.steps.push(h.rotation.angleTo(lastQ[side])*180/Math.PI);if(name==='stop'&&t>=1100)v.settled.push(error*180/Math.PI);}
+   lastQ[side]??=h.rotation.clone();lastQ[side].copy(h.rotation);if(trace)v.trace.push({t,rotation:h.rotation.toArray(),position:h.position.toArray(),visible:state.visible(now),frozen:h.frozen,errorDeg:error*180/Math.PI});
+  }
+ }
+ const result={name,cpuFrameMs:stat(cpu),wrongIdentityUpdates:wrong,identityFrozenUpdates:freezes};for(const side of ['Left','Right']){const v=values[side];result[side]={rotationErrorDeg:stat(v.angles),rotationOnlyTipError:stat(v.tips),renderAngularStepDeg:stat(v.steps),stoppedErrorDeg:stat(v.settled),...core.hands[side].snapshot(4200),...(trace?{trace:v.trace}:{})};}return result;
+}
+export function oldCoreReplay(name){const old=blueReplay('1.5.3',name,{trace:true}),result={name,cpuFrameMs:old.cpuFrameMs};for(const side of ['Left','Right']){const h=old[side];result[side]={rotationErrorDeg:Object.fromEntries(Object.entries(h.rotationErrorRad).map(([k,v])=>[k,v*180/Math.PI])),guards:h.guards,updates:h.updates,identityFreezes:h.freezes,trace:h.trace};}return result;}

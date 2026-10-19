@@ -10,6 +10,8 @@ import {PalmPose} from './palm-pose';
 import {HandTelemetry} from './hand-telemetry';
 import {TRACKING} from './tracking-state';
 import {Metric,ResolutionBudget} from './metrics';
+import {ControlCore,type ControlMode} from './control-core';
+import type {ControlInput} from './control-identity';
 export type Quality='low'|'medium'|'high';
 const SIDES:Side[]=['Left','Right'];
 const LENGTH=2.75;
@@ -31,6 +33,7 @@ const trailVertex=`attribute float age;varying vec2 vUv;varying float vAge;void 
 const trailFragment=`uniform vec3 color;varying vec2 vUv;varying float vAge;
 void main(){float edge=pow(sin(clamp(vUv.y,0.,1.)*3.14159265),.65);if(vUv.x>1.5)edge*=pow(max(0.,sin((vUv.x-2.)*3.14159265)),.8);float a=vAge*edge*.52;gl_FragColor=vec4(color,a);}`;
 export class SaberScene {
+ readonly control=new ControlCore();controlMode:ControlMode='legacy';controlEpoch=-Infinity;
  renderer:T.WebGLRenderer;scene=new T.Scene();camera=new T.PerspectiveCamera(43,1,.1,80);sabers:Record<Side,Saber>;
  warmup={status:'尚未預熱',ms:0};private disposed=false;
  prepare(){if(this.warmup.status!=='尚未預熱')return;const began=performance.now();const l=this.sabers.Left,r=this.sabers.Right,lv=l.group.visible,rv=r.group.visible,lb=l.blade.visible,rb=r.blade.visible;l.group.visible=r.group.visible=l.blade.visible=r.blade.visible=true;try{const pending=this.renderer.compileAsync(this.scene,this.camera);this.warmup.status='預熱中';void pending.then(()=>{if(!this.disposed)this.warmup={status:'完成',ms:performance.now()-began};},()=>{if(!this.disposed)this.warmup={status:'預熱失敗：使用正常渲染路徑',ms:performance.now()-began};});}finally{l.group.visible=lv;r.group.visible=rv;l.blade.visible=lb;r.blade.visible=rb;}}
@@ -118,7 +121,19 @@ export class SaberScene {
   const speed=Number.isFinite(s.measuredTime)?motionSpeed(this.tip.distanceTo(s.measuredTip),elapsed):0;
   s.speed+=(speed-s.speed)*(1-Math.exp(-Math.max(0,elapsed)*18));s.measuredTip.copy(this.tip);s.measuredTime=time;
  }
- hide(){for(const side of SIDES){const s=this.sabers[side];s.state.reset();s.motion.reset();s.palm.reset();s.telemetry.predictionActive=false;s.group.visible=false;s.ribbon.reset();s.speed=0;s.measuredTime=NaN;s.trail.geometry.setDrawRange(0,0);this.sound(side,false,0,0);}}
+ hide(){this.control.reset();for(const side of SIDES){const s=this.sabers[side];s.state.reset();s.motion.reset();s.palm.reset();s.telemetry.predictionActive=false;s.group.visible=false;s.ribbon.reset();s.speed=0;s.measuredTime=NaN;s.trail.geometry.setDrawRange(0,0);this.sound(side,false,0,0);}}
+ setControlMode(mode:ControlMode){this.hide();this.controlMode=mode;this.controlEpoch=this.clock();for(const side of SIDES)this.sabers[side].telemetry.reset();for(const metric of Object.values(this.stats))metric.reset();}
+ receiveControls(data:ControlInput){
+  if(data.time<this.controlEpoch)return;const now=this.clock(),matches=this.control.observe(data,now,this.camera.aspect);if(!matches)return;
+  for(const side of SIDES){const s=this.sabers[side],match=matches.find(m=>m.side===side),h=this.control.hands[side];
+   s.telemetry.result(data.handedness.filter(v=>v[0]?.categoryName===(side==='Left'?this.control.identity.leftLabel:this.control.identity.leftLabel==='Left'?'Right':'Left')).length,!!match,!!match?.freeze,now);
+   if(!match){s.state.markLost(data.landmarks.length?'手部身分未確定':'MediaPipe 未回傳手部');continue;}
+   s.state.observe(true,now);s.state.poseFrozen=!!match.freeze;
+   if(match.freeze){s.speed=0;s.measuredTime=NaN;continue;}
+   const label=data.handedness[match.index]?.[0];s.telemetry.recordInput(label?.categoryName,label?.score,side,false,side==='Left'?this.control.identity.leftLabel:this.control.identity.leftLabel==='Left'?'Right':'Left');s.telemetry.delay.add(Math.max(0,now-data.time));
+   s.target.copy(h.pose.position);s.rotation.copy(h.pose.rotation);if(data.time-s.measuredTime>250)s.ribbon.reset();this.measure(s,data.time);
+  }
+ }
  private updateTrail(s:Saber,now:number){
   const maxAge=this.quality==='low'?.12:this.quality==='medium'?.18:.22;
   this.tip.set(0,.12+LENGTH*s.state.extension,0).applyQuaternion(s.group.quaternion).add(s.group.position);this.base.set(0,.16,0).applyQuaternion(s.group.quaternion).add(s.group.position);
@@ -135,12 +150,16 @@ export class SaberScene {
   if(elapsed>0&&elapsed<.1){this.budgetFrames.add(elapsed*1000);this.budgetTime+=elapsed;}else{this.budgetFrames.reset();this.budgetTime=0;}
   if(this.budgetTime>=1){if(this.budget.step(this.budgetFrames.snapshot().p95,this.budgetTime,now))this.applyBudget();this.budgetTime=0;}
   let i=0;
+  const direct=this.controlMode==='modern'&&!this.demo;if(direct)this.control.sample(now);
   for(const side of SIDES){
    const s=this.sabers[side];
    if(this.demo){const t=now*.0012,fit=Math.min(1,this.camera.aspect/1.4);s.target.set((i?1:-1)*(1.5+Math.sin(t*1.7)*.6)*fit,-.6+Math.cos(t)*.3,0);s.rotation.setFromEuler(this.euler.set(.2,Math.sin(t)*.4,(i?-1:1)*(.3+Math.sin(t*1.7)*.65)*fit));this.measure(s,now);s.motion.push(s.target,s.rotation,now,now);s.state.observe(Math.floor(now/5500)%3!==2,now);}
    const extension=s.state.step(now,dt),tracked=s.state.visible(now);s.group.visible=tracked;
-   if(tracked){if(!s.state.poseFrozen&&now-s.state.lastSeen<TRACKING.staleMs)s.motion.sample(now);else s.motion.freeze();s.group.position.copy(s.motion.position);s.group.quaternion.copy(s.motion.rotation);if(!this.demo){this.stats.age.add(Math.max(0,now-s.measuredTime));this.stats.smoothing.add(s.motion.lagMs);s.telemetry.smoothing.add(s.motion.lagMs);}}
-   if(!this.demo){s.telemetry.predictionActive=tracked&&s.motion.rotationPredictionActive;if(s.telemetry.predictionActive)s.telemetry.predictionFrames++;if(tracked&&s.motion.rotationPredictionCapped)s.telemetry.predictionCappedFrames++;if(tracked&&!s.state.poseFrozen&&now-s.state.lastSeen<TRACKING.staleMs){s.telemetry.positionError.add(s.motion.positionError);s.telemetry.positionLag.add(s.motion.positionLagMs);s.telemetry.rotationError.add(T.MathUtils.radToDeg(s.motion.rotationErrorRad));s.telemetry.rotationLag.add(s.motion.rotationLagMs);if(s.palm.inputDirectionValid)s.telemetry.inputToRender.add(T.MathUtils.radToDeg(s.palm.inputDirection.angleTo(this.diagnosticDirection.set(0,1,0).applyQuaternion(s.group.quaternion)))) ;}}
+   if(direct){const h=this.control.hands[side];if(tracked){s.group.position.copy(h.position);s.group.quaternion.copy(h.rotation);this.stats.age.add(Math.max(0,now-h.time));s.telemetry.positionError.add(h.position.distanceTo(h.pose.position));s.telemetry.rotationError.add(T.MathUtils.radToDeg(h.rotation.angleTo(h.pose.rotation)));}s.telemetry.predictionActive=false;}
+   else{
+    if(tracked){if(!s.state.poseFrozen&&now-s.state.lastSeen<TRACKING.staleMs)s.motion.sample(now);else s.motion.freeze();s.group.position.copy(s.motion.position);s.group.quaternion.copy(s.motion.rotation);if(!this.demo){this.stats.age.add(Math.max(0,now-s.measuredTime));this.stats.smoothing.add(s.motion.lagMs);s.telemetry.smoothing.add(s.motion.lagMs);}}
+    if(!this.demo){s.telemetry.predictionActive=tracked&&s.motion.rotationPredictionActive;if(s.telemetry.predictionActive)s.telemetry.predictionFrames++;if(tracked&&s.motion.rotationPredictionCapped)s.telemetry.predictionCappedFrames++;if(tracked&&!s.state.poseFrozen&&now-s.state.lastSeen<TRACKING.staleMs){s.telemetry.positionError.add(s.motion.positionError);s.telemetry.positionLag.add(s.motion.positionLagMs);s.telemetry.rotationError.add(T.MathUtils.radToDeg(s.motion.rotationErrorRad));s.telemetry.rotationLag.add(s.motion.rotationLagMs);if(s.palm.inputDirectionValid)s.telemetry.inputToRender.add(T.MathUtils.radToDeg(s.palm.inputDirection.angleTo(this.diagnosticDirection.set(0,1,0).applyQuaternion(s.group.quaternion)))) ;}}
+   }
    for(const material of s.hiltMaterials)material.opacity=s.state.fade(now);
    s.blade.scale.y=Math.max(.001,extension);s.blade.visible=extension>.001;
    s.glow.uniforms.time.value=s.core.uniforms.time.value=now/1000;if(s.light.visible)s.light.intensity=extension*1.8;

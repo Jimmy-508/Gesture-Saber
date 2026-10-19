@@ -1,0 +1,2138 @@
+{
+  "scope": "Synthetic fixed input, 24Hz observations, 24ms delivery, 120Hz sampling. No real tablet or camera/model evidence. No prediction in new core; tradeoffs retained.",
+  "identity": [
+    {
+      "actualFixtureSide": "Left",
+      "before": {
+        "assigned": 51,
+        "missing": 29,
+        "wrong": 26,
+        "colors": [
+          "Left",
+          "Right"
+        ]
+      },
+      "after": {
+        "assigned": 80,
+        "missing": 0,
+        "wrong": 0,
+        "colors": [
+          "Left"
+        ]
+      }
+    },
+    {
+      "actualFixtureSide": "Right",
+      "before": {
+        "assigned": 44,
+        "missing": 36,
+        "wrong": 22,
+        "colors": [
+          "Right",
+          "Left"
+        ]
+      },
+      "after": {
+        "assigned": 80,
+        "missing": 0,
+        "wrong": 0,
+        "colors": [
+          "Right"
+        ]
+      }
+    }
+  ],
+  "rows": [
+    {
+      "name": "flat",
+      "before": {
+        "name": "flat",
+        "cpuFrameMs": {
+          "mean": 0.050259374999999475,
+          "p95": 0.18149999999999977,
+          "peak": 3.170199999999994
+        },
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 0.044548090056176014,
+            "p95": 0.07633413510995778,
+            "peak": 0.07686661229066337
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 0.044548090054277005,
+            "p95": 0.07633413510995778,
+            "peak": 0.07686661227169728
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "response": {
+          "fittedLagMs": null,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": 0.050400022066249134
+        }
+      },
+      "after": {
+        "name": "flat",
+        "cpuFrameMs": {
+          "mean": 0.020480989583333553,
+          "p95": 0.06020000000000891,
+          "peak": 1.7269999999999754
+        },
+        "wrongIdentityUpdates": 0,
+        "identityFrozenUpdates": 0,
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 0.05459022075812576,
+            "p95": 0.09932258989705943,
+            "peak": 0.10771013322412155
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.002734474788177517,
+            "p95": 0.004975161647389223,
+            "peak": 0.005395301230983813
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.02232711467671726,
+            "p95": 0.06887747866403154,
+            "peak": 0.07528068091988173
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Right",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.018399453034732352,
+          "targetRotationGapDeg": 0.17781666225482556,
+          "prediction": false
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 0.05459022075817147,
+            "p95": 0.09932258989705943,
+            "peak": 0.10771013322412155
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.0027344747881777732,
+            "p95": 0.004975161647389223,
+            "peak": 0.005395301230983813
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.02232711465881535,
+            "p95": 0.06887747864286557,
+            "peak": 0.07528068091988173
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Left",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.018399453034731915,
+          "targetRotationGapDeg": 0.1778166622630242,
+          "prediction": false
+        },
+        "response": {
+          "fittedLagMs": null,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": 0.061770411878400766
+        }
+      }
+    },
+    {
+      "name": "edge",
+      "before": {
+        "name": "edge",
+        "cpuFrameMs": {
+          "mean": 0.024121093749999527,
+          "p95": 0.09979999999995925,
+          "peak": 0.738800000000083
+        },
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 0.6732195251272178,
+            "p95": 1.3555076472305758,
+            "peak": 1.5022396784378458
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 0.6732195251250421,
+            "p95": 1.3555076472305758,
+            "peak": 1.5022396784378458
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "response": {
+          "fittedLagMs": 32,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      },
+      "after": {
+        "name": "edge",
+        "cpuFrameMs": {
+          "mean": 0.012326302083333593,
+          "p95": 0.04010000000016589,
+          "peak": 0.5121000000001459
+        },
+        "wrongIdentityUpdates": 0,
+        "identityFrozenUpdates": 0,
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 1.2169487778558086,
+            "p95": 1.9837392875432798,
+            "peak": 2.213319339016433
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.06095631023379508,
+            "p95": 0.09936242147173113,
+            "peak": 0.1108603740139269
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.17444571876858964,
+            "p95": 0.652807484592754,
+            "peak": 0.7419768235370818
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Right",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.01518706512387959,
+          "targetRotationGapDeg": 0.32267688498006236,
+          "prediction": false
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 1.216948777856305,
+            "p95": 1.9837392875440147,
+            "peak": 2.2133193390151154
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.06095631023379531,
+            "p95": 0.09936242147173491,
+            "peak": 0.11086037401392829
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.17444571846747903,
+            "p95": 0.6528074845949873,
+            "peak": 0.7419768235331522
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Left",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.015187065123876782,
+          "targetRotationGapDeg": 0.32267688498006236,
+          "prediction": false
+        },
+        "response": {
+          "fittedLagMs": 58,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      }
+    },
+    {
+      "name": "towardCamera",
+      "before": {
+        "name": "towardCamera",
+        "cpuFrameMs": {
+          "mean": 0.01790260416666456,
+          "p95": 0.07179999999993925,
+          "peak": 0.2255999999999858
+        },
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 0.6708478700467119,
+            "p95": 4.166411822000682,
+            "peak": 5.176032815642068
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 0.6708478700307523,
+            "p95": 4.166411822000682,
+            "peak": 5.176032815641786
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "response": {
+          "fittedLagMs": 28,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      },
+      "after": {
+        "name": "towardCamera",
+        "cpuFrameMs": {
+          "mean": 0.01026223958333361,
+          "p95": 0.04619999999999891,
+          "peak": 0.1772000000000844
+        },
+        "wrongIdentityUpdates": 0,
+        "identityFrozenUpdates": 0,
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 1.1917212345706565,
+            "p95": 6.607364155351514,
+            "peak": 7.588490806016897
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.059667410596734936,
+            "p95": 0.33078576383161723,
+            "peak": 0.379836840922809
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.20628751774517473,
+            "p95": 0.7852173538118593,
+            "peak": 3.8414123083185974
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Right",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.010887169699093723,
+          "targetRotationGapDeg": 0.17781666225482556,
+          "prediction": false
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 1.191721234560471,
+            "p95": 6.607364155351514,
+            "peak": 7.588490806016897
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.05966741059673642,
+            "p95": 0.3307857638316174,
+            "peak": 0.379836840922809
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.2062875178344408,
+            "p95": 0.7852173538081462,
+            "peak": 3.8414123083185974
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Left",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.010887169699090553,
+          "targetRotationGapDeg": 0.1778166622630242,
+          "prediction": false
+        },
+        "response": {
+          "fittedLagMs": 52,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      }
+    },
+    {
+      "name": "slow",
+      "before": {
+        "name": "slow",
+        "cpuFrameMs": {
+          "mean": 0.019975520833334315,
+          "p95": 0.09569999999985157,
+          "peak": 0.3514999999997599
+        },
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 1.036179534644127,
+            "p95": 2.1327826356763695,
+            "peak": 2.2647989269528863
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 1.036179534644313,
+            "p95": 2.1327826356763695,
+            "peak": 2.2647989269515985
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "response": {
+          "fittedLagMs": 30,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      },
+      "after": {
+        "name": "slow",
+        "cpuFrameMs": {
+          "mean": 0.009429166666670596,
+          "p95": 0.04070000000001528,
+          "peak": 0.18440000000009604
+        },
+        "wrongIdentityUpdates": 0,
+        "identityFrozenUpdates": 0,
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 1.9551851883499032,
+            "p95": 3.1495206446968456,
+            "peak": 3.362127382592278
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.09139499163161661,
+            "p95": 0.14768054443527484,
+            "peak": 0.1603148156538604
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.2871291165791421,
+            "p95": 1.188369380118492,
+            "peak": 1.2905743524229407
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Right",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.029547993204370238,
+          "targetRotationGapDeg": 1.8415031081302762,
+          "prediction": false
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 1.9551851883500448,
+            "p95": 3.149520644697771,
+            "peak": 3.362127382592278
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.09139499163161752,
+            "p95": 0.1476805444352741,
+            "peak": 0.1603148156538599
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.2871291165822299,
+            "p95": 1.188369380118492,
+            "peak": 1.2905743524240705
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Left",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.029547993204370633,
+          "targetRotationGapDeg": 1.8415031081302762,
+          "prediction": false
+        },
+        "response": {
+          "fittedLagMs": 56,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      }
+    },
+    {
+      "name": "fast",
+      "before": {
+        "name": "fast",
+        "cpuFrameMs": {
+          "mean": 0.01900546875000586,
+          "p95": 0.06059999999979482,
+          "peak": 1.697400000000016
+        },
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 6.964563136438583,
+            "p95": 13.3888792595594,
+            "peak": 16.767080078624257
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 6.964563136438621,
+            "p95": 13.388879259559728,
+            "peak": 16.767080078624257
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "response": {
+          "fittedLagMs": 30,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      },
+      "after": {
+        "name": "fast",
+        "cpuFrameMs": {
+          "mean": 0.006567708333336715,
+          "p95": 0.02500000000009095,
+          "peak": 0.20839999999998327
+        },
+        "wrongIdentityUpdates": 0,
+        "identityFrozenUpdates": 0,
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 11.72067895341105,
+            "p95": 19.446318637352572,
+            "peak": 23.483612208348294
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.524516712819091,
+            "p95": 0.9096137816446042,
+            "peak": 1.1571327777771852
+          },
+          "renderAngularStepDeg": {
+            "mean": 1.8842730329009534,
+            "p95": 9.864153611863106,
+            "peak": 13.005162487016111
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Right",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.18649078304859626,
+          "targetRotationGapDeg": 9.107098159189157,
+          "prediction": false
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 11.720678953411067,
+            "p95": 19.446318637352498,
+            "peak": 23.483612208348294
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.5245167128190908,
+            "p95": 0.9096137816446043,
+            "peak": 1.1571327777771852
+          },
+          "renderAngularStepDeg": {
+            "mean": 1.8842730329104667,
+            "p95": 9.864153611863106,
+            "peak": 13.005162487016111
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Left",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.18649078304859704,
+          "targetRotationGapDeg": 9.107098159189636,
+          "prediction": false
+        },
+        "response": {
+          "fittedLagMs": 52,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      }
+    },
+    {
+      "name": "swing",
+      "before": {
+        "name": "swing",
+        "cpuFrameMs": {
+          "mean": 0.010768749999993332,
+          "p95": 0.03969999999981155,
+          "peak": 0.1406000000001768
+        },
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 2.681516736668234,
+            "p95": 5.91474458983085,
+            "peak": 6.755881951861452
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 2.6815167366684243,
+            "p95": 5.914744589831097,
+            "peak": 6.755881951861668
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "response": {
+          "fittedLagMs": 28,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      },
+      "after": {
+        "name": "swing",
+        "cpuFrameMs": {
+          "mean": 0.004395312499989738,
+          "p95": 0.017899999999826832,
+          "peak": 0.04010000000016589
+        },
+        "wrongIdentityUpdates": 0,
+        "identityFrozenUpdates": 0,
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 4.839040763963231,
+            "p95": 8.634988095990787,
+            "peak": 9.745696318553348
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.23319001937352582,
+            "p95": 0.4317553852665713,
+            "peak": 0.4805936436918113
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.754949546835559,
+            "p95": 4.386518430887757,
+            "peak": 5.109678287995399
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Right",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.1599705326510402,
+          "targetRotationGapDeg": 5.3870076104108024,
+          "prediction": false
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 4.83904076396333,
+            "p95": 8.634988095990787,
+            "peak": 9.745696318553348
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.2331900193735262,
+            "p95": 0.43175538526657103,
+            "peak": 0.4805936436918113
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.7549495468409392,
+            "p95": 4.386518430887757,
+            "peak": 5.109678287995114
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Left",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.15997053265103797,
+          "targetRotationGapDeg": 5.387007610409991,
+          "prediction": false
+        },
+        "response": {
+          "fittedLagMs": 52,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      }
+    },
+    {
+      "name": "stop",
+      "before": {
+        "name": "stop",
+        "cpuFrameMs": {
+          "mean": 0.013286458333342447,
+          "p95": 0.052999999999883585,
+          "peak": 0.18220000000019354
+        },
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 1.338754773126138,
+            "p95": 8.476721644995118,
+            "peak": 15.25327482068313
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 1.3387547730900913,
+            "p95": 8.476721644995118,
+            "peak": 15.25327482068313
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "response": {
+          "fittedLagMs": 32,
+          "eventSettleMs": 75,
+          "stopOvershootDeg": 4.913705814278179,
+          "stationaryJitterRmsDeg": null
+        }
+      },
+      "after": {
+        "name": "stop",
+        "cpuFrameMs": {
+          "mean": 0.007232552083323185,
+          "p95": 0.031700000000455475,
+          "peak": 0.16049999999995634
+        },
+        "wrongIdentityUpdates": 0,
+        "identityFrozenUpdates": 0,
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 2.0422002455103208,
+            "p95": 13.340440644212974,
+            "peak": 15.365388372754024
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.10163295441782388,
+            "p95": 0.6667263055977352,
+            "peak": 0.7673601390262279
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.34287036331340526,
+            "p95": 1.0947415254843427,
+            "peak": 8.410967942558413
+          },
+          "stoppedErrorDeg": {
+            "mean": 0.05489873434162515,
+            "p95": 0.09984108301879659,
+            "peak": 0.10771013322412155
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Right",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.00236044833553826,
+          "targetRotationGapDeg": 0.17781666225482556,
+          "prediction": false
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 2.0422002454705295,
+            "p95": 13.340440644213084,
+            "peak": 15.365388372754024
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.10163295441782282,
+            "p95": 0.6667263055977362,
+            "peak": 0.7673601390262277
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.34287036324488057,
+            "p95": 1.0947415254830108,
+            "peak": 8.41096794255876
+          },
+          "stoppedErrorDeg": {
+            "mean": 0.05489873427367254,
+            "p95": 0.09984108298959297,
+            "peak": 0.10771013321058653
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Left",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.002360448335537688,
+          "targetRotationGapDeg": 0.1778166622630242,
+          "prediction": false
+        },
+        "response": {
+          "fittedLagMs": 52,
+          "eventSettleMs": 41.66666666666674,
+          "stopOvershootDeg": 0.07616256521649857,
+          "stationaryJitterRmsDeg": null
+        }
+      }
+    },
+    {
+      "name": "turn90",
+      "before": {
+        "name": "turn90",
+        "cpuFrameMs": {
+          "mean": 0.015217447916633375,
+          "p95": 0.06269999999949505,
+          "peak": 0.4068999999999505
+        },
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 2.782100389892862,
+            "p95": 0.07686661229066337,
+            "peak": 89.97374630604328
+          },
+          "guards": 1,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 2.7821003898936065,
+            "p95": 0.07686661227169728,
+            "peak": 89.97374630604328
+          },
+          "guards": 1,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "response": {
+          "fittedLagMs": 84,
+          "eventSettleMs": 100,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      },
+      "after": {
+        "name": "turn90",
+        "cpuFrameMs": {
+          "mean": 0.00917708333334133,
+          "p95": 0.02839999999923748,
+          "peak": 0.9687000000003536
+        },
+        "wrongIdentityUpdates": 0,
+        "identityFrozenUpdates": 0,
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 1.3643323721943914,
+            "p95": 0.1064455559614418,
+            "peak": 89.96163873865973
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.06131404816761547,
+            "p95": 0.004233486254289194,
+            "peak": 4.057433726309342
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.2764443396994764,
+            "p95": 0.07093529654235987,
+            "peak": 78.67501783805044
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Right",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.014603362268595231,
+          "targetRotationGapDeg": 0.17781666225482556,
+          "prediction": false
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 1.3643323721629552,
+            "p95": 0.1064455559614418,
+            "peak": 89.96163873865973
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.06131404816761562,
+            "p95": 0.00423348625428919,
+            "peak": 4.057433726309342
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.27644433974325855,
+            "p95": 0.07093529656291182,
+            "peak": 78.67501783805044
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Left",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.014603362268594506,
+          "targetRotationGapDeg": 0.1778166622466269,
+          "prediction": false
+        },
+        "response": {
+          "fittedLagMs": 34,
+          "eventSettleMs": 50,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      }
+    },
+    {
+      "name": "partial",
+      "before": {
+        "name": "partial",
+        "cpuFrameMs": {
+          "mean": 0.017683333333325873,
+          "p95": 0.06790000000000873,
+          "peak": 0.6107999999994718
+        },
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 4.565103846419801,
+            "p95": 11.571342653672263,
+            "peak": 15.808385195974898
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 2.6815167366684243,
+            "p95": 5.914744589831097,
+            "peak": 6.755881951861668
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "response": {
+          "fittedLagMs": 50,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      },
+      "after": {
+        "name": "partial",
+        "cpuFrameMs": {
+          "mean": 0.007740625000027516,
+          "p95": 0.033400000000256114,
+          "peak": 0.15390000000024884
+        },
+        "wrongIdentityUpdates": 0,
+        "identityFrozenUpdates": 0,
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 6.488566395345005,
+            "p95": 10.438915427473647,
+            "peak": 12.065964180110651
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.23301428084426293,
+            "p95": 0.4317556011001759,
+            "peak": 0.4805936436918113
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.7723102946750845,
+            "p95": 4.483774532116601,
+            "peak": 5.8979601363232605
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Right",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.1599705326510402,
+          "targetRotationGapDeg": 5.3870076104108024,
+          "prediction": false
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 4.83904076396333,
+            "p95": 8.634988095990787,
+            "peak": 9.745696318553348
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.2331900193735262,
+            "p95": 0.43175538526657103,
+            "peak": 0.4805936436918113
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.7549495468409392,
+            "p95": 4.386518430887757,
+            "peak": 5.109678287995114
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Left",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.15997053265103797,
+          "targetRotationGapDeg": 5.387007610409991,
+          "prediction": false
+        },
+        "response": {
+          "fittedLagMs": 58,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      }
+    },
+    {
+      "name": "conflict",
+      "before": {
+        "name": "conflict",
+        "cpuFrameMs": {
+          "mean": 0.015977343749957146,
+          "p95": 0.07469999999921129,
+          "peak": 0.15949999999975262
+        },
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 3.8731742241751204,
+            "p95": 8.405600751991239,
+            "peak": 9.752207823269854
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 2.6815167366684243,
+            "p95": 5.914744589831097,
+            "peak": 6.755881951861668
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "response": {
+          "fittedLagMs": 42,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      },
+      "after": {
+        "name": "conflict",
+        "cpuFrameMs": {
+          "mean": 0.00995963541664698,
+          "p95": 0.05079999999998108,
+          "peak": 0.2638999999999214
+        },
+        "wrongIdentityUpdates": 0,
+        "identityFrozenUpdates": 0,
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 4.839040763963263,
+            "p95": 8.634988095990957,
+            "peak": 9.745696318553199
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.2331900193735255,
+            "p95": 0.4317553852665708,
+            "peak": 0.4805936436918113
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.7549495468419297,
+            "p95": 4.386518430887757,
+            "peak": 5.109678287995114
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Right",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.1599705326510402,
+          "targetRotationGapDeg": 5.3870076104108024,
+          "prediction": false
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 4.83904076396333,
+            "p95": 8.634988095990787,
+            "peak": 9.745696318553348
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.2331900193735262,
+            "p95": 0.43175538526657103,
+            "peak": 0.4805936436918113
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.7549495468409392,
+            "p95": 4.386518430887757,
+            "peak": 5.109678287995114
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Left",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.15997053265103797,
+          "targetRotationGapDeg": 5.387007610409991,
+          "prediction": false
+        },
+        "response": {
+          "fittedLagMs": 52,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      }
+    },
+    {
+      "name": "depthAmbiguous",
+      "before": {
+        "name": "depthAmbiguous",
+        "cpuFrameMs": {
+          "mean": 0.014444010416651073,
+          "p95": 0.06210000000010041,
+          "peak": 0.13029999999980646
+        },
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 0.08692923582675102,
+            "p95": 0.12146190984297248,
+            "peak": 0.12146190984297248
+          },
+          "guards": 38,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 0.044548090053762715,
+            "p95": 0.07633413510995778,
+            "peak": 0.07686661227169728
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "response": {
+          "fittedLagMs": null,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      },
+      "after": {
+        "name": "depthAmbiguous",
+        "cpuFrameMs": {
+          "mean": 0.006896354166682291,
+          "p95": 0.028900000000248838,
+          "peak": 0.12789999999949941
+        },
+        "wrongIdentityUpdates": 0,
+        "identityFrozenUpdates": 0,
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 0.09140334540322173,
+            "p95": 0.12146190984297248,
+            "peak": 0.12146190984297248
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.004578478717200846,
+            "p95": 0.006084140401966823,
+            "peak": 0.006084140401966823
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.00999268685389872,
+            "p95": 0.04677054432151053,
+            "peak": 0.07523563418280703
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 38,
+          "lastRawLabel": "Right",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.010887169699093723,
+          "targetRotationGapDeg": 0.17781666225482556,
+          "prediction": false
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 0.054590220743764975,
+            "p95": 0.09932258988238142,
+            "peak": 0.10771013323765657
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.002734474788178493,
+            "p95": 0.004975161647399579,
+            "peak": 0.005395301230988574
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.02232711493582399,
+            "p95": 0.06887747864286557,
+            "peak": 0.07528068088115043
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Left",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.010887169699090553,
+          "targetRotationGapDeg": 0.1778166622630242,
+          "prediction": false
+        },
+        "response": {
+          "fittedLagMs": null,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      }
+    },
+    {
+      "name": "occlusion",
+      "before": {
+        "name": "occlusion",
+        "cpuFrameMs": {
+          "mean": 0.020440625000025154,
+          "p95": 0.06589999999960128,
+          "peak": 1.4315000000005966
+        },
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 3.598414302192088,
+            "p95": 11.132744410854558,
+            "peak": 26.753333240548567
+          },
+          "guards": 4,
+          "updates": 74,
+          "identityFreezes": 0
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 2.6815167366684243,
+            "p95": 5.914744589831097,
+            "peak": 6.755881951861668
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "response": {
+          "fittedLagMs": 42,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      },
+      "after": {
+        "name": "occlusion",
+        "cpuFrameMs": {
+          "mean": 0.008781249999951038,
+          "p95": 0.03410000000076252,
+          "peak": 0.33439999999973224
+        },
+        "wrongIdentityUpdates": 0,
+        "identityFrozenUpdates": 0,
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 5.321722952578369,
+            "p95": 9.64495898656479,
+            "peak": 26.753198070805293
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.2571707575563561,
+            "p95": 0.47273319723379603,
+            "peak": 1.3278962634588696
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.7549256815803163,
+            "p95": 4.189436118753751,
+            "peak": 20.43778241949359
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 74,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Right",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.1599705326510402,
+          "targetRotationGapDeg": 5.3870076104108024,
+          "prediction": false
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 4.83904076396333,
+            "p95": 8.634988095990787,
+            "peak": 9.745696318553348
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.2331900193735262,
+            "p95": 0.43175538526657103,
+            "peak": 0.4805936436918113
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.7549495468409392,
+            "p95": 4.386518430887757,
+            "peak": 5.109678287995114
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Left",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.15997053265103797,
+          "targetRotationGapDeg": 5.387007610409991,
+          "prediction": false
+        },
+        "response": {
+          "fittedLagMs": 60,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      }
+    },
+    {
+      "name": "cross",
+      "before": {
+        "name": "cross",
+        "cpuFrameMs": {
+          "mean": 0.009939322916669843,
+          "p95": 0.05160000000068976,
+          "peak": 0.319100000000617
+        },
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 25.659031211476066,
+            "p95": 64.54367355030004,
+            "peak": 65.9049006229377
+          },
+          "guards": 0,
+          "updates": 24,
+          "identityFreezes": 53
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 25.659031211476123,
+            "p95": 64.54367355030004,
+            "peak": 65.90490062293772
+          },
+          "guards": 0,
+          "updates": 24,
+          "identityFreezes": 53
+        },
+        "response": {
+          "fittedLagMs": 46,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      },
+      "after": {
+        "name": "cross",
+        "cpuFrameMs": {
+          "mean": 0.010056250000005207,
+          "p95": 0.05459999999948195,
+          "peak": 0.27149999999892316
+        },
+        "wrongIdentityUpdates": 0,
+        "identityFrozenUpdates": 2,
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 4.940936660151193,
+            "p95": 8.997209401563046,
+            "peak": 11.366084107553116
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.2382602720266984,
+            "p95": 0.44533001230593516,
+            "peak": 0.5635669632356662
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.7549308430477796,
+            "p95": 4.386518430887757,
+            "peak": 5.109678287995399
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 76,
+          "identityFreezes": 1,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Right",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.1599705326510393,
+          "targetRotationGapDeg": 5.3870076104108024,
+          "prediction": false
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 4.9409366601512525,
+            "p95": 8.997209401563046,
+            "peak": 11.366084107553116
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.2382602720266988,
+            "p95": 0.4453300123059348,
+            "peak": 0.5635669632356665
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.7549308430442617,
+            "p95": 4.386518430887757,
+            "peak": 5.109678287995114
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 76,
+          "identityFreezes": 1,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Left",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.15997053265103842,
+          "targetRotationGapDeg": 5.387007610409991,
+          "prediction": false
+        },
+        "response": {
+          "fittedLagMs": 54,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      }
+    },
+    {
+      "name": "screenSwap",
+      "before": {
+        "name": "screenSwap",
+        "cpuFrameMs": {
+          "mean": 0.01528098958331725,
+          "p95": 0.07129999999961001,
+          "peak": 0.20080000000052678
+        },
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 2.681516736668234,
+            "p95": 5.91474458983085,
+            "peak": 6.755881951861452
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 2.6815167366684243,
+            "p95": 5.914744589831097,
+            "peak": 6.755881951861668
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "response": {
+          "fittedLagMs": 28,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      },
+      "after": {
+        "name": "screenSwap",
+        "cpuFrameMs": {
+          "mean": 0.008067968749993307,
+          "p95": 0.041199999999662396,
+          "peak": 0.1180000000003929
+        },
+        "wrongIdentityUpdates": 0,
+        "identityFrozenUpdates": 0,
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 4.839040763963231,
+            "p95": 8.634988095990787,
+            "peak": 9.745696318553348
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.23319001937352582,
+            "p95": 0.4317553852665713,
+            "peak": 0.4805936436918113
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.754949546835559,
+            "p95": 4.386518430887757,
+            "peak": 5.109678287995399
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Right",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.15997053265103842,
+          "targetRotationGapDeg": 5.3870076104108024,
+          "prediction": false
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 4.83904076396333,
+            "p95": 8.634988095990787,
+            "peak": 9.745696318553348
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.2331900193735262,
+            "p95": 0.43175538526657103,
+            "peak": 0.4805936436918113
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.7549495468409392,
+            "p95": 4.386518430887757,
+            "peak": 5.109678287995114
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Left",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.15997053265104108,
+          "targetRotationGapDeg": 5.387007610409991,
+          "prediction": false
+        },
+        "response": {
+          "fittedLagMs": 52,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      }
+    },
+    {
+      "name": "lowLabels",
+      "before": {
+        "name": "lowLabels",
+        "cpuFrameMs": {
+          "mean": 0.01898776041662605,
+          "p95": 0.09610000000066066,
+          "peak": 0.1584999999995489
+        },
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 2.681516736668234,
+            "p95": 5.91474458983085,
+            "peak": 6.755881951861452
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 2.6815167366684243,
+            "p95": 5.914744589831097,
+            "peak": 6.755881951861668
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "response": {
+          "fittedLagMs": 28,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      },
+      "after": {
+        "name": "lowLabels",
+        "cpuFrameMs": {
+          "mean": 0.006674999999949212,
+          "p95": 0.0419000000001688,
+          "peak": 0.056299999998373096
+        },
+        "wrongIdentityUpdates": 0,
+        "identityFrozenUpdates": 0,
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 4.839040763963231,
+            "p95": 8.634988095990787,
+            "peak": 9.745696318553348
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.23319001937352582,
+            "p95": 0.4317553852665713,
+            "peak": 0.4805936436918113
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.754949546835559,
+            "p95": 4.386518430887757,
+            "peak": 5.109678287995399
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Right",
+          "lastRawScore": 0.51,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.1599705326510402,
+          "targetRotationGapDeg": 5.3870076104108024,
+          "prediction": false
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 4.83904076396333,
+            "p95": 8.634988095990787,
+            "peak": 9.745696318553348
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.2331900193735262,
+            "p95": 0.43175538526657103,
+            "peak": 0.4805936436918113
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.7549495468409392,
+            "p95": 4.386518430887757,
+            "peak": 5.109678287995114
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Left",
+          "lastRawScore": 0.51,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.15997053265103797,
+          "targetRotationGapDeg": 5.387007610409991,
+          "prediction": false
+        },
+        "response": {
+          "fittedLagMs": 52,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      }
+    },
+    {
+      "name": "zeroHands",
+      "before": {
+        "name": "zeroHands",
+        "cpuFrameMs": {
+          "mean": 0.010293489583418136,
+          "p95": 0.056599999999889405,
+          "peak": 0.11850000000049477
+        },
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 8.159346278300903,
+            "p95": 44.5127832900084,
+            "peak": 53.99743657549053
+          },
+          "guards": 0,
+          "updates": 50,
+          "identityFreezes": 0
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 8.159346278301134,
+            "p95": 44.51278329000837,
+            "peak": 53.99743657549047
+          },
+          "guards": 0,
+          "updates": 50,
+          "identityFreezes": 0
+        },
+        "response": {
+          "fittedLagMs": 104,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      },
+      "after": {
+        "name": "zeroHands",
+        "cpuFrameMs": {
+          "mean": 0.004604687500020077,
+          "p95": 0.021800000000439468,
+          "peak": 0.09929999999985739
+        },
+        "wrongIdentityUpdates": 0,
+        "identityFrozenUpdates": 0,
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 9.441668334444493,
+            "p95": 44.512422932291976,
+            "peak": 53.99707757422817
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.45888113483689286,
+            "p95": 2.1733531366175365,
+            "peak": 2.6015739264779842
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.6310486853840046,
+            "p95": 3.3886928432201753,
+            "peak": 25.8886917287515
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 50,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Right",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.1599705326510402,
+          "targetRotationGapDeg": 5.3870076104108024,
+          "prediction": false
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 9.44166833444452,
+            "p95": 44.512422932291976,
+            "peak": 53.9970775742282
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.45888113483689297,
+            "p95": 2.173353136617536,
+            "peak": 2.6015739264779842
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.6310487814823177,
+            "p95": 3.3886928432201753,
+            "peak": 25.8886917287515
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 50,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Left",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.15997053265103797,
+          "targetRotationGapDeg": 5.387007610409991,
+          "prediction": false
+        },
+        "response": {
+          "fittedLagMs": 120,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      }
+    },
+    {
+      "name": "poorRight",
+      "before": {
+        "name": "poorRight",
+        "cpuFrameMs": {
+          "mean": 0.011649999999908308,
+          "p95": 0.045400000000881846,
+          "peak": 0.1080999999994674
+        },
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 2.681516736668234,
+            "p95": 5.91474458983085,
+            "peak": 6.755881951861452
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 4.5651038464292455,
+            "p95": 11.571342653672263,
+            "peak": 15.808385195974806
+          },
+          "guards": 0,
+          "updates": 77,
+          "identityFreezes": 0
+        },
+        "response": {
+          "fittedLagMs": 28,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      },
+      "after": {
+        "name": "poorRight",
+        "cpuFrameMs": {
+          "mean": 0.005353124999937601,
+          "p95": 0.02170000000114669,
+          "peak": 0.055399999999281135
+        },
+        "wrongIdentityUpdates": 0,
+        "identityFrozenUpdates": 0,
+        "Left": {
+          "rotationErrorDeg": {
+            "mean": 4.839040763963231,
+            "p95": 8.634988095990787,
+            "peak": 9.745696318553348
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.23319001937352582,
+            "p95": 0.4317553852665713,
+            "peak": 0.4805936436918113
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.754949546835559,
+            "p95": 4.386518430887757,
+            "peak": 5.109678287995399
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Right",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.1599705326510402,
+          "targetRotationGapDeg": 5.3870076104108024,
+          "prediction": false
+        },
+        "Right": {
+          "rotationErrorDeg": {
+            "mean": 6.48856639534505,
+            "p95": 10.438915427473509,
+            "peak": 12.06596418011077
+          },
+          "rotationOnlyTipError": {
+            "mean": 0.23301428084426323,
+            "p95": 0.4317556011001756,
+            "peak": 0.4805936436918113
+          },
+          "renderAngularStepDeg": {
+            "mean": 0.7723102946745782,
+            "p95": 4.483774532116276,
+            "peak": 5.8979601363232605
+          },
+          "stoppedErrorDeg": {
+            "mean": 0,
+            "p95": 0,
+            "peak": 0
+          },
+          "updates": 77,
+          "identityFreezes": 0,
+          "frozen": false,
+          "source": "WORLD",
+          "reliable": true,
+          "reason": "世界指向",
+          "directionHolds": 0,
+          "lastRawLabel": "Left",
+          "lastRawScore": 0.95,
+          "ageMs": 8.33333333333394,
+          "positionError": 0.15997053265103797,
+          "targetRotationGapDeg": 5.387007610409991,
+          "prediction": false
+        },
+        "response": {
+          "fittedLagMs": 52,
+          "eventSettleMs": null,
+          "stopOvershootDeg": null,
+          "stationaryJitterRmsDeg": null
+        }
+      }
+    }
+  ]
+}
