@@ -1,0 +1,664 @@
+{
+  "baseline": "92e2c5f1b8020d422418159c7a6de2b3099721a4",
+  "scope": "Deterministic anatomical synthetic observations; not model detection accuracy or physical tablet acceptance. Replay includes actual WeaponControl, GripPose, ControlHand and unchanged lifetime. Presence/pose validity and two-hand command are tested independently.",
+  "before": {
+    "successfulCommands": 1,
+    "positiveCases": 9,
+    "falseCommands": 0,
+    "negativeCases": 10,
+    "unnecessaryRejectedObservations": 52,
+    "unnecessaryOwnerResets": 4,
+    "wrongOwnerFrames": 48
+  },
+  "after": {
+    "successfulCommands": 9,
+    "positiveCases": 9,
+    "falseCommands": 0,
+    "negativeCases": 10,
+    "unnecessaryRejectedObservations": 0,
+    "unnecessaryOwnerResets": 0,
+    "wrongOwnerFrames": 0
+  },
+  "commands": [
+    {
+      "case": "clean",
+      "expected": "one toggle",
+      "before": {
+        "toggles": 1,
+        "toggleAfterMs": 210,
+        "identityFreezes": 0,
+        "primary": "Left"
+      },
+      "after": {
+        "toggles": 1,
+        "toggleAfterMs": 126,
+        "identityFreezes": 0,
+        "primary": "Left"
+      }
+    },
+    {
+      "case": "low labels",
+      "expected": "one toggle",
+      "before": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 0,
+        "primary": "Left"
+      },
+      "after": {
+        "toggles": 1,
+        "toggleAfterMs": 126,
+        "identityFreezes": 0,
+        "primary": "Left"
+      }
+    },
+    {
+      "case": "flipped labels",
+      "expected": "one toggle",
+      "before": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 0,
+        "primary": "Left"
+      },
+      "after": {
+        "toggles": 1,
+        "toggleAfterMs": 126,
+        "identityFreezes": 0,
+        "primary": "Left"
+      }
+    },
+    {
+      "case": "two hidden fingers",
+      "expected": "one toggle",
+      "before": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 0,
+        "primary": "Left"
+      },
+      "after": {
+        "toggles": 1,
+        "toggleAfterMs": 126,
+        "identityFreezes": 0,
+        "primary": "Left"
+      }
+    },
+    {
+      "case": "hidden tips with positive proximal curl",
+      "expected": "one toggle",
+      "before": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 0,
+        "primary": "Left"
+      },
+      "after": {
+        "toggles": 1,
+        "toggleAfterMs": 126,
+        "identityFreezes": 0,
+        "primary": "Left"
+      }
+    },
+    {
+      "case": "natural wider approach",
+      "expected": "one toggle",
+      "before": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 0,
+        "primary": "Left"
+      },
+      "after": {
+        "toggles": 1,
+        "toggleAfterMs": 126,
+        "identityFreezes": 0,
+        "primary": "Left"
+      }
+    },
+    {
+      "case": "126ms hold",
+      "expected": "one toggle",
+      "before": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 0,
+        "primary": "Left"
+      },
+      "after": {
+        "toggles": 1,
+        "toggleAfterMs": 126,
+        "identityFreezes": 0,
+        "primary": "Left"
+      }
+    },
+    {
+      "case": "8Hz observations",
+      "expected": "one toggle",
+      "before": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 0,
+        "primary": "Left"
+      },
+      "after": {
+        "toggles": 1,
+        "toggleAfterMs": 125,
+        "identityFreezes": 0,
+        "primary": "Left"
+      }
+    },
+    {
+      "case": "pose ambiguity does not reject symmetric command",
+      "expected": "one toggle",
+      "before": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 7,
+        "primary": "Left"
+      },
+      "after": {
+        "toggles": 1,
+        "toggleAfterMs": 126,
+        "identityFreezes": 7,
+        "primary": "Left"
+      }
+    },
+    {
+      "case": "single hand",
+      "expected": "no toggle",
+      "before": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 0,
+        "primary": "Left"
+      },
+      "after": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 0,
+        "primary": "Left"
+      }
+    },
+    {
+      "case": "duplicate observation",
+      "expected": "no toggle",
+      "before": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 0,
+        "primary": "Left"
+      },
+      "after": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 0,
+        "primary": "Left"
+      }
+    },
+    {
+      "case": "nearly duplicate observation",
+      "expected": "no toggle",
+      "before": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 0,
+        "primary": "Left"
+      },
+      "after": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 0,
+        "primary": "Left"
+      }
+    },
+    {
+      "case": "excessive overlap",
+      "expected": "no toggle",
+      "before": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 7,
+        "primary": "Left"
+      },
+      "after": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 7,
+        "primary": "Left"
+      }
+    },
+    {
+      "case": "open palms",
+      "expected": "no toggle",
+      "before": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 0,
+        "primary": "Left"
+      },
+      "after": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 0,
+        "primary": "Left"
+      }
+    },
+    {
+      "case": "one open palm",
+      "expected": "no toggle",
+      "before": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 0,
+        "primary": "Left"
+      },
+      "after": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 0,
+        "primary": "Left"
+      }
+    },
+    {
+      "case": "far fists",
+      "expected": "no toggle",
+      "before": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 0,
+        "primary": "Left"
+      },
+      "after": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 0,
+        "primary": "Left"
+      }
+    },
+    {
+      "case": "no curl evidence",
+      "expected": "no toggle",
+      "before": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 0,
+        "primary": "Left"
+      },
+      "after": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 0,
+        "primary": "Left"
+      }
+    },
+    {
+      "case": "zero model observations",
+      "expected": "no toggle",
+      "before": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 0,
+        "primary": "Left"
+      },
+      "after": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 0,
+        "primary": "Left"
+      }
+    },
+    {
+      "case": "brief accidental pass",
+      "expected": "no toggle",
+      "before": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 0,
+        "primary": "Left"
+      },
+      "after": {
+        "toggles": 0,
+        "toggleAfterMs": null,
+        "identityFreezes": 0,
+        "primary": "Left"
+      }
+    }
+  ],
+  "presence": [
+    {
+      "case": "continuous",
+      "side": "Left",
+      "before": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 0,
+        "poseUpdates": 22,
+        "finalOwner": "Left"
+      },
+      "after": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 0,
+        "poseUpdates": 22,
+        "finalOwner": "Left"
+      }
+    },
+    {
+      "case": "continuous",
+      "side": "Right",
+      "before": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 0,
+        "poseUpdates": 22,
+        "finalOwner": "Right"
+      },
+      "after": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 0,
+        "poseUpdates": 22,
+        "finalOwner": "Right"
+      }
+    },
+    {
+      "case": "reverse low labels",
+      "side": "Left",
+      "before": {
+        "rejected": 19,
+        "unexpectedResets": 1,
+        "wrongOwner": 12,
+        "zeroPackets": 0,
+        "poseUpdates": 3,
+        "finalOwner": null
+      },
+      "after": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 0,
+        "poseUpdates": 22,
+        "finalOwner": "Left"
+      }
+    },
+    {
+      "case": "reverse low labels",
+      "side": "Right",
+      "before": {
+        "rejected": 19,
+        "unexpectedResets": 1,
+        "wrongOwner": 12,
+        "zeroPackets": 0,
+        "poseUpdates": 3,
+        "finalOwner": null
+      },
+      "after": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 0,
+        "poseUpdates": 22,
+        "finalOwner": "Right"
+      }
+    },
+    {
+      "case": "reverse flipped labels",
+      "side": "Left",
+      "before": {
+        "rejected": 7,
+        "unexpectedResets": 1,
+        "wrongOwner": 12,
+        "zeroPackets": 0,
+        "poseUpdates": 15,
+        "finalOwner": "Right"
+      },
+      "after": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 0,
+        "poseUpdates": 22,
+        "finalOwner": "Left"
+      }
+    },
+    {
+      "case": "reverse flipped labels",
+      "side": "Right",
+      "before": {
+        "rejected": 7,
+        "unexpectedResets": 1,
+        "wrongOwner": 12,
+        "zeroPackets": 0,
+        "poseUpdates": 15,
+        "finalOwner": "Left"
+      },
+      "after": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 0,
+        "poseUpdates": 22,
+        "finalOwner": "Right"
+      }
+    },
+    {
+      "case": "partial palm",
+      "side": "Left",
+      "before": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 0,
+        "poseUpdates": 22,
+        "finalOwner": "Left"
+      },
+      "after": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 0,
+        "poseUpdates": 22,
+        "finalOwner": "Left"
+      }
+    },
+    {
+      "case": "partial palm",
+      "side": "Right",
+      "before": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 0,
+        "poseUpdates": 22,
+        "finalOwner": "Right"
+      },
+      "after": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 0,
+        "poseUpdates": 22,
+        "finalOwner": "Right"
+      }
+    },
+    {
+      "case": "side turn",
+      "side": "Left",
+      "before": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 0,
+        "poseUpdates": 22,
+        "finalOwner": "Left"
+      },
+      "after": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 0,
+        "poseUpdates": 22,
+        "finalOwner": "Left"
+      }
+    },
+    {
+      "case": "side turn",
+      "side": "Right",
+      "before": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 0,
+        "poseUpdates": 22,
+        "finalOwner": "Right"
+      },
+      "after": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 0,
+        "poseUpdates": 22,
+        "finalOwner": "Right"
+      }
+    },
+    {
+      "case": "brief zero",
+      "side": "Left",
+      "before": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 3,
+        "poseUpdates": 19,
+        "finalOwner": "Left"
+      },
+      "after": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 3,
+        "poseUpdates": 19,
+        "finalOwner": "Left"
+      }
+    },
+    {
+      "case": "brief zero",
+      "side": "Right",
+      "before": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 3,
+        "poseUpdates": 19,
+        "finalOwner": "Right"
+      },
+      "after": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 3,
+        "poseUpdates": 19,
+        "finalOwner": "Right"
+      }
+    },
+    {
+      "case": "secondary only",
+      "side": "Left",
+      "before": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 0,
+        "poseUpdates": 13,
+        "finalOwner": "Right"
+      },
+      "after": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 0,
+        "poseUpdates": 13,
+        "finalOwner": "Right"
+      }
+    },
+    {
+      "case": "secondary only",
+      "side": "Right",
+      "before": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 0,
+        "poseUpdates": 13,
+        "finalOwner": "Left"
+      },
+      "after": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 0,
+        "poseUpdates": 13,
+        "finalOwner": "Left"
+      }
+    },
+    {
+      "case": "true zero",
+      "side": "Left",
+      "before": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 18,
+        "poseUpdates": 4,
+        "finalOwner": null
+      },
+      "after": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 18,
+        "poseUpdates": 4,
+        "finalOwner": null
+      }
+    },
+    {
+      "case": "true zero",
+      "side": "Right",
+      "before": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 18,
+        "poseUpdates": 4,
+        "finalOwner": null
+      },
+      "after": {
+        "rejected": 0,
+        "unexpectedResets": 0,
+        "wrongOwner": 0,
+        "zeroPackets": 18,
+        "poseUpdates": 4,
+        "finalOwner": null
+      }
+    }
+  ],
+  "nearbyAmbiguity": {
+    "before": {
+      "unnecessaryResets": 1,
+      "primary": "Left",
+      "lastPresence": 1864,
+      "lastAcceptedPose": 1864
+    },
+    "after": {
+      "unnecessaryResets": 0,
+      "primary": "Left",
+      "lastPresence": 1864,
+      "lastAcceptedPose": 1024
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "baseline": "92e2c5f1b8020d422418159c7a6de2b3099721a4",
+  "hashes": {
+    "grip-pose.ts": "6fd112d15b4ac96f4e68cfe49b47579c4ac485366ffc22bf4c8250b221796511",
+    "control-core.ts": "61d0b1c4e0cc0237fb9234eba92d12e0fb2ac9de1d82f08c18811bca9c60b122",
+    "control-pose.ts": "094edbf33fa4e2f4d57c41e899cd3827ae0b2f7d703bfafbd08940c1a1118533",
+    "audio.ts": "bf67d46156b8e878b5f9a484ddd2b503f0f757ad3b136447ad20f9a6eaf74472",
+    "weapon-morph.ts": "d2a3d0b6fc643dbf9359c98919235b2c7022f3fe74aecd54424e3ea17e007448",
+    "tracking.ts": "584083f98ba2970e06ec2d9c9d61e6c3b4dc5551b60f18f65a1d57be2c6b669c",
+    "tracker.worker.ts": "db7c1d2393ac41f2db8c3c895cccc8d10ea0580f2901d70860dbbe78f9799c4e"
+  }
+}

@@ -19,6 +19,8 @@ export class WeaponControl{
   const matches=this.identity.assign(data,arrived);let fresh=false;
   if(!this.primary){const valid=matches.filter(m=>!m.freeze&&m.index>=0).sort((a,b)=>(data.handedness[b.index]?.[0]?.score??0)-(data.handedness[a.index]?.[0]?.score??0)||(a.side==='Left'?-1:1));if(valid.length){this.primary=valid[0].side;fresh=true;this.hand.reset();this.grip.reset();this.mode.reset();this.axisEstablished=false;}}
   const match=matches.find(m=>m.side===this.primary)??null;
+  // Presence has its own evidence; it must not manufacture a new pose timestamp.
+  if(match?.freeze&&match.present)this.lastSeen=arrived;
   if(match&&!match.freeze){const p=data.landmarks[match.index],world=data.world?.[match.index];this.lastSeen=arrived;
    // One learned shaft frame survives open fingers and every mode/blade change.
    // Neither gesture uncertainty nor a held direction can reject position updates.

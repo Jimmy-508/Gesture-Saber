@@ -3,7 +3,7 @@ import {observeHand,duplicateHands} from './hand-presence.ts';
 import {TRACKING} from './tracking-state.ts';
 export type RawHand='Left'|'Right';
 export type ControlInput={landmarks:Point[][];world?:Point[][];handedness:{categoryName:string;score:number}[][];time:number;aspect?:number};
-export type ControlMatch={side:Side;index:number;freeze?:boolean;fresh?:boolean};
+export type ControlMatch={side:Side;index:number;freeze?:boolean;fresh?:boolean;present?:boolean};
 /** Calibration belongs at the input boundary, including the unchanged rollback core. */
 export function legacyInput<T extends ControlInput>(data:T,leftLabel:RawHand):T{return leftLabel==='Right'?data:{...data,handedness:data.handedness.map(labels=>labels.map(label=>({...label,categoryName:label.categoryName==='Left'?'Right':label.categoryName==='Right'?'Left':label.categoryName})))};}
 type Candidate={index:number;x:number;y:number;side:Side|undefined;score:number};
@@ -26,30 +26,33 @@ export class ControlIdentity{
   }
   if(candidates.length===2&&duplicateHands(data.landmarks[candidates[0].index],data.landmarks[candidates[1].index])){candidates.pop();this.details.push('重複觀測只保留一份');}
   const live=SIDES.filter(s=>{const t=this.tracks[s];return t&&arrived-t.seen<TRACKING.hideMs;});
-  const distance=(s:Side,c:Candidate)=>{const t=this.tracks[s]!;const dt=Math.min(.12,Math.max(0,(data.time-t.sample)/1000));return Math.hypot(c.x-t.x-t.vx*dt,c.y-t.y-t.vy*dt);};
+  // Velocity is a matching hint, not a requirement to keep travelling in the
+  // same direction. Measured continuity survives a reversal / partial palm.
+  // Both alternatives retain the same displacement bound and ambiguity margins.
+  const distance=(s:Side,c:Candidate)=>{const t=this.tracks[s]!;const dt=Math.min(.12,Math.max(0,(data.time-t.sample)/1000));return Math.min(Math.hypot(c.x-t.x-t.vx*dt,c.y-t.y-t.vy*dt),Math.hypot(c.x-t.x,c.y-t.y));};
+  const measured=(s:Side,c:Candidate)=>Math.hypot(c.x-this.tracks[s]!.x,c.y-this.tracks[s]!.y);
   const matches:ControlMatch[]=[];
   const take=(side:Side,c:Candidate)=>matches.push({side,index:c.index,fresh:!live.includes(side)});
   if(candidates.length===1){
    const c=candidates[0];
-   if(live.length===1){const side=live[0],t=this.tracks[side]!;
-    // A stale velocity estimate can point away from a real fast reversal. For
-    // this unopposed identity, continuity with the actual last observation is
-    // valid evidence when corroborated by the calibrated model label. Keep the
-    // same displacement bound and all two-hand
-    // ambiguity rules; never use this to choose between two possible owners.
-    if(distance(side,c)<.55||(c.side===side&&c.score>=.5&&Math.hypot(c.x-t.x,c.y-t.y)<.55))take(side,c);else this.details.push('單手位移不連續：不建立另一個顏色');}
+   if(live.length===1){const side=live[0];
+    if(distance(side,c)<.55)take(side,c);else this.details.push('單手位移不連續：不建立另一個顏色');}
    else if(live.length===2){const l=distance('Left',c),r=distance('Right',c);if(Math.abs(l-r)>.04&&Math.min(l,r)<.55)take(l<r?'Left':'Right',c);else this.details.push('單份觀測身分歧義：不假設雙手存在');}
    else if(c.side&&c.score>=.5)take(c.side,c);
   }else if(candidates.length===2){
    const [a,b]=candidates;
    if(live.length===2){
     const direct=distance('Left',a)+distance('Right',b),swapped=distance('Left',b)+distance('Right',a);
-    if(Math.abs(direct-swapped)<.025){for(const side of SIDES){this.tracks[side]!.seen=arrived;matches.push({side,index:-1,freeze:true});}this.details.push('雙手交叉歧義：保留身分，暫停姿態');}
+    if(Math.abs(direct-swapped)<.025){
+     // Two distinct nearby observations establish presence, even when choosing
+     // their pose identities is unsafe. A lone secondary can never use this.
+     const present=Math.min(Math.max(measured('Left',a),measured('Right',b)),Math.max(measured('Left',b),measured('Right',a)))<.25;
+     for(const side of SIDES){if(present)this.tracks[side]!.seen=arrived;matches.push({side,index:-1,freeze:true,present});}this.details.push(present?'雙手存在，身分歧義：保留姿態':'雙手交叉歧義：等待可靠觀測');}
     else{take('Left',direct<swapped?a:b);take('Right',direct<swapped?b:a);}
    }else if(live.length===1){
     const side=live[0],da=distance(side,a),db=distance(side,b);
     if(Math.abs(da-db)>.04&&Math.min(da,db)<.55){take(side,da<db?a:b);take(side==='Left'?'Right':'Left',da<db?b:a);}
-    else{this.tracks[side]!.seen=arrived;matches.push({side,index:-1,freeze:true});this.details.push('第二隻手重疊：保留既有身分，等待分離');}
+    else{const present=Math.max(measured(side,a),measured(side,b))<.25;if(present)this.tracks[side]!.seen=arrived;matches.push({side,index:-1,freeze:true,present});this.details.push('第二隻手重疊：保留既有身分，等待分離');}
    }else if(a.side&&b.side&&a.side!==b.side&&a.score>=.5&&b.score>=.5){take(a.side,a);take(b.side,b);}
    else{const best=a.score>=b.score?a:b;if(best.side&&best.score>=.5)take(best.side,best);this.details.push('初次手別衝突：不以畫面位置猜測');}
   }

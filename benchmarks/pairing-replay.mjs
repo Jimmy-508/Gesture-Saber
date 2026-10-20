@@ -1,0 +1,20 @@
+import {execFileSync} from 'node:child_process';
+import {mkdir,writeFile} from 'node:fs/promises';
+import path from 'node:path';import {pathToFileURL} from 'node:url';
+import {WeaponControl} from '../src/weapon-control.ts';
+import {toggleCases,togglePackets,presenceCases,presencePackets} from '../tests/fixtures/pairing-cases.mjs';
+
+// Materialize the exact reference commit, including its own identity/command
+// dependencies. No edited current source can silently become the baseline.
+const commit='92e2c5f1b8020d422418159c7a6de2b3099721a4',files=['weapon-control','control-identity','control-core','twin-gesture'];
+const dir=path.resolve('.pairing-baseline');await mkdir(dir,{recursive:true});
+for(const file of files){let source=execFileSync('git',['show',commit+':src/'+file+'.ts'],{encoding:'utf8'});source=source.replace(/from '(\.\/[^']+)'/g,(_all,relative)=>{const name=relative.slice(2).replace(/\.ts$/,'');return "from '"+(files.includes(name)?'./'+name+'.ts':pathToFileURL(path.resolve('src',name+'.ts')).href)+"'";});await writeFile(path.join(dir,file+'.ts'),source);}
+const {WeaponControl:Before}=await import(pathToFileURL(path.join(dir,'weapon-control.ts')).href);
+export function commandReplay(Core,c){const w=new Core();let first=null,freezes=0;for(const d of togglePackets(c)){const r=w.observe(d,d.time+24,1.6);if(r?.match?.freeze)freezes++;if(w.mode.changes&&first===null)first=d.time-1042;}return{toggles:w.mode.changes,toggleAfterMs:first,identityFreezes:freezes,primary:w.primary};}
+export function presenceReplay(Core,name,side){const w=new Core();let rejected=0,unexpectedResets=0,wrongOwner=0,lastSerial=0,zeroPackets=0,poseUpdates=0;for(const d of presencePackets(name,side)){const r=w.observe(d,d.time+24,1.6);if(!d.landmarks.length)zeroPackets++;const hasPrimary=!(name==='true zero'||name==='secondary only')||d.time<=1126;if(hasPrimary&&d.landmarks.length&&(!r?.match||r.match.freeze))rejected++;if(w.serial!==lastSerial){if(hasPrimary)unexpectedResets++;lastSerial=w.serial;}if(hasPrimary&&w.primary!==side)wrongOwner++;if(r?.match&&!r.match.freeze)poseUpdates++;w.sample(d.time+40);}return{rejected,unexpectedResets,wrongOwner,zeroPackets,poseUpdates,finalOwner:w.primary};}
+const commands=toggleCases.map(c=>({case:c.name,expected:c.positive?'one toggle':'no toggle',before:commandReplay(Before,c),after:commandReplay(WeaponControl,c)}));
+const presence=presenceCases.flatMap(name=>['Left','Right'].map(side=>({case:name,side,before:presenceReplay(Before,name,side),after:presenceReplay(WeaponControl,name,side)})));
+const nearbyAmbiguity=Core=>{const w=new Core(),c=toggleCases.find(c=>c.ambiguous);let resets=0,serial=0;for(const d of togglePackets({...c,times:Array.from({length:20},(_,i)=>i*42)})){w.observe(d,d.time+24,1.6);if(w.serial!==serial)resets++;serial=w.serial;}return{unnecessaryResets:resets,primary:w.primary,lastPresence:w.lastSeen,lastAcceptedPose:w.hand.lastSeen};};
+const summarize=key=>({successfulCommands:commands.filter(c=>c.expected==='one toggle'&&c[key].toggles===1).length,positiveCases:commands.filter(c=>c.expected==='one toggle').length,falseCommands:commands.filter(c=>c.expected==='no toggle'&&c[key].toggles>0).length,negativeCases:commands.filter(c=>c.expected==='no toggle').length,unnecessaryRejectedObservations:presence.reduce((n,c)=>n+c[key].rejected,0),unnecessaryOwnerResets:presence.reduce((n,c)=>n+c[key].unexpectedResets,0),wrongOwnerFrames:presence.reduce((n,c)=>n+c[key].wrongOwner,0)});
+const result={baseline:commit,scope:'Deterministic anatomical synthetic observations; not model detection accuracy or physical tablet acceptance. Replay includes actual WeaponControl, GripPose, ControlHand and unchanged lifetime. Presence/pose validity and two-hand command are tested independently.',before:summarize('before'),after:summarize('after'),commands,presence,nearbyAmbiguity:{before:nearbyAmbiguity(Before),after:nearbyAmbiguity(WeaponControl)}};
+await mkdir('reports',{recursive:true});await writeFile('reports/pairing-comparison.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));
