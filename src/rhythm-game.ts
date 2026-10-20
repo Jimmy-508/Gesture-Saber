@@ -61,6 +61,7 @@ export class RhythmGame{
   for(let i=0;i<PARTICLES;i++){const k=i*8,age=time-this.particle[k+6];if(!this.particle[k+7]||age<0||age>.4)this.scale.setScalar(0);else{this.position.set(this.particle[k]+this.particle[k+3]*age,this.particle[k+1]+this.particle[k+4]*age-age*age*2,this.particle[k+2]+this.particle[k+5]*age);this.scale.setScalar(1-age/.4);}this.matrix.compose(this.position,this.rotation,this.scale);this.shards.setMatrixAt(i,this.matrix);}this.shards.instanceMatrix.needsUpdate=true;
   for(let i=0;i<2;i++){this.previous[i].a.copy(this.blades[i].a);this.previous[i].b.copy(this.blades[i].b);this.previous[i].active=this.blades[i].active;}
   this.lastTime=time;this.lastFrame=now;this.previousValid=fresh;this.paused=false;
+  if(this.music.status==='ended')this.stop();
  }
  get remaining(){return this.chart.length-this.score.perfect-this.score.good-this.score.miss-this.score.safe;}
  dispose(){if(this.scene.onFrame)this.scene.onFrame=null;this.stop();this.scene.scene.remove(this.root);this.root.traverse(o=>{if(o instanceof InstancedMesh||o instanceof LineSegments){o.geometry.dispose();for(const m of Array.isArray(o.material)?o.material:[o.material])m.dispose();if(o instanceof InstancedMesh)o.dispose();}});}
