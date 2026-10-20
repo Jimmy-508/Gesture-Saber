@@ -1,5 +1,6 @@
 node_modules/
 .pairing-baseline/
+.qa-audio/
 dist/
 *.local
 public/wasm/

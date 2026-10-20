@@ -14,11 +14,13 @@ import type {ControlMode} from './control-core';
 import {WeaponControl} from './weapon-control';
 import {WeaponMorph} from './weapon-morph';
 import type {ControlInput} from './control-identity';
+import {BLADE_LENGTH} from './saber-spec.ts';
 export type Quality='low'|'medium'|'high';
 export const HILT_ORIGINAL_MIN=-.60,HILT_ORIGINAL_MAX=.12+.008*Math.sin(Math.PI/3);
 export const HILT_EXTENSION=(HILT_ORIGINAL_MAX-HILT_ORIGINAL_MIN)/2,HILT_BOTTOM=HILT_ORIGINAL_MIN-HILT_EXTENSION;
 const COLORS={Left:0x30aaff,Right:0xff2448};
-const LENGTH=2.75;
+const LENGTH=BLADE_LENGTH;
+export {LENGTH as BLADE_LENGTH};
 const STREAM_ATTRIBUTES=['position','age'] as const;
 type Saber={rear:T.Group;rearTrail:T.Mesh<T.BufferGeometry,T.ShaderMaterial>;rearRibbon:TrailBuffer;accent:T.MeshBasicMaterial;inner:T.ShaderMaterial;telemetry:HandTelemetry;hiltMaterials:T.Material[];group:T.Group;blade:T.Group;target:T.Vector3;rotation:T.Quaternion;motion:MotionFilter;palm:PalmPose;state:BladeState;trail:T.Mesh<T.BufferGeometry,T.ShaderMaterial>;ribbon:TrailBuffer;speed:number;measuredTip:T.Vector3;measuredTime:number;glow:T.ShaderMaterial;core:T.ShaderMaterial;light:T.PointLight};
 const glowVertex=`varying vec2 vUv;
@@ -37,6 +39,7 @@ const trailVertex=`attribute float age;varying vec2 vUv;varying float vAge;void 
 const trailFragment=`uniform vec3 color;varying vec2 vUv;varying float vAge;
 void main(){float edge=pow(sin(clamp(vUv.y,0.,1.)*3.14159265),.65);if(vUv.x>1.5)edge*=pow(max(0.,sin((vUv.x-2.)*3.14159265)),.8);float a=vAge*edge*.52;gl_FragColor=vec4(color,a);}`;
 export class SaberScene {
+ onFrame:((now:number)=>void)|null=null;
  readonly control=new WeaponControl();readonly morph=new WeaponMorph();controlMode:ControlMode='modern';controlEpoch=-Infinity;
  renderer:T.WebGLRenderer;scene=new T.Scene();camera=new T.PerspectiveCamera(43,1,.1,80);weapon:Saber;
  warmup={status:'尚未預熱',ms:0};private disposed=false;
@@ -150,7 +153,7 @@ export class SaberScene {
   s.rearTrail.material.uniforms.color.value.copy(this.gold);for(const material of s.hiltMaterials)material.opacity=s.state.fade(now);s.light.color.copy(this.color);if(s.light.visible)s.light.intensity=Math.max(frontExtension,rearExtension)*1.8;
   const audioStart=performance.now(),speed=Number.isFinite(s.measuredTime)?s.speed*Math.exp(-Math.max(0,now-s.measuredTime-80)/100):0;this.sound(this.side,s.state.active&&this.morph.on,this.morph.transitioning?0:speed,Math.max(frontExtension,rearExtension));this.stats.audio.add(performance.now()-audioStart);
   const trailStart=performance.now();if(tracked){this.updateTrail(false,now,frontExtension);this.updateTrail(true,now,rearExtension);}else{s.ribbon.reset();s.rearRibbon.reset();s.trail.geometry.setDrawRange(0,0);s.rearTrail.geometry.setDrawRange(0,0);}this.stats.trail.add(performance.now()-trailStart);
-  this.renderer.render(this.scene,this.camera);this.stats.cpu.add(performance.now()-cpuStart);
+  this.onFrame?.(now);this.renderer.render(this.scene,this.camera);this.stats.cpu.add(performance.now()-cpuStart);
  }
  private animateBlade(blade:T.Group,extension:number,now:number,flash:number,gold:boolean){blade.scale.y=Math.max(.001,extension);blade.visible=extension>.001;for(let i=0;i<blade.children.length;i++){const mat=(blade.children[i] as T.Mesh<T.BufferGeometry,T.ShaderMaterial>).material;mat.uniforms.time.value=now/1000;if(gold)mat.uniforms.color.value.copy(i===0?this.gold:i===1?this.goldHalo:this.goldInner);if(mat.uniforms.power)mat.uniforms.power.value=(i===1?.75:.95)*(1+flash*.25);}}
  dispose(){this.disposed=true;cancelAnimationFrame(this.frame);this.observer.disconnect();this.hide();const geometries=new Set<T.BufferGeometry>(),materials=new Set<T.Material>();this.scene.traverse(o=>{if(o instanceof T.Mesh||o instanceof T.LineSegments){geometries.add(o.geometry);for(const m of Array.isArray(o.material)?o.material:[o.material])materials.add(m);}});for(const g of geometries)g.dispose();for(const m of materials)m.dispose();this.environment.dispose();this.renderer.dispose();this.renderer.domElement.remove();}
