@@ -22,9 +22,9 @@ export function unifiedGripCheck(check:(ok:boolean,name:string)=>void){
   axis.set(0,1,0).applyQuaternion(w.group.quaternion);
   check(scene.control.singleOn&&w.blade.visible&&!w.rear.visible&&axis.angleTo(h().axis)<.02,core+' '+side+' 單拳原色單刃沿拳眼軸線');
   const beforeOpen=w.group.position.clone();hold([h(true,side==='Left'?.65:.35,.35)],320);
-  check(w.group.visible&&!w.blade.visible&&!w.rear.visible&&scene.control.primary===side&&w.hiltMaterials.every(m=>m.opacity===1)&&w.group.position.distanceTo(beforeOpen)>.1,core+' '+side+' 張掌收刃但握柄持續移動');
+  check(w.group.visible&&w.blade.visible&&!w.rear.visible&&scene.control.primary===side&&w.hiltMaterials.every(m=>m.opacity===1)&&w.group.position.distanceTo(beforeOpen)>.1,core+' '+side+' 張掌仍維持單刃與Grip移動');
   const unknown=h(true,side==='Left'?.66:.34,.5);for(const i of [8,12,16])for(const p of [unknown.points,unknown.world])p[i]={x:NaN,y:NaN,z:NaN};
-  hold([unknown]);check(scene.control.blade.evidence==='UNKNOWN'&&!w.blade.visible&&w.group.visible,core+' '+side+' UNKNOWN 不會自行伸刃');
+  hold([unknown]);check(scene.control.singleOn&&w.blade.visible&&w.group.visible,core+' '+side+' UNKNOWN 不會自行收刃');
   hold([h()],420);const changes=scene.control.mode.changes,beginEdges=edges.length,at=toggle(true);
   check(scene.morph.phase==='RETRACT'&&w.group.visible&&w.hiltMaterials.every(m=>m.opacity===1),core+' '+side+' 變形先收刃且握柄完整');
   q.copy(w.group.quaternion);now=at+130;scene.renderFrame(now);
@@ -34,11 +34,11 @@ export function unifiedGripCheck(check:(ok:boolean,name:string)=>void){
   check(w.blade.parent===w.group&&w.rear.parent===w.group&&w.rear.position.y===HILT_BOTTOM&&new Vector3(0,1,0).applyQuaternion(w.blade.quaternion).dot(new Vector3(0,1,0).applyQuaternion(w.rear.quaternion))<-.99999&&(w.rear.children[0] as Mesh<never,ShaderMaterial>).material.uniforms.color.value.getHex()===0xffd454,core+' '+side+' 金色雙刃同父節點同軸反向');
   hold([h(true,undefined,.6)],550);
   axis.set(0,1,0).applyQuaternion(w.group.quaternion);
-  check(!scene.control.singleOn&&w.blade.visible&&w.rear.visible&&axis.angleTo(h(true,undefined,.6).axis)<.02,core+' '+side+' 雙頭張掌仍鎖定並持續Grip控制');
+  check(scene.control.singleOn&&w.blade.visible&&w.rear.visible&&axis.angleTo(h(true,undefined,.6).axis)<.02,core+' '+side+' 雙頭張掌仍鎖定並持續Grip控制');
   const exitEdges=edges.length;toggle(false);hold([h(true)],420);
-  check(!w.blade.visible&&!w.rear.visible&&w.group.visible&&!scene.morph.on&&scene.goldMix===0&&edges.slice(exitEdges).join()==='false',core+' '+side+' 返回單頭遵守OPEN，沒有多餘開劍音');
-  hold([h()]);check(w.blade.visible&&!w.rear.visible&&scene.control.primary===side,core+' '+side+' 同一主控重新握拳可伸刃');
-  const last=scene.control.lastSeen;send([]);now=last+420;scene.renderFrame(now);check(!w.group.visible&&scene.control.primary===null&&!on,core+' '+side+' 真正遺失收劍隱藏且聲音停止');
+  check(w.blade.visible&&!w.rear.visible&&w.group.visible&&scene.morph.on&&scene.goldMix===0&&edges.slice(exitEdges).join()==='false,true',core+' '+side+' 返回單頭即使張掌也重新伸刃，啟閉各一次');
+  hold([h()]);check(w.blade.visible&&!w.rear.visible&&scene.control.primary===side,core+' '+side+' 同一主控握拳仍保持單刃');
+  send([h(),gripHand(side==='Left'?'Right':'Left')]);const last=scene.control.lastSeen;for(let i=0;i<4;i++)send([gripHand(side==='Left'?'Right':'Left')]);check(scene.control.lastSeen===last&&scene.control.primary===side&&w.blade.visible,core+' '+side+' 短暫主控漏幀保留光刃，副手不延長存活');now=last+420;scene.renderFrame(now);check(!w.group.visible&&scene.control.primary===null&&!on,core+' '+side+' 真正遺失收劍隱藏且聲音停止');
  }
  const gl=scene.renderer.getContext();check(gl.getError()===gl.NO_ERROR,'統一Grip正式WebGL無錯誤');
  }finally{scene.dispose();check(scene.renderer.info.memory.geometries===0&&!on,'統一Grip場景釋放幾何及聲音狀態');host.remove();}
