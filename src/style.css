@@ -23,3 +23,6 @@
 @media(max-width:600px){.topbar.has-music{gap:8px}.has-music h1{font-size:16px;letter-spacing:.055em}.has-music nav{gap:6px}}
 @media(max-width:380px){.topbar.has-music{flex-wrap:wrap}.has-music h1{width:100%}.has-music nav{margin-left:auto}.has-music~.score-hud{top:130px}}
 @media(prefers-reduced-motion:reduce){.music-loading progress:indeterminate{animation:none;background-size:100%}}
+.judgement.perfect,.judgement.good{animation:slash-judgement .28s ease-out;text-shadow:0 0 12px currentColor;font-weight:700}
+@keyframes slash-judgement{from{transform:translateY(7px) scale(1.28);opacity:.5}to{transform:translateY(0) scale(1);opacity:1}}
+@media(prefers-reduced-motion:reduce){.judgement.perfect,.judgement.good{animation:none}}

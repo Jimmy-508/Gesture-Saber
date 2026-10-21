@@ -24,3 +24,6 @@ test('worker reports real progress, and replacing or removing a pending analysis
  const second=WorkerMock.all.at(-1);first.onmessage({data:{progress:.99}});assert.equal(m.loadProgress,0);assert.ok(first.terminated);
  m.clear();second.onmessage({data:{result:{duration:8,events:[],sections:[]}}});await Promise.all([a,b]);assert.equal(m.status,'empty');assert.equal(m.analysis,null);assert.equal(m.loadProgress,null);assert.ok(second.terminated);m.dispose();
 }));
+test('hit transients share one prebuilt buffer, cap overlap, and stop on mute/restart/removal without touching song clock',async()=>environment(async context=>{
+ const m=new MusicTransport();await m.load(file);await m.play();const c=context(),song=c.sources[0],time=m.time();for(let i=0;i<8;i++)m.hit(true);assert.equal(m.liveSources,5);const hits=c.sources.slice(1);assert.equal(hits.length,4);assert.ok(hits.every(s=>s.buffer===hits[0].buffer));assert.equal(m.time(),time);m.setEffects(false,.3);assert.equal(m.liveSources,1);assert.ok(hits.every(s=>s.stopped===1&&s.disconnected===1));m.hit(true);assert.equal(m.liveSources,1);m.setEffects(true,.3);m.hit(true);await m.play(true);assert.equal(m.liveSources,1);assert.equal(song.stopped,1);m.hit(true);m.clear();assert.equal(m.liveSources,0);m.dispose();assert.equal(c.closed,1);
+}));

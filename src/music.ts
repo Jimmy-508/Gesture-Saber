@@ -1,6 +1,7 @@
 import {ANALYSIS_RATE} from './music-analysis.ts';
 import type {MusicAnalysis} from './rhythm-chart.ts';
 import {validateMusicFile,validateMusicBytes} from './music-file.ts';
+import {writeImpact,HIT_GAIN_SMOOTH} from './impact-audio.ts';
 export {validateMusicFile,MAX_FILE_BYTES} from './music-file.ts';
 export type MusicStatus='empty'|'analyzing'|'ready'|'countdown'|'playing'|'paused'|'ended'|'error';
 export const MAX_DURATION=900;
@@ -15,13 +16,13 @@ export class MusicTransport{
  get contextState(){return this.context?.state??'未建立';}
  get liveSources(){return (this.source?1:0)+this.hits.size;}
  private prepare(){if(this.disposed)throw Error('音樂系統已關閉。');if(!this.context){const Context=window.AudioContext||(window as unknown as {webkitAudioContext:typeof AudioContext}).webkitAudioContext;if(!Context)throw Error('此瀏覽器不支援 Web Audio。');const ctx=this.context=new Context();this.gain=ctx.createGain();this.gain.gain.value=this.volume;this.gain.connect(ctx.destination);this.hitGain=ctx.createGain();this.hitGain.gain.value=this.effectsLevel;this.hitGain.connect(ctx.destination);
-   this.hitBuffer=ctx.createBuffer(1,Math.floor(ctx.sampleRate*.16),ctx.sampleRate);const samples=this.hitBuffer.getChannelData(0);let random=37;for(let i=0;i<samples.length;i++){const t=i/ctx.sampleRate;random=(random*1664525+1013904223)>>>0;samples[i]=((random/0xffffffff*2-1)*.45+Math.sin(2*Math.PI*(820*t-1100*t*t))*.4)*Math.exp(-t*38)*Math.min(1,t/.002);}}
+   this.hitBuffer=ctx.createBuffer(1,Math.floor(ctx.sampleRate*.18),ctx.sampleRate);writeImpact(this.hitBuffer.getChannelData(0),ctx.sampleRate);}
  }
  async unlock(){this.prepare();await this.context!.resume();if(this.disposed)return;if(this.context!.state!=='running')throw Error('音樂播放被瀏覽器暫停，請再次點擊播放。');
  }
  setVolume(value:number){this.volume=Math.max(0,Math.min(1,value));if(this.context&&this.gain)this.gain.gain.setTargetAtTime(this.volume,this.context.currentTime,.025);}
  setSync(value:number){this.syncMs=Math.max(-300,Math.min(300,Number.isFinite(value)?value:0));}
- setEffects(enabled:boolean,volume:number){this.effectsLevel=enabled?Math.min(.4,volume*.53):0;if(!enabled)this.stopHits();if(this.context&&this.hitGain)this.hitGain.gain.setTargetAtTime(this.effectsLevel,this.context.currentTime,.02);}
+ setEffects(enabled:boolean,volume:number){this.effectsLevel=enabled?Math.min(.4,volume*.53):0;if(!enabled)this.stopHits();this.balanceHits();}
  private outputTime(){const ctx=this.context;if(!ctx)return 0;const timestamp=ctx.getOutputTimestamp?.();if(timestamp?.contextTime&&timestamp.performanceTime)return Math.min(ctx.currentTime,timestamp.contextTime+Math.max(0,performance.now()-timestamp.performanceTime)/1000);return Math.max(0,ctx.currentTime-(ctx.outputLatency||ctx.baseLatency||0));}
  time(){if(!this.running)return this.offset;const time=this.offset+this.outputTime()-this.startAt;if(this.status==='countdown'&&time>=0)this.status='playing';if(this.sourceFinished&&time>=this.duration){this.offset=this.duration;this.status='ended';this.stopHits();this.revision++;}return Math.min(this.duration,time);}
  gameTime(){return this.time()+this.syncMs/1000;}
@@ -33,7 +34,8 @@ export class MusicTransport{
   // Safari has suspended audio; the visible play button can resume it on a tap.
   if(automatic&&this.context?.state!=='running')return false;
   if(!automatic)await this.unlock();if(ticket!==this.playEpoch||this.disposed)return false;if(!this.loaded)throw Error('請先匯入並完成音樂分析。');if(this.running&&!restart)return false;this.stopSource();this.stopHits();if(restart||this.status==='ended')this.offset=0;const ctx=this.context!,source=ctx.createBufferSource();source.buffer=this.buffer;source.connect(this.gain!);this.source=source;this.sourceFinished=false;this.startAt=ctx.currentTime+(this.offset===0?2.5:.08);this.status=this.offset===0?'countdown':'playing';source.onended=()=>{if(this.source!==source)return;source.disconnect();this.source=null;this.sourceFinished=true;this.time();};source.start(this.startAt,this.offset);this.revision++;return true;}
- hit(enabled:boolean){if(!enabled||!this.context||this.context.state!=='running'||!this.hitBuffer||this.hits.size>=4)return;const source=this.context.createBufferSource();source.buffer=this.hitBuffer;source.connect(this.hitGain!);this.hits.add(source);source.onended=()=>{source.disconnect();this.hits.delete(source);};source.start();}
+ private balanceHits(){if(this.context&&this.hitGain)this.hitGain.gain.setTargetAtTime(this.effectsLevel/Math.max(1,this.hits.size),this.context.currentTime,HIT_GAIN_SMOOTH);}
+ hit(enabled:boolean){if(!enabled||this.effectsLevel===0||!this.context||this.context.state!=='running'||!this.hitBuffer||this.hits.size>=4)return;const source=this.context.createBufferSource();source.buffer=this.hitBuffer;source.connect(this.hitGain!);this.hits.add(source);this.balanceHits();source.onended=()=>{source.disconnect();this.hits.delete(source);this.balanceHits();};source.start();}
  private stopHits(){for(const source of this.hits){source.onended=null;try{source.stop();}catch{}source.disconnect();}this.hits.clear();}
  clear(){this.generation++;this.cancelAnalysis?.();this.cancelAnalysis=null;this.worker?.terminate();this.worker=null;this.pause();this.buffer=null;this.analysis=null;this.offset=0;this.name='';this.error='';this.progress=0;this.loadProgress=null;this.status='empty';this.revision++;}
  async load(file:File){this.clear();const generation=this.generation;try{validateMusicFile(file);this.name=file.name;this.status='analyzing';this.progress=.03;this.prepare();const bytes=await file.arrayBuffer();if(generation!==this.generation)return;validateMusicBytes(file,bytes);let buffer:AudioBuffer;try{buffer=await this.context!.decodeAudioData(bytes);}catch{throw Error('無法解碼此音樂。檔案可能損壞，或此裝置不支援其 MP3／WAV／M4A／AAC 編碼。');}if(generation!==this.generation||this.disposed)return;if(buffer.duration<1||buffer.duration>MAX_DURATION||buffer.length*buffer.numberOfChannels>90_000_000)throw Error('音樂須為 1 秒至 15 分鐘，解碼資料不可超過裝置資源上限。');
